@@ -1,0 +1,171 @@
+# 📋 Décisions techniques du projet — Site Vitrine + Boutique
+
+> Fichier de contexte généré depuis Claude.ai
+> À placer à la racine du projet et à inclure dans les conversations Claude Code (VS Code)
+
+---
+
+## 🎯 Objectif du projet
+
+- Site **vitrine + boutique e-commerce**
+- Cible géographique : **Europe** + **Afrique francophone**
+- Volume produits : **20 à 100 produits**
+- Objectif : **MVP rapide**, travail solo
+- Certains produits déclenchent l'envoi d'un **lien d'accès Moodle** par email après achat
+
+---
+
+## 🧱 Stack technique
+
+| Brique | Outil | Notes |
+|---|---|---|
+| Framework | **Next.js 14** (App Router) | SSG/ISR + API Routes intégrées (pas de SSR global) |
+| Langage | **TypeScript** | |
+| Base de données | **PostgreSQL + Prisma** | ORM typé, migrations incluses |
+| Paiement Europe | **Stripe** | CB, Apple Pay, Google Pay, SEPA |
+| Paiement Afrique francophone | **CinetPay** | Orange Money, Wave, MTN, Moov, CB |
+| Emails transactionnels | **Resend + React Email** | Confirmation commande + lien Moodle |
+| Auth back-office | **NextAuth.js** | Accès admin uniquement, pas d'espace client |
+| Gestion produits | **Admin custom** intégré | Données en PostgreSQL, pas de CMS externe |
+| Déploiement | **Infomaniak** | Offre Node.js ou Docker, HTTPS natif |
+
+---
+
+## 🖥️ Stratégie de rendu par page
+
+| Page | Mode | Pourquoi |
+|---|---|---|
+| Accueil / vitrine | **SSG** | Contenu statique, performances maximales |
+| Catalogue produits | **ISR** | SEO + mises à jour sans rebuild complet |
+| Fiche produit | **ISR** | SEO + contenu qui change peu |
+| Panier / Checkout | **CSR** | Données locales, pas d'indexation nécessaire |
+| Confirmation commande | **CSR** | Dynamique, pas d'indexation |
+| Back-office admin | **CSR** | Pas besoin de SEO |
+| API Routes (webhooks, checkout) | **Server** | Traitement sécurisé côté serveur |
+
+---
+
+## 💳 Architecture paiement
+
+- Détection du pays client au moment du checkout (via champ adresse ou IP)
+- **Pays européens** → passerelle **Stripe**
+- **Pays d'Afrique francophone** → passerelle **CinetPay**
+
+### Pays CinetPay couverts
+Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée
+
+### Sécurité paiements
+- PCI-DSS géré par Stripe et CinetPay (l'app ne touche jamais les données carte)
+- Validation des signatures webhook obligatoire avant confirmation de commande
+- Idempotence des webhooks (éviter double validation)
+- Clés API exclusivement en variables d'environnement
+- HTTPS obligatoire sur tous les endpoints
+
+---
+
+## 📧 Flux post-achat (Moodle)
+
+```
+Webhook paiement confirmé (Stripe ou CinetPay)
+        ↓
+Validation signature webhook
+        ↓
+Création commande en base de données
+        ↓
+Si produit = formation → génération lien Moodle unique
+        ↓
+Envoi email automatique via Resend
+(confirmation commande + lien d'accès Moodle si applicable)
+```
+
+---
+
+## 🗂️ Structure du projet
+
+```
+my-shop/
+├── app/
+│   ├── (shop)/                     # Pages publiques
+│   │   ├── page.tsx                # Accueil / vitrine
+│   │   ├── produits/
+│   │   │   ├── page.tsx            # Catalogue
+│   │   │   └── [slug]/page.tsx     # Fiche produit
+│   │   └── checkout/
+│   │       ├── page.tsx            # Panier + formulaire
+│   │       └── confirmation/page.tsx
+│   ├── api/
+│   │   ├── stripe/webhook/route.ts
+│   │   ├── cinetpay/webhook/route.ts
+│   │   ├── checkout/route.ts
+│   │   └── orders/route.ts
+│   └── admin/                      # Back-office protégé
+│       ├── page.tsx
+│       ├── produits/page.tsx
+│       └── commandes/page.tsx
+├── components/
+│   ├── shop/
+│   ├── checkout/
+│   └── admin/
+├── lib/
+│   ├── stripe.ts
+│   ├── cinetpay.ts
+│   ├── db.ts                       # Prisma client
+│   ├── email.ts                    # Resend + logique Moodle
+│   └── geo.ts                      # Détection pays → passerelle
+├── prisma/
+│   └── schema.prisma
+├── types/
+├── .env.local                      # Ne jamais committer
+└── DECISIONS.md                    # Ce fichier
+```
+
+---
+
+## 🔐 Variables d'environnement (.env.local)
+
+```env
+# Base de données
+DATABASE_URL=
+
+# Stripe
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+
+# CinetPay
+CINETPAY_API_KEY=
+CINETPAY_SITE_ID=
+CINETPAY_WEBHOOK_SECRET=
+
+# Resend (emails)
+RESEND_API_KEY=
+
+# NextAuth
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=
+
+# Moodle
+MOODLE_BASE_URL=
+MOODLE_TOKEN=
+```
+
+---
+
+## ⚠️ Points d'attention Infomaniak
+
+- Utiliser l'offre **Node.js** ou **Docker** (pas d'hébergement statique)
+- Les webhooks Stripe et CinetPay nécessitent une URL publique HTTPS → natif sur Infomaniak
+- Vérifier la version Node.js supportée (recommandé : 20 LTS)
+
+---
+
+## 🚧 Décisions en attente
+
+- [ ] Choix final entre **admin custom** et **Sanity.io** pour la gestion produits
+- [ ] Nombre exact de produits au lancement
+- [ ] Intégration Moodle : enrollment automatique via API Moodle ou lien token ?
+- [ ] Nom de domaine et configuration DNS sur Infomaniak
+
+---
+
+*Dernière mise à jour : session Claude.ai initiale*
