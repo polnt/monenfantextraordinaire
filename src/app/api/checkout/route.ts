@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import type { Order } from "@prisma/client";
+import { Prisma, type Order } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getPaymentGateway } from "@/lib/geo";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
@@ -117,19 +117,30 @@ export async function POST(req: Request): Promise<Response> {
   const [firstProduct] = products;
   const productCurrency = firstProduct?.currency ?? "EUR";
 
+  const hasMixedCurrencies = products.some(
+    (product) => product.currency !== productCurrency
+  );
+  
+  if (hasMixedCurrencies) {
+    return NextResponse.json(
+      { error: "All items in the cart must use the same currency" },
+      { status: 400 }
+    );
+  }
+
   const orderItems = body.items.map((cartItem) => {
     const product = productsById.get(cartItem.productId)!;
     return {
       productId: product.id,
       productName: product.name,
-      unitPrice: product.price.toNumber(),
+      unitPrice: product.price,
       quantity: cartItem.quantity,
     };
   });
 
   const totalAmount = orderItems.reduce(
-    (sum, item) => sum + item.unitPrice * item.quantity,
-    0
+    (sum, item) => sum.add(item.unitPrice.mul(item.quantity)),
+    new Prisma.Decimal(0)
   );
 
   // Reserve stock and create order atomically to prevent overselling
@@ -182,7 +193,7 @@ export async function POST(req: Request): Promise<Response> {
     if (gateway === "STRIPE") {
       const lineItems: CheckoutLineItem[] = orderItems.map((item) => ({
         name: item.productName,
-        unitAmountCents: Math.round(item.unitPrice * 100),
+        unitAmountCents: item.unitPrice.mul(100).round().toNumber(),
         currency: productCurrency,
         quantity: item.quantity,
       }));
@@ -208,7 +219,7 @@ export async function POST(req: Request): Promise<Response> {
       return NextResponse.json({ paymentUrl: session.url });
     } else {
       const converted = convertForCinetPay(
-        totalAmount,
+        totalAmount.toNumber(),
         productCurrency,
         body.customerCountry
       );
