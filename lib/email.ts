@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { escapeHtml } from "@/lib/escapeHtml";
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
 
@@ -39,7 +40,7 @@ export async function sendOrderConfirmationEmail(
   const itemsList = items
     .map(
       (item) =>
-        `<li>${item.quantity}× ${item.name} — ${item.unitPrice.toFixed(2)} ${currency}</li>`
+        `<li>${item.quantity}× ${escapeHtml(item.name)} — ${item.unitPrice.toFixed(2)} ${escapeHtml(currency)}</li>`
     )
     .join("");
 
@@ -48,10 +49,10 @@ export async function sendOrderConfirmationEmail(
     to,
     subject: `Order confirmation — ${orderNumber}`,
     html: `
-      <p>Hello ${customerName},</p>
-      <p>Your order <strong>${orderNumber}</strong> has been confirmed.</p>
+      <p>Hello ${escapeHtml(customerName)},</p>
+      <p>Your order <strong>${escapeHtml(orderNumber)}</strong> has been confirmed.</p>
       <ul>${itemsList}</ul>
-      <p>Total: <strong>${totalAmount.toFixed(2)} ${currency}</strong></p>
+      <p>Total: <strong>${totalAmount.toFixed(2)} ${escapeHtml(currency)}</strong></p>
     `,
   });
 
@@ -70,10 +71,10 @@ export async function sendMoodleAccessEmail(
     to,
     subject: `Your course access — ${courseName}`,
     html: `
-      <p>Hello ${customerName},</p>
-      <p>Thank you for purchasing <strong>${courseName}</strong> (order ${orderNumber}).</p>
+      <p>Hello ${escapeHtml(customerName)},</p>
+      <p>Thank you for purchasing <strong>${escapeHtml(courseName)}</strong> (order ${escapeHtml(orderNumber)}).</p>
       <p>Access your course here:<br/>
-        <a href="${moodleLink}">${moodleLink}</a>
+        <a href="${escapeHtml(moodleLink)}">${escapeHtml(moodleLink)}</a>
       </p>
       <p>This link is personal — please do not share it.</p>
     `,
