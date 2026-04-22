@@ -57,7 +57,7 @@ export async function sendOrderConfirmationEmail(
   });
 
   if (error) {
-    console.error("Failed to send order confirmation email:", error.message);
+    throw new Error(`Failed to send order confirmation email: ${error.message}`);
   }
 }
 
@@ -81,6 +81,6 @@ export async function sendMoodleAccessEmail(
   });
 
   if (error) {
-    console.error("Failed to send Moodle access email:", error.message);
+    throw new Error(`Failed to send Moodle access email: ${error.message}`);
   }
 }

@@ -64,42 +64,60 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ received: true });
   }
 
-  await db.order.update({
-    where: { id: transactionId },
+  // Atomically transition to PAID — prevents double-processing on concurrent deliveries
+  const updated = await db.order.updateMany({
+    where: { id: transactionId, status: "PENDING" },
     data: { status: "PAID", paymentId: transactionId },
   });
 
+  if (updated.count === 0) {
+    return NextResponse.json({ received: true });
+  }
+
   const customerName = `${order.customerFirstName} ${order.customerLastName}`;
+
+  const moodleBaseUrl = process.env.MOODLE_BASE_URL;
+  const moodleToken = process.env.MOODLE_TOKEN;
 
   for (const item of order.items) {
     if (item.product.type === ProductType.TRAINING && item.product.moodleCourseId) {
-      const moodleLink = `${process.env.MOODLE_BASE_URL}/course/view.php?id=${item.product.moodleCourseId}&token=${process.env.MOODLE_TOKEN}`;
-      await sendMoodleAccessEmail({
-        to: order.customerEmail,
-        customerName,
-        orderNumber: order.orderNumber,
-        courseName: item.productName,
-        moodleLink,
-      });
-      await db.orderItem.update({
-        where: { id: item.id },
-        data: { moodleLinkSent: true, moodleLinkSentAt: new Date() },
-      });
+      if (!moodleBaseUrl || !moodleToken) {
+        console.error(`Cannot send Moodle link for order item ${item.id}: MOODLE_BASE_URL or MOODLE_TOKEN is not configured`);
+        continue;
+      }
+      const moodleLink = `${moodleBaseUrl}/course/view.php?id=${item.product.moodleCourseId}&token=${moodleToken}`;
+      try {
+        await sendMoodleAccessEmail({
+          to: order.customerEmail,
+          customerName,
+          orderNumber: order.orderNumber,
+          courseName: item.productName,
+          moodleLink,
+        });
+        await db.orderItem.update({
+          where: { id: item.id },
+          data: { moodleLinkSent: true, moodleLinkSentAt: new Date() },
+        });
+      } catch (err) {
+        console.error(`Failed to send Moodle email for order item ${item.id}:`, err);
+      }
     }
   }
 
-  const nonTrainingItems = order.items.filter(
-    (item) => item.product.type !== ProductType.TRAINING
+  // Include TRAINING items without a moodleCourseId — they have no access link to send
+  // so they must appear in the regular confirmation email
+  const itemsForConfirmation = order.items.filter(
+    (item) => item.product.type !== ProductType.TRAINING || !item.product.moodleCourseId
   );
 
-  if (nonTrainingItems.length > 0) {
+  if (itemsForConfirmation.length > 0) {
     await sendOrderConfirmationEmail({
       to: order.customerEmail,
       customerName,
       orderNumber: order.orderNumber,
       totalAmount: order.totalAmount.toNumber(),
       currency: order.currency,
-      items: nonTrainingItems.map((item) => ({
+      items: itemsForConfirmation.map((item) => ({
         name: item.productName,
         quantity: item.quantity,
         unitPrice: item.unitPrice.toNumber(),
