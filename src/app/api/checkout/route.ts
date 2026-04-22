@@ -52,6 +52,21 @@ function parseCheckoutBody(value: unknown): CheckoutRequestBody | null {
   )
     return null;
 
+  // Validate each item has required fields with correct types
+  for (const item of v.items) {
+    const itemObj = item as Record<string, unknown>;
+    if (
+      typeof item !== "object" ||
+      item === null ||
+      typeof itemObj.productId !== "string" ||
+      typeof itemObj.quantity !== "number" ||
+      !Number.isInteger(itemObj.quantity) ||
+      itemObj.quantity <= 0
+    ) {
+      return null;
+    }
+  }
+
   return value as CheckoutRequestBody;
 }
 

@@ -33,6 +33,11 @@ export async function POST(req: Request): Promise<Response> {
     );
   }
 
+  const paymentIntentId =
+    typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : (session.payment_intent?.id ?? null);
+
   const order = await db.order.findUnique({
     where: { id: orderId },
     include: { items: { include: { product: true } } },
@@ -46,15 +51,17 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ received: true });
   }
 
-  const paymentIntentId =
-    typeof session.payment_intent === "string"
-      ? session.payment_intent
-      : (session.payment_intent?.id ?? null);
-
-  await db.order.update({
-    where: { id: orderId },
+  // Atomically mark order as PAID — only if it's still PENDING
+  // This prevents duplicate processing if the same webhook is delivered twice
+  const updated = await db.order.updateMany({
+    where: { id: orderId, status: "PENDING" },
     data: { status: "PAID", paymentId: paymentIntentId },
   });
+
+  // If no rows were updated, another webhook already processed this order
+  if (updated.count === 0) {
+    return NextResponse.json({ received: true });
+  }
 
   const customerName = `${order.customerFirstName} ${order.customerLastName}`;
 
