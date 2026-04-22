@@ -22,6 +22,11 @@ const eslintConfig = [
       "react": reactPlugin,
       "react-hooks": reactHooksPlugin,
     },
+    settings: {
+      react: {
+        version: "detect", // Auto-detect React version
+      },
+    },
     rules: {
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,

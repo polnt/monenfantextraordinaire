@@ -145,6 +145,7 @@ npm run lint -- --fix
 
 ## 🧑‍💻 Conventions de code
 
+- **Language** : all code must be written in English — variable names, function names, comments, commit messages, everything
 - **TypeScript strict** : pas de `any`, typer toutes les fonctions
 - **Prisma** : toujours utiliser le client singleton dans `lib/db.ts`
 - **Composants** : un fichier par composant, nommage PascalCase
@@ -159,8 +160,12 @@ npm run lint -- --fix
 npm install --save-dev \
   @typescript-eslint/eslint-plugin \
   @typescript-eslint/parser \
-  eslint-config-next
+  @next/eslint-plugin-next \
+  eslint-plugin-react \
+  eslint-plugin-react-hooks
 ```
+
+> Format ESLint v9 (flat config) — fichier de config : `eslint.config.mjs`
 
 ---
 

@@ -1,0 +1,82 @@
+import { Resend } from "resend";
+
+if (!process.env.RESEND_API_KEY) {
+  throw new Error("Missing required environment variable: RESEND_API_KEY");
+}
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+
+export interface OrderConfirmationParams {
+  to: string;
+  customerName: string;
+  orderNumber: string;
+  totalAmount: number;
+  currency: string;
+  items: Array<{
+    name: string;
+    quantity: number;
+    unitPrice: number;
+  }>;
+}
+
+export interface MoodleAccessParams {
+  to: string;
+  customerName: string;
+  orderNumber: string;
+  courseName: string;
+  moodleLink: string;
+}
+
+export async function sendOrderConfirmationEmail(
+  params: OrderConfirmationParams
+): Promise<void> {
+  const { to, customerName, orderNumber, totalAmount, currency, items } = params;
+
+  const itemsList = items
+    .map(
+      (item) =>
+        `<li>${item.quantity}× ${item.name} — ${item.unitPrice.toFixed(2)} ${currency}</li>`
+    )
+    .join("");
+
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to,
+    subject: `Order confirmation — ${orderNumber}`,
+    html: `
+      <p>Hello ${customerName},</p>
+      <p>Your order <strong>${orderNumber}</strong> has been confirmed.</p>
+      <ul>${itemsList}</ul>
+      <p>Total: <strong>${totalAmount.toFixed(2)} ${currency}</strong></p>
+    `,
+  });
+
+  if (error) {
+    console.error("Failed to send order confirmation email:", error.message);
+  }
+}
+
+export async function sendMoodleAccessEmail(
+  params: MoodleAccessParams
+): Promise<void> {
+  const { to, customerName, orderNumber, courseName, moodleLink } = params;
+
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to,
+    subject: `Your course access — ${courseName}`,
+    html: `
+      <p>Hello ${customerName},</p>
+      <p>Thank you for purchasing <strong>${courseName}</strong> (order ${orderNumber}).</p>
+      <p>Access your course here:<br/>
+        <a href="${moodleLink}">${moodleLink}</a>
+      </p>
+      <p>This link is personal — please do not share it.</p>
+    `,
+  });
+
+  if (error) {
+    console.error("Failed to send Moodle access email:", error.message);
+  }
+}
