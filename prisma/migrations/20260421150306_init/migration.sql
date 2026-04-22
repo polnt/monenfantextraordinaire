@@ -13,7 +13,7 @@ CREATE TABLE "Product" (
     "slug" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "price" DOUBLE PRECISION NOT NULL,
+    "price" NUMERIC(10,2) NOT NULL,
     "currency" TEXT NOT NULL DEFAULT 'EUR',
     "type" "ProductType" NOT NULL DEFAULT 'PHYSICAL',
     "images" TEXT[],
@@ -42,7 +42,7 @@ CREATE TABLE "Order" (
     "gateway" "PaymentGateway" NOT NULL,
     "paymentId" TEXT,
     "idempotencyKey" TEXT NOT NULL,
-    "totalAmount" DOUBLE PRECISION NOT NULL,
+    "totalAmount" NUMERIC(10,2) NOT NULL,
     "currency" TEXT NOT NULL DEFAULT 'EUR',
     "status" "OrderStatus" NOT NULL DEFAULT 'PENDING',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -57,7 +57,7 @@ CREATE TABLE "OrderItem" (
     "orderId" TEXT NOT NULL,
     "productId" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL DEFAULT 1,
-    "unitPrice" DOUBLE PRECISION NOT NULL,
+    "unitPrice" NUMERIC(10,2) NOT NULL,
     "productName" TEXT NOT NULL,
     "moodleLinkSent" BOOLEAN NOT NULL DEFAULT false,
     "moodleLinkSentAt" TIMESTAMP(3),
@@ -80,9 +80,6 @@ CREATE TABLE "AdminUser" (
 CREATE UNIQUE INDEX "Product_slug_key" ON "Product"("slug");
 
 -- CreateIndex
-CREATE INDEX "Product_slug_idx" ON "Product"("slug");
-
--- CreateIndex
 CREATE INDEX "Product_active_idx" ON "Product"("active");
 
 -- CreateIndex
@@ -99,9 +96,6 @@ CREATE INDEX "Order_status_idx" ON "Order"("status");
 
 -- CreateIndex
 CREATE INDEX "Order_paymentId_idx" ON "Order"("paymentId");
-
--- CreateIndex
-CREATE INDEX "Order_idempotencyKey_idx" ON "Order"("idempotencyKey");
 
 -- CreateIndex
 CREATE INDEX "OrderItem_orderId_idx" ON "OrderItem"("orderId");
