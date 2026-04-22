@@ -83,22 +83,15 @@ interface CinetPayCredentials {
 
 // ─── Credentials ──────────────────────────────────────────────────────────────
 
-// Validate environment variables at module load time
-if (!process.env.CINETPAY_API_KEY || !process.env.CINETPAY_SITE_ID) {
-  throw new Error(
-    "Missing required environment variables: CINETPAY_API_KEY or CINETPAY_SITE_ID"
-  );
-}
-
-/**
- * Returns CinetPay credentials from environment variables.
- * Credentials are validated at module load time (above).
- */
 function getCredentials(): CinetPayCredentials {
-  return {
-    apiKey: process.env.CINETPAY_API_KEY as string,
-    siteId: process.env.CINETPAY_SITE_ID as string,
-  };
+  const apiKey = process.env.CINETPAY_API_KEY;
+  const siteId = process.env.CINETPAY_SITE_ID;
+  if (!apiKey || !siteId) {
+    throw new Error(
+      "Missing required environment variables: CINETPAY_API_KEY or CINETPAY_SITE_ID"
+    );
+  }
+  return { apiKey, siteId };
 }
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────

@@ -1,43 +1,40 @@
 import { NextResponse } from "next/server";
-import { parseCinetPayWebhook, verifyCinetPayPayment } from "@/lib/cinetpay";
+import type Stripe from "stripe";
+import { constructStripeEvent } from "@/lib/stripe";
 import { db } from "@/lib/db";
 import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
 import { ProductType } from "@prisma/client";
 
 export async function POST(req: Request): Promise<Response> {
-  const rawText = await req.text();
+  const payload = await req.text();
+  const signature = req.headers.get("stripe-signature") ?? "";
 
-  let body: unknown;
-  const contentType = req.headers.get("content-type") ?? "";
-  if (contentType.includes("application/json")) {
-    try {
-      body = JSON.parse(rawText) as unknown;
-    } catch {
-      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-    }
-  } else {
-    const params = new URLSearchParams(rawText);
-    const obj: Record<string, string> = {};
-    params.forEach((value, key) => {
-      obj[key] = value;
-    });
-    body = obj;
-  }
-
-  let payload: ReturnType<typeof parseCinetPayWebhook>;
+  let event: Stripe.Event;
   try {
-    payload = parseCinetPayWebhook(body);
+    event = constructStripeEvent(payload, signature);
   } catch {
     return NextResponse.json(
-      { error: "Invalid webhook payload" },
+      { error: "Invalid webhook signature" },
       { status: 400 }
     );
   }
 
-  const transactionId = payload.cpm_trans_id;
+  if (event.type !== "checkout.session.completed") {
+    return NextResponse.json({ received: true });
+  }
+
+  const session = event.data.object as Stripe.Checkout.Session;
+  const orderId = session.metadata?.orderId;
+
+  if (!orderId) {
+    return NextResponse.json(
+      { error: "Missing orderId in session metadata" },
+      { status: 400 }
+    );
+  }
 
   const order = await db.order.findUnique({
-    where: { id: transactionId },
+    where: { id: orderId },
     include: { items: { include: { product: true } } },
   });
 
@@ -49,24 +46,14 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ received: true });
   }
 
-  let paymentStatus: Awaited<ReturnType<typeof verifyCinetPayPayment>>;
-  try {
-    paymentStatus = await verifyCinetPayPayment(transactionId);
-  } catch (err) {
-    console.error("CinetPay payment verification failed:", err);
-    return NextResponse.json(
-      { error: "Payment verification failed" },
-      { status: 500 }
-    );
-  }
-
-  if (paymentStatus.status !== "ACCEPTED") {
-    return NextResponse.json({ received: true });
-  }
+  const paymentIntentId =
+    typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : (session.payment_intent?.id ?? null);
 
   await db.order.update({
-    where: { id: transactionId },
-    data: { status: "PAID", paymentId: transactionId },
+    where: { id: orderId },
+    data: { status: "PAID", paymentId: paymentIntentId },
   });
 
   const customerName = `${order.customerFirstName} ${order.customerLastName}`;
@@ -97,12 +84,12 @@ export async function POST(req: Request): Promise<Response> {
       to: order.customerEmail,
       customerName,
       orderNumber: order.orderNumber,
-      totalAmount: order.totalAmount,
+      totalAmount: order.totalAmount.toNumber(),
       currency: order.currency,
       items: nonTrainingItems.map((item) => ({
         name: item.productName,
         quantity: item.quantity,
-        unitPrice: item.unitPrice,
+        unitPrice: item.unitPrice.toNumber(),
       })),
     });
   }

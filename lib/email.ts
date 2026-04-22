@@ -1,11 +1,14 @@
 import { Resend } from "resend";
 
-if (!process.env.RESEND_API_KEY) {
-  throw new Error("Missing required environment variable: RESEND_API_KEY");
-}
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+
+function getResendClient(): Resend {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error("Missing required environment variable: RESEND_API_KEY");
+  }
+  return new Resend(apiKey);
+}
 
 export interface OrderConfirmationParams {
   to: string;
@@ -40,7 +43,7 @@ export async function sendOrderConfirmationEmail(
     )
     .join("");
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResendClient().emails.send({
     from: FROM_EMAIL,
     to,
     subject: `Order confirmation — ${orderNumber}`,
@@ -62,7 +65,7 @@ export async function sendMoodleAccessEmail(
 ): Promise<void> {
   const { to, customerName, orderNumber, courseName, moodleLink } = params;
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResendClient().emails.send({
     from: FROM_EMAIL,
     to,
     subject: `Your course access — ${courseName}`,

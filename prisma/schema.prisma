@@ -21,7 +21,7 @@ model Product {
   slug           String      @unique
   name           String
   description    String
-  price          Float
+  price          Decimal
   currency       String      @default("EUR")
   type           ProductType @default(PHYSICAL)
   images         String[]    // Array of image URLs
@@ -34,7 +34,6 @@ model Product {
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
 
-  @@index([slug])
   @@index([active])
 }
 
@@ -75,7 +74,7 @@ model Order {
   gateway              PaymentGateway
   paymentId            String?        // Stripe or CinetPay transaction ID
   idempotencyKey       String         @unique // Prevents duplicate webhook processing
-  totalAmount          Float
+  totalAmount          Decimal
   currency             String         @default("EUR")
 
   status               OrderStatus    @default(PENDING)
@@ -87,7 +86,6 @@ model Order {
   @@index([customerEmail])
   @@index([status])
   @@index([paymentId])
-  @@index([idempotencyKey])
 }
 
 // ─── Order item ───────────────────────────────────────────────────────────────
@@ -99,7 +97,7 @@ model OrderItem {
   product      Product  @relation(fields: [productId], references: [id])
   productId    String
   quantity     Int      @default(1)
-  unitPrice    Float    // Price snapshot at time of purchase
+  unitPrice    Decimal  // Price snapshot at time of purchase
   productName  String   // Product name snapshot at time of purchase
 
   // Moodle access (if product type = TRAINING)
