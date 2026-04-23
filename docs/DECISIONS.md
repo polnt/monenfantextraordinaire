@@ -155,7 +155,7 @@ MOODLE_TOKEN=
 
 - Utiliser l'offre **Node.js** ou **Docker** (pas d'hébergement statique)
 - Les webhooks Stripe et Flutterwave nécessitent une URL publique HTTPS → natif sur Infomaniak
-- Vérifier la version Node.js supportée (recommandé : 20 LTS)
+- Version Node.js : **24** (requis par l'offre Infomaniak, confirmé en avril 2026)
 
 ---
 
