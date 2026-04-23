@@ -23,7 +23,7 @@
 | Langage | **TypeScript** | |
 | Base de données | **PostgreSQL + Prisma** | ORM typé, migrations incluses |
 | Paiement Europe | **Stripe** | CB, Apple Pay, Google Pay, SEPA |
-| Paiement Afrique francophone | **CinetPay** | Orange Money, Wave, MTN, Moov, CB |
+| Paiement Afrique francophone | **Flutterwave** | Mobile Money, cartes bancaires |
 | Emails transactionnels | **Resend + React Email** | Confirmation commande + lien Moodle |
 | Auth back-office | **NextAuth.js** | Accès admin uniquement, pas d'espace client |
 | Gestion produits | **Admin custom** intégré | Données en PostgreSQL, pas de CMS externe |
@@ -49,13 +49,13 @@
 
 - Détection du pays client au moment du checkout (via champ adresse ou IP)
 - **Pays européens** → passerelle **Stripe**
-- **Pays d'Afrique francophone** → passerelle **CinetPay**
+- **Pays d'Afrique francophone** → passerelle **Flutterwave**
 
-### Pays CinetPay couverts
+### Pays Flutterwave couverts (Afrique francophone)
 Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée
 
 ### Sécurité paiements
-- PCI-DSS géré par Stripe et CinetPay (l'app ne touche jamais les données carte)
+- PCI-DSS géré par Stripe et Flutterwave (l'app ne touche jamais les données carte)
 - Validation des signatures webhook obligatoire avant confirmation de commande
 - Idempotence des webhooks (éviter double validation)
 - Clés API exclusivement en variables d'environnement
@@ -66,7 +66,8 @@ Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée
 ## 📧 Flux post-achat (Moodle)
 
 ```
-Webhook paiement confirmé (Stripe ou CinetPay)
+Webhook paiement confirmé (Stripe ou Flutterwave)
+
         ↓
 Validation signature webhook
         ↓
@@ -95,7 +96,7 @@ my-shop/
 │   │       └── confirmation/page.tsx
 │   ├── api/
 │   │   ├── stripe/webhook/route.ts
-│   │   ├── cinetpay/webhook/route.ts
+│   │   ├── flutterwave/webhook/route.ts
 │   │   ├── checkout/route.ts
 │   │   └── orders/route.ts
 │   └── admin/                      # Back-office protégé
@@ -108,7 +109,7 @@ my-shop/
 │   └── admin/
 ├── lib/
 │   ├── stripe.ts
-│   ├── cinetpay.ts
+│   ├── flutterwave.ts              # Client Flutterwave
 │   ├── db.ts                       # Prisma client
 │   ├── email.ts                    # Resend + logique Moodle
 │   └── geo.ts                      # Détection pays → passerelle
@@ -132,10 +133,9 @@ STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 
-# CinetPay
-CINETPAY_API_KEY=
-CINETPAY_SITE_ID=
-CINETPAY_WEBHOOK_SECRET=
+# Flutterwave
+FLW_SECRET_KEY=
+FLW_SECRET_HASH=
 
 # Resend (emails)
 RESEND_API_KEY=
@@ -154,7 +154,7 @@ MOODLE_TOKEN=
 ## ⚠️ Points d'attention Infomaniak
 
 - Utiliser l'offre **Node.js** ou **Docker** (pas d'hébergement statique)
-- Les webhooks Stripe et CinetPay nécessitent une URL publique HTTPS → natif sur Infomaniak
+- Les webhooks Stripe et Flutterwave nécessitent une URL publique HTTPS → natif sur Infomaniak
 - Vérifier la version Node.js supportée (recommandé : 20 LTS)
 
 ---

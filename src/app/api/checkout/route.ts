@@ -3,7 +3,10 @@ import { Prisma, type Order } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getPaymentGateway } from "@/lib/geo";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
-import { initializeCinetPayment, type CinetPayInitParams } from "@/lib/cinetpay";
+import {
+  initializeFlutterwavePayment,
+  type FlutterwaveInitParams,
+} from "@/lib/flutterwave";
 
 interface CheckoutItem {
   productId: string;
@@ -76,7 +79,7 @@ function generateOrderNumber(): string {
   return `ORD-${year}-${suffix}`;
 }
 
-function convertForCinetPay(
+function convertForFlutterwave(
   amount: number,
   fromCurrency: string,
   countryCode: string
@@ -135,7 +138,7 @@ export async function POST(req: Request): Promise<Response> {
   const hasMixedCurrencies = products.some(
     (product) => product.currency !== productCurrency
   );
-  
+
   if (hasMixedCurrencies) {
     return NextResponse.json(
       { error: "All items in the cart must use the same currency" },
@@ -233,36 +236,31 @@ export async function POST(req: Request): Promise<Response> {
 
       return NextResponse.json({ paymentUrl: session.url });
     } else {
-      const converted = convertForCinetPay(
+      const converted = convertForFlutterwave(
         totalAmount.toNumber(),
         productCurrency,
         body.customerCountry
       );
 
-      const cinetPayParams: CinetPayInitParams = {
-        transactionId: order.id,
+      const flwParams: FlutterwaveInitParams = {
+        txRef: order.id,
         amount: converted.amount,
         currency: converted.currency,
-        description: `Order ${order.orderNumber}`,
-        notifyUrl: `${baseUrl}/api/cinetpay/webhook`,
-        returnUrl: `${baseUrl}/checkout/confirmation?orderId=${order.id}`,
-        customerName: body.customerLastName,
-        customerSurname: body.customerFirstName,
+        redirectUrl: `${baseUrl}/checkout/confirmation?orderId=${order.id}`,
         customerEmail: body.customerEmail,
-        customerPhoneNumber: body.customerPhone ?? "",
-        customerAddress: body.addressLine1 ?? "",
-        customerCity: body.addressCity ?? "",
-        customerCountry: body.customerCountry,
+        customerName: `${body.customerFirstName} ${body.customerLastName}`,
+        customerPhone: body.customerPhone,
+        description: `Order ${order.orderNumber}`,
       };
 
-      const result = await initializeCinetPayment(cinetPayParams);
+      const result = await initializeFlutterwavePayment(flwParams);
 
       await db.order.update({
         where: { id: order.id },
         data: { paymentId: order.id },
       });
 
-      return NextResponse.json({ paymentUrl: result.paymentUrl });
+      return NextResponse.json({ paymentUrl: result.paymentLink });
     }
   } catch (err) {
     await db.order.update({

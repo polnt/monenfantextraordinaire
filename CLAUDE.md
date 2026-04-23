@@ -1,79 +1,90 @@
-# CLAUDE.md — Contexte projet pour Claude Code
+# CLAUDE.md — Project context for Claude Code
 
-> Ce fichier est lu automatiquement par Claude Code (VS Code).
-> Il contient toutes les conventions, décisions et règles du projet.
-
----
-
-## 🎯 Projet
-
-Site vitrine + boutique e-commerce ciblant l'**Europe** et l'**Afrique francophone**.
-- 20 à 100 produits
-- MVP solo, priorité : rapidité + qualité + sécurité
-- Certains produits = formations → envoi d'un lien Moodle par email après achat
-- Pas d'espace client pour l'instant (achat en tant qu'invité)
+> This file is read automatically by Claude Code (VS Code).
+> It contains all conventions, decisions, and rules for the project.
 
 ---
 
-## 🧱 Stack technique
+## Project
+
+Showcase site + e-commerce shop targeting **Europe** and **French-speaking Africa**.
+- 20 to 100 products
+- Solo MVP, priorities: speed + quality + security
+- Some products are courses → a Moodle link is sent by email after purchase
+- No customer account for now (guest checkout only)
+
+---
+
+## Tech stack
 
 - **Next.js 14** (App Router, TypeScript)
 - **PostgreSQL + Prisma** (ORM)
-- **Stripe** → paiements Europe
-- **CinetPay** → paiements Afrique francophone
-- **Resend + React Email** → emails transactionnels
-- **NextAuth.js** → authentification back-office admin uniquement
+- **Stripe** → European payments
+- **Flutterwave** → French-speaking Africa payments
+- **Resend + React Email** → transactional emails
+- **NextAuth.js** → back-office admin authentication only
 - **Tailwind CSS** → styles
-- **Infomaniak** → hébergement (Node.js)
+- **Infomaniak** → hosting (Node.js)
 
 ---
 
-## 🖥️ Stratégie de rendu
+## Rendering strategy
 
 | Page | Mode |
 |---|---|
-| Accueil / vitrine | SSG |
-| Catalogue produits | ISR |
-| Fiche produit `[slug]` | ISR |
-| Panier / Checkout | CSR |
-| Confirmation commande | CSR |
-| Back-office admin | CSR |
+| Home / showcase | SSG |
+| Product catalogue | ISR |
+| Product page `[slug]` | ISR |
+| Cart / Checkout | CSR |
+| Order confirmation | CSR |
 | API Routes (webhooks, checkout) | Server |
 
 ---
 
-## 🗂️ Structure des dossiers
+## Folder structure
 
 ```
-my-shop/
+monenfantextraordinaire/
 ├── app/
 │   ├── (shop)/
-│   │   ├── page.tsx                # Accueil SSG
-│   │   ├── produits/
-│   │   │   ├── page.tsx            # Catalogue ISR
-│   │   │   └── [slug]/page.tsx     # Fiche produit ISR
-│   │   └── checkout/
-│   │       ├── page.tsx            # Panier + checkout CSR
-│   │       └── confirmation/page.tsx
-│   ├── api/
-│   │   ├── stripe/webhook/route.ts
-│   │   ├── cinetpay/webhook/route.ts
-│   │   ├── checkout/route.ts
-│   │   └── orders/route.ts
-│   └── admin/
-│       ├── page.tsx
-│       ├── produits/page.tsx
-│       └── commandes/page.tsx
+│   │   ├── page.tsx                    # Home SSG
+│   │   ├── comprendre/
+│   │   │   └── page.tsx                # Comprendre page with tabs (ISR)
+│   │   ├── aider/
+│   │   │   └── page.tsx                # Aider page with tabs (ISR)
+│   │   ├── outils/
+│   │   │   ├── page.tsx                # Shop / tools catalogue (ISR)
+│   │   │   └── [slug]/page.tsx         # Product page (ISR)
+│   │   ├── ressources/
+│   │   │   └── page.tsx                # Free content page (ISR)
+│   │   ├── formations/
+│   │   │   ├── page.tsx                # Formations catalogue (ISR)
+│   │   │   └── [slug]/page.tsx         # Formation detail page (ISR)
+│   │   ├── checkout/
+│   │   │   ├── page.tsx                # Cart + checkout (CSR)
+│   │   │   └── confirmation/page.tsx   # Order confirmation (CSR)
+│   │   └── (secondary)/
+│   │       ├── le-site/page.tsx
+│   │       ├── qui-suis-je/page.tsx
+│   │       ├── contact/page.tsx
+│   │       └── faq/page.tsx
+│   └── api/
+│       ├── stripe/webhook/route.ts
+│       ├── flutterwave/webhook/route.ts
+│       ├── checkout/route.ts
+│       └── orders/route.ts
 ├── components/
+│   ├── layout/
+│   │   ├── Navbar.tsx
+│   │   └── SecondaryDropdown.tsx
 │   ├── shop/
-│   ├── checkout/
-│   └── admin/
+│   └── checkout/
 ├── lib/
 │   ├── stripe.ts
-│   ├── cinetpay.ts
-│   ├── db.ts                       # Prisma client (singleton)
-│   ├── email.ts                    # Resend + logique lien Moodle
-│   └── geo.ts                      # Détection pays → bonne passerelle
+│   ├── flutterwave.ts
+│   ├── db.ts                           # Prisma client (singleton)
+│   ├── email.ts                        # Resend + Moodle link logic
+│   └── geo.ts                          # Country detection → correct gateway
 ├── prisma/
 │   └── schema.prisma
 ├── docs/
@@ -83,78 +94,117 @@ my-shop/
 
 ---
 
-## 💳 Logique paiement
+## Navigation structure
+
+```
+Navbar (left to right)
+├── Home            → simple button → home page
+│
+├── Comprendre      → simple button → page with 3 tabs:
+│                        • Trouble du développement
+│                        • L'autisme de A à Z
+│                        • Trouble de l'attention
+│
+├── Aider           → simple button → page with 4 tabs:
+│                        • Les parents
+│                        • Les professionnels
+│                        • Les méthodes
+│                        • Les outils de communication
+│
+├── Outils          → simple button → shop page (tools, activity books, worksheets)
+│
+├── Ressources      → simple button → free readable content page
+│
+├── Formations      → simple button → formations page (top-level, distinct from Outils)
+│
+└── ⋮               → vertical three-dot icon → dropdown:
+                         • Le site
+                         • Qui suis-je ?
+                         • Contact
+                         • FAQ
+```
+
+### Navigation notes
+
+- **Comprendre**: replaces "Comprendre l'autisme" — shorter label, broader perceived scope (covers all neurodevelopmental disorders, not just autism). Tabs are within the page, not separate navbar links.
+- **Aider**: replaces "Comment l'aider" — shorter, more direct. Same tab pattern.
+- **Outils**: replaces "Boutique" — emphasises pedagogical nature of products over transactional framing.
+- **Formations**: new top-level item — previously buried inside the shop. Elevated to signal it as a core offer, distinct from downloadable tools.
+- **⋮ (about)**: vertical three-dot icon triggers a dropdown grouping secondary pages to keep the main navbar clean.
+
+---
+
+## Payment logic
 
 ```typescript
-// Toujours utiliser cette logique pour choisir la passerelle
-const gateway = isAfricaFrancophone(userCountry) ? 'cinetpay' : 'stripe';
+// Always use this logic to select the payment gateway
+const gateway = isAfricaFrancophone(userCountry) ? 'flutterwave' : 'stripe';
 ```
 
-### Pays CinetPay (Afrique francophone)
+### Flutterwave countries (French-speaking Africa)
 `CI, SN, CM, ML, TG, BF, BJ, GN`
-(Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée)
+(Ivory Coast, Senegal, Cameroon, Mali, Togo, Burkina Faso, Benin, Guinea)
 
-### Tout le reste → Stripe
-
----
-
-## 🔐 Règles de sécurité — OBLIGATOIRES
-
-- **Ne jamais** committer `.env.local`
-- **Toujours** valider la signature des webhooks Stripe et CinetPay avant toute action
-- **Toujours** vérifier l'idempotence des webhooks (une commande ne doit jamais être créée deux fois)
-- **Jamais** de données sensibles dans les logs
-- **Toujours** utiliser les variables d'environnement pour les clés API
-- Les routes `/admin/*` doivent être protégées par NextAuth
+### Everything else → Stripe
 
 ---
 
-## 📧 Flux email post-achat
+## Security rules — MANDATORY
+
+- **Never** commit `.env.local`
+- **Always** validate Stripe and Flutterwave webhook signatures before any action
+- **Always** enforce webhook idempotency (an order must never be created twice)
+- **Never** log sensitive data
+- **Always** use environment variables for API keys
+
+---
+
+## Post-purchase email flow
 
 ```
-webhook confirmé → valider signature → créer commande en DB
-→ si produit formation → générer lien Moodle → envoyer email Resend
-→ sinon → envoyer email confirmation simple
+webhook received → validate signature → create order in DB
+→ if product is a course → generate Moodle link → send email via Resend
+→ else → send simple order confirmation email
 ```
 
 ---
 
-## ✅ Validation obligatoire avant toute modification
+## Mandatory validation before any change
 
-**Aucune modification de code ne doit être proposée ou validée sans avoir exécuté dans l'ordre :**
+**No code change may be proposed or merged without running these in order:**
 
 ```bash
-# 1. Vérification TypeScript
+# 1. TypeScript check
 npx tsc --noEmit
 
 # 2. Linter
 npm run lint
 
-# 3. Correction automatique si possible
+# 3. Auto-fix if possible
 npm run lint -- --fix
 ```
 
-### Règles strictes
-- **Si `tsc` retourne des erreurs** → corriger avant de continuer, ne jamais ignorer
-- **Si `lint` retourne des erreurs** → corriger avant de continuer
-- **Jamais de `// @ts-ignore` ou `// eslint-disable`** sans justification explicite commentée
-- **Jamais de `any`** → toujours typer explicitement
-- Ces vérifications s'appliquent à **chaque fichier modifié**, pas uniquement au fichier principal
+### Strict rules
+- **If `tsc` reports errors** → fix before continuing, never ignore
+- **If `lint` reports errors** → fix before continuing
+- **No `// @ts-ignore` or `// eslint-disable`** without an explicit inline justification
+- **No `any`** → always type explicitly
+- These checks apply to **every modified file**, not just the main one
 
 ---
 
-## 🧑‍💻 Conventions de code
+## Code conventions
 
-- **Language** : all code must be written in English — variable names, function names, comments, commit messages, everything
-- **TypeScript strict** : pas de `any`, typer toutes les fonctions
-- **Prisma** : toujours utiliser le client singleton dans `lib/db.ts`
-- **Composants** : un fichier par composant, nommage PascalCase
-- **API Routes** : toujours gérer les erreurs avec try/catch et retourner des codes HTTP appropriés
-- **Variables d'environnement** : préfixe `NEXT_PUBLIC_` uniquement pour ce qui doit être exposé côté client
+- **Language**: all code must be written in English — variable names, function names, comments, commit messages, everything
+- **TypeScript strict**: no `any`, type all functions explicitly
+- **Prisma**: always use the singleton client in `lib/db.ts`
+- **Components**: one file per component, PascalCase naming
+- **API Routes**: always handle errors with try/catch and return appropriate HTTP status codes
+- **Environment variables**: `NEXT_PUBLIC_` prefix only for values that must be exposed client-side
 
 ---
 
-## 📦 Dépendances ESLint à installer
+## ESLint dependencies to install
 
 ```bash
 npm install --save-dev \
@@ -165,32 +215,32 @@ npm install --save-dev \
   eslint-plugin-react-hooks
 ```
 
-> Format ESLint v9 (flat config) — fichier de config : `eslint.config.mjs`
+> ESLint v9 flat config format — config file: `eslint.config.mjs`
 
 ---
 
-## ⚙️ Commandes utiles
+## Useful commands
 
 ```bash
-npm run dev            # Démarrer en développement
-npm run build          # Build production
-npm run validate       # tsc + lint en une seule commande (obligatoire avant commit)
-npx tsc --noEmit       # Vérification TypeScript seule
-npm run lint           # Linter ESLint seul
-npm run lint -- --fix  # Correction automatique ESLint
-npx prisma studio      # Interface visuelle base de données
-npx prisma migrate dev --name <nom>  # Créer une migration
-npx prisma generate    # Regénérer le client Prisma
+npm run dev            # Start dev server
+npm run build          # Production build
+npm run validate       # tsc + lint in one command (required before commit)
+npx tsc --noEmit       # TypeScript check only
+npm run lint           # ESLint only
+npm run lint -- --fix  # ESLint auto-fix
+npx prisma studio      # Visual database UI
+npx prisma migrate dev --name <name>  # Create a migration
+npx prisma generate    # Regenerate Prisma client
 ```
 
-> Ajouter ce script dans `package.json` :
+> Add this script to `package.json`:
 > ```json
 > "validate": "tsc --noEmit && eslint . --ext .ts,.tsx"
 > ```
 
 ---
 
-## 🔑 Variables d'environnement requises
+## Required environment variables
 
 ```env
 DATABASE_URL=
@@ -199,9 +249,8 @@ STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 
-CINETPAY_API_KEY=
-CINETPAY_SITE_ID=
-CINETPAY_WEBHOOK_SECRET=
+FLW_SECRET_KEY=
+FLW_SECRET_HASH=
 
 RESEND_API_KEY=
 
@@ -214,14 +263,14 @@ MOODLE_TOKEN=
 
 ---
 
-## 📚 Documentation complémentaire
+## Additional documentation
 
-- Décisions techniques et raisonnements : `docs/DECISIONS.md`
+- Technical decisions and rationale: `docs/DECISIONS.md`
 
 ---
 
-## 🚧 Décisions en attente
+## Pending decisions
 
-- [ ] Admin custom vs Sanity.io pour la gestion produits
-- [ ] Intégration Moodle : enrollment automatique via API ou lien token ?
-- [ ] Nom de domaine et configuration DNS Infomaniak
+- [ ] Custom admin vs Sanity.io for product management
+- [ ] Moodle integration: automatic enrollment via API or token link?
+- [ ] Domain name and Infomaniak DNS configuration

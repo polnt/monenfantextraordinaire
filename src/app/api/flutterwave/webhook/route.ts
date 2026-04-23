@@ -1,32 +1,35 @@
 import { NextResponse } from "next/server";
-import { parseCinetPayWebhook, verifyCinetPayPayment } from "@/lib/cinetpay";
+import {
+  verifyFlutterwaveWebhookSignature,
+  parseFlutterwaveWebhook,
+  verifyFlutterwaveTransaction,
+} from "@/lib/flutterwave";
 import { db } from "@/lib/db";
 import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
 import { ProductType } from "@prisma/client";
 
 export async function POST(req: Request): Promise<Response> {
-  const rawText = await req.text();
+  const signature = req.headers.get("verif-hash");
 
-  let body: unknown;
-  const contentType = req.headers.get("content-type") ?? "";
-  if (contentType.includes("application/json")) {
-    try {
-      body = JSON.parse(rawText) as unknown;
-    } catch {
-      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
-    }
-  } else {
-    const params = new URLSearchParams(rawText);
-    const obj: Record<string, string> = {};
-    params.forEach((value, key) => {
-      obj[key] = value;
-    });
-    body = obj;
+  try {
+    verifyFlutterwaveWebhookSignature(signature);
+  } catch {
+    return NextResponse.json(
+      { error: "Invalid webhook signature" },
+      { status: 400 }
+    );
   }
 
-  let payload: ReturnType<typeof parseCinetPayWebhook>;
+  let body: unknown;
   try {
-    payload = parseCinetPayWebhook(body);
+    body = (await req.json()) as unknown;
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  let payload: ReturnType<typeof parseFlutterwaveWebhook>;
+  try {
+    payload = parseFlutterwaveWebhook(body);
   } catch {
     return NextResponse.json(
       { error: "Invalid webhook payload" },
@@ -34,10 +37,16 @@ export async function POST(req: Request): Promise<Response> {
     );
   }
 
-  const transactionId = payload.cpm_trans_id;
+  // Only process successful charge events
+  if (payload.event !== "charge.completed") {
+    return NextResponse.json({ received: true });
+  }
+
+  const transactionId = payload.data.id;
+  const txRef = payload.data.tx_ref;
 
   const order = await db.order.findUnique({
-    where: { id: transactionId },
+    where: { id: txRef },
     include: { items: { include: { product: true } } },
   });
 
@@ -49,25 +58,25 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ received: true });
   }
 
-  let paymentStatus: Awaited<ReturnType<typeof verifyCinetPayPayment>>;
+  let txStatus: Awaited<ReturnType<typeof verifyFlutterwaveTransaction>>;
   try {
-    paymentStatus = await verifyCinetPayPayment(transactionId);
+    txStatus = await verifyFlutterwaveTransaction(transactionId);
   } catch (err) {
-    console.error("CinetPay payment verification failed:", err);
+    console.error("Flutterwave transaction verification failed:", err);
     return NextResponse.json(
       { error: "Payment verification failed" },
       { status: 500 }
     );
   }
 
-  if (paymentStatus.status !== "ACCEPTED") {
+  if (txStatus.status !== "successful") {
     return NextResponse.json({ received: true });
   }
 
   // Atomically transition to PAID — prevents double-processing on concurrent deliveries
   const updated = await db.order.updateMany({
-    where: { id: transactionId, status: "PENDING" },
-    data: { status: "PAID", paymentId: transactionId },
+    where: { id: txRef, status: "PENDING" },
+    data: { status: "PAID", paymentId: String(transactionId) },
   });
 
   if (updated.count === 0) {
@@ -80,9 +89,14 @@ export async function POST(req: Request): Promise<Response> {
   const moodleToken = process.env.MOODLE_TOKEN;
 
   for (const item of order.items) {
-    if (item.product.type === ProductType.TRAINING && item.product.moodleCourseId) {
+    if (
+      item.product.type === ProductType.TRAINING &&
+      item.product.moodleCourseId
+    ) {
       if (!moodleBaseUrl || !moodleToken) {
-        console.error(`Cannot send Moodle link for order item ${item.id}: MOODLE_BASE_URL or MOODLE_TOKEN is not configured`);
+        console.error(
+          `Cannot send Moodle link for order item ${item.id}: MOODLE_BASE_URL or MOODLE_TOKEN is not configured`
+        );
         continue;
       }
       const moodleLink = `${moodleBaseUrl}/course/view.php?id=${item.product.moodleCourseId}&token=${moodleToken}`;
@@ -99,15 +113,18 @@ export async function POST(req: Request): Promise<Response> {
           data: { moodleLinkSent: true, moodleLinkSentAt: new Date() },
         });
       } catch (err) {
-        console.error(`Failed to send Moodle email for order item ${item.id}:`, err);
+        console.error(
+          `Failed to send Moodle email for order item ${item.id}:`,
+          err
+        );
       }
     }
   }
 
-  // Include TRAINING items without a moodleCourseId — they have no access link to send
-  // so they must appear in the regular confirmation email
+  // Include TRAINING items without a moodleCourseId in the regular confirmation email
   const itemsForConfirmation = order.items.filter(
-    (item) => item.product.type !== ProductType.TRAINING || !item.product.moodleCourseId
+    (item) =>
+      item.product.type !== ProductType.TRAINING || !item.product.moodleCourseId
   );
 
   if (itemsForConfirmation.length > 0) {
