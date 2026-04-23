@@ -121,7 +121,8 @@
 
 ## 11. Déploiement & DevOps
 
-- ⬜ Configuration déploiement Infomaniak (Node.js)
+- 🔄 Configuration déploiement Infomaniak (Node.js)
+  - ✅ Node.js 24 ciblé (`engines`, `@types/node`, `.nvmrc`)
 - ⬜ Variables d'environnement de production
 - ⬜ Pipeline CI/CD (GitHub Actions : lint + tsc + tests)
 - ⬜ Environnement de staging
