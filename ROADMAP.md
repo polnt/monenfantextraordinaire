@@ -21,10 +21,9 @@
 - ✅ Intégration Stripe (Europe)
 - ✅ Intégration Flutterwave (Afrique francophone : CI, SN, CM, ML, TG, BF, BJ, GN)
 - ✅ Sélection automatique de gateway selon le pays (`lib/geo.ts`)
-- ✅ API checkout (`/api/checkout`) : validation, réservation de stock atomique, idempotence
+- ✅ API checkout (`/api/checkout`) : validation, création commande, idempotence
 - ✅ Webhook Stripe (`/api/stripe/webhook`) : validation signature, transition PENDING→PAID
 - ✅ Webhook Flutterwave (`/api/flutterwave/webhook`) : validation signature + vérification transaction
-- ✅ Restauration du stock en cas d'échec de paiement
 - ✅ Conversion devise EUR ↔ XOF/XAF à la frontière de paiement
 
 ---
@@ -43,11 +42,10 @@
 ## 4. Catalogue Produits & Formations
 
 - ⬜ Page catalogue Outils (`/outils`) : grille de produits depuis la DB
-- ⬜ Page détail Outil (`/outils/[slug]`) : description, prix, stock, CTA achat
+- ⬜ Page détail Outil (`/outils/[slug]`) : description, prix, CTA achat
 - ⬜ Page catalogue Formations (`/formations`) : grille de formations depuis la DB
 - ⬜ Page détail Formation (`/formations/[slug]`) : description, contenu, CTA achat
 - ⬜ Composant `ProductCard` réutilisable
-- ⬜ Gestion de l'affichage "rupture de stock"
 - ⬜ Galerie d'images produit
 
 ---
@@ -92,7 +90,7 @@
 - ✅ NextAuth.js installé
 - ⬜ Page de login admin (`/admin/login`)
 - ⬜ Configuration NextAuth (credentials provider)
-- ⬜ Dashboard produits : CRUD (créer, éditer, archiver, gérer le stock)
+- ⬜ Dashboard produits : CRUD (créer, éditer, archiver)
 - ⬜ Upload d'images produits
 - ⬜ Dashboard commandes : liste, statuts, détail
 - ⬜ Association produit formation ↔ cours Moodle

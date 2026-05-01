@@ -8,33 +8,55 @@ datasource db {
   provider = "postgresql"
 }
 
-// ─── Product ──────────────────────────────────────────────────────────────────
+// ─── Product (base) ───────────────────────────────────────────────────────────
 
 enum ProductType {
-  PHYSICAL    // Physical product to be shipped
   TRAINING    // Training course → sends Moodle access link after purchase
-  DIGITAL     // Digital product → sends download link after purchase
+  EBOOK       // PDF ebook → sends download link after purchase
+}
+
+enum AccessType {
+  PAID         // Requires payment
+  FREE_DIRECT  // Free, delivered immediately without payment
 }
 
 model Product {
-  id             String      @id @default(cuid())
-  slug           String      @unique
-  name           String
-  description    String
-  price          Decimal
-  currency       String      @default("EUR")
-  type           ProductType @default(PHYSICAL)
-  images         String[]    // Array of image URLs
-  stock          Int?        // null = unlimited (training, digital)
-  active         Boolean     @default(true)
-  moodleCourseId String?     // Moodle course ID if type = TRAINING
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  description String
+  price       Decimal
+  currency    String      @default("EUR")
+  type        ProductType
+  accessType  AccessType  @default(PAID)
+  images      String[]
+  active      Boolean     @default(true)
 
-  orderItems     OrderItem[]
+  training    Training?
+  ebook       Ebook?
+  orderItems  OrderItem[]
 
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@index([active])
+  @@index([type])
+}
+
+// ─── Training (extends Product) ───────────────────────────────────────────────
+
+model Training {
+  id             String   @id
+  product        Product  @relation(fields: [id], references: [id])
+  moodleCourseId String?
+}
+
+// ─── Ebook (extends Product) ──────────────────────────────────────────────────
+
+model Ebook {
+  id      String  @id
+  product Product @relation(fields: [id], references: [id])
+  fileUrl String? // PDF download URL
 }
 
 // ─── Order ────────────────────────────────────────────────────────────────────
@@ -42,8 +64,6 @@ model Product {
 enum OrderStatus {
   PENDING     // Payment initiated but not yet confirmed
   PAID        // Payment confirmed via webhook
-  SHIPPED     // Physical product has been shipped
-  DELIVERED   // Physical product has been delivered
   CANCELLED   // Order has been cancelled
   REFUNDED    // Order has been refunded
 }
@@ -63,12 +83,6 @@ model Order {
   customerFirstName    String
   customerPhone        String?
   customerCountry      String         // ISO code e.g. FR, SN, CI
-
-  // Shipping address (for physical products)
-  addressLine1         String?
-  addressLine2         String?
-  addressCity          String?
-  addressPostalCode    String?
 
   // Payment
   gateway              PaymentGateway

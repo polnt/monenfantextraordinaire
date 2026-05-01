@@ -19,10 +19,6 @@ interface CheckoutRequestBody {
   customerLastName: string;
   customerPhone?: string;
   customerCountry: string;
-  addressLine1?: string;
-  addressLine2?: string;
-  addressCity?: string;
-  addressPostalCode?: string;
   items: CheckoutItem[];
 }
 
@@ -161,47 +157,26 @@ export async function POST(req: Request): Promise<Response> {
     new Prisma.Decimal(0)
   );
 
-  // Reserve stock and create order atomically to prevent overselling
   let order: Order;
   try {
-    order = await db.$transaction(async (tx) => {
-      for (const [productId, quantity] of requestedQuantityByProductId.entries()) {
-        const product = productsById.get(productId);
-        if (!product || product.stock === null) continue;
-
-        const reserved = await tx.product.updateMany({
-          where: { id: productId, active: true, stock: { gte: quantity } },
-          data: { stock: { decrement: quantity } },
-        });
-
-        if (reserved.count === 0) {
-          throw new Error(`Insufficient stock for "${product.name}"`);
-        }
-      }
-
-      return tx.order.create({
-        data: {
-          orderNumber: generateOrderNumber(),
-          idempotencyKey: crypto.randomUUID(),
-          customerEmail: body.customerEmail,
-          customerFirstName: body.customerFirstName,
-          customerLastName: body.customerLastName,
-          customerPhone: body.customerPhone ?? null,
-          customerCountry: body.customerCountry,
-          addressLine1: body.addressLine1 ?? null,
-          addressLine2: body.addressLine2 ?? null,
-          addressCity: body.addressCity ?? null,
-          addressPostalCode: body.addressPostalCode ?? null,
-          gateway,
-          totalAmount,
-          currency: productCurrency,
-          items: { create: orderItems },
-        },
-      });
+    order = await db.order.create({
+      data: {
+        orderNumber: generateOrderNumber(),
+        idempotencyKey: crypto.randomUUID(),
+        customerEmail: body.customerEmail,
+        customerFirstName: body.customerFirstName,
+        customerLastName: body.customerLastName,
+        customerPhone: body.customerPhone ?? null,
+        customerCountry: body.customerCountry,
+        gateway,
+        totalAmount,
+        currency: productCurrency,
+        items: { create: orderItems },
+      },
     });
   } catch (err) {
     const message =
-      err instanceof Error ? err.message : "One or more items are unavailable";
+      err instanceof Error ? err.message : "Failed to create order";
     return NextResponse.json({ error: message }, { status: 400 });
   }
 
@@ -267,17 +242,6 @@ export async function POST(req: Request): Promise<Response> {
       where: { id: order.id },
       data: { status: "CANCELLED" },
     });
-
-    // Restore reserved stock since payment initiation failed
-    for (const item of orderItems) {
-      const product = productsById.get(item.productId);
-      if (product !== undefined && product.stock !== null) {
-        await db.product.update({
-          where: { id: item.productId },
-          data: { stock: { increment: item.quantity } },
-        });
-      }
-    }
 
     console.error("Payment initiation failed:", err);
     return NextResponse.json(

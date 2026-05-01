@@ -47,7 +47,7 @@ export async function POST(req: Request): Promise<Response> {
 
   const order = await db.order.findUnique({
     where: { id: txRef },
-    include: { items: { include: { product: true } } },
+    include: { items: { include: { product: { include: { training: true } } } } },
   });
 
   if (!order) {
@@ -91,7 +91,7 @@ export async function POST(req: Request): Promise<Response> {
   for (const item of order.items) {
     if (
       item.product.type === ProductType.TRAINING &&
-      item.product.moodleCourseId
+      item.product.training?.moodleCourseId
     ) {
       if (!moodleBaseUrl || !moodleToken) {
         console.error(
@@ -99,7 +99,7 @@ export async function POST(req: Request): Promise<Response> {
         );
         continue;
       }
-      const moodleLink = `${moodleBaseUrl}/course/view.php?id=${item.product.moodleCourseId}&token=${moodleToken}`;
+      const moodleLink = `${moodleBaseUrl}/course/view.php?id=${item.product.training?.moodleCourseId}&token=${moodleToken}`;
       try {
         await sendMoodleAccessEmail({
           to: order.customerEmail,
@@ -124,7 +124,7 @@ export async function POST(req: Request): Promise<Response> {
   // Include TRAINING items without a moodleCourseId in the regular confirmation email
   const itemsForConfirmation = order.items.filter(
     (item) =>
-      item.product.type !== ProductType.TRAINING || !item.product.moodleCourseId
+      item.product.type !== ProductType.TRAINING || !item.product.training?.moodleCourseId
   );
 
   if (itemsForConfirmation.length > 0) {

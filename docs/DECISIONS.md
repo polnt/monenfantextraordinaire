@@ -11,7 +11,8 @@
 - Cible géographique : **Europe** + **Afrique francophone**
 - Volume produits : **20 à 100 produits**
 - Objectif : **MVP rapide**, travail solo
-- Certains produits déclenchent l'envoi d'un **lien d'accès Moodle** par email après achat
+- Deux types de produits : **formations** (lien Moodle par email) et **ebooks** (PDF, lien de téléchargement par email)
+- Aucun produit physique — pas de gestion de stock ni d'expédition
 
 ---
 

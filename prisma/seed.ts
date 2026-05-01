@@ -10,39 +10,51 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const db = new PrismaClient({ adapter });
 
 async function main(): Promise<void> {
-  const physical = await db.product.upsert({
-    where: { slug: "test-produit-physique" },
+  // Ebook product
+  const ebookProduct = await db.product.upsert({
+    where: { slug: "test-ebook" },
     update: {},
     create: {
-      slug: "test-produit-physique",
-      name: "Produit Test (Physique)",
-      description: "Produit physique pour tester le flux Stripe.",
-      price: 19.99,
-      currency: "EUR",
-      type: ProductType.PHYSICAL,
-      stock: 100,
-      active: true,
-    },
-  });
-
-  const digital = await db.product.upsert({
-    where: { slug: "test-produit-digital" },
-    update: {},
-    create: {
-      slug: "test-produit-digital",
-      name: "Produit Test (Digital)",
-      description: "Produit digital pour tester le flux Stripe.",
+      slug: "test-ebook",
+      name: "Ebook Test",
+      description: "Ebook PDF pour tester le flux Stripe.",
       price: 9.99,
       currency: "EUR",
-      type: ProductType.DIGITAL,
-      stock: null,
+      type: ProductType.EBOOK,
       active: true,
+      ebook: { create: { fileUrl: null } },
     },
+  });
+  await db.ebook.upsert({
+    where: { id: ebookProduct.id },
+    update: {},
+    create: { id: ebookProduct.id, fileUrl: null },
+  });
+
+  // Training product
+  const trainingProduct = await db.product.upsert({
+    where: { slug: "test-formation" },
+    update: {},
+    create: {
+      slug: "test-formation",
+      name: "Formation Test",
+      description: "Formation pour tester le flux Moodle.",
+      price: 49.99,
+      currency: "EUR",
+      type: ProductType.TRAINING,
+      active: true,
+      training: { create: { moodleCourseId: null } },
+    },
+  });
+  await db.training.upsert({
+    where: { id: trainingProduct.id },
+    update: {},
+    create: { id: trainingProduct.id, moodleCourseId: null },
   });
 
   console.log("Seed OK:");
-  console.log(`  [PHYSICAL] id=${physical.id}  price=${physical.price} EUR`);
-  console.log(`  [DIGITAL]  id=${digital.id}  price=${digital.price} EUR`);
+  console.log(`  [EBOOK]    id=${ebookProduct.id}    price=${ebookProduct.price} EUR`);
+  console.log(`  [TRAINING] id=${trainingProduct.id} price=${trainingProduct.price} EUR`);
 }
 
 main()
