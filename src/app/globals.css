@@ -2,25 +2,150 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #090943;
+  --blue: #0792dc;
+  --blue-dk: #0567a8;
+  --blue-lt: #e8f4fd;
+  --red: #F90021;
+  --yellow: #FDF482;
+  --yellow-dk: #EFD010;
+  --navy: #090943;
+  --green: #27ae60;
+  --off: #fafbff;
+  --gray: #5a6070;
+  --shadow: 0 4px 24px rgba(9,9,67,0.07);
+  --shadow-h: 0 10px 40px rgba(7,146,220,0.18);
+  --r: 20px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-aleo, Georgia, serif);
+  color: var(--navy);
+  background: #fff;
+  overflow-x: hidden;
 }
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-nunito, sans-serif);
+  line-height: 1.15;
+}
+
+/* ── Container ── */
+.mef-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  width: 100%;
+}
+
+/* ── Buttons ── */
+.mef-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 50px;
+  font-family: var(--font-nunito, 'Nunito', sans-serif);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mef-btn-blue  { background: var(--blue); color: white; }
+.mef-btn-blue:hover  { background: var(--blue-dk); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(7,146,220,0.32); }
+.mef-btn-yellow { background: var(--yellow); color: var(--navy); }
+.mef-btn-yellow:hover { background: var(--yellow-dk); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(239,208,16,0.32); }
+.mef-btn-outline { background: transparent; color: var(--blue); border: 2px solid var(--blue); }
+.mef-btn-outline:hover { background: var(--blue); color: white; transform: translateY(-2px); }
+
+/* ── Cards ── */
+.mef-card {
+  background: white;
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  transition: all 0.25s ease;
+}
+.mef-card:hover { box-shadow: var(--shadow-h); transform: translateY(-4px); }
+
+/* ── Typography helpers ── */
+.mef-h2 {
+  font-size: 40px;
+  font-weight: 800;
+  margin-bottom: 24px;
+  color: var(--navy);
+}
+.mef-eyebrow {
+  font-family: var(--font-nunito, 'Nunito', sans-serif);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--blue);
+  margin-bottom: 12px;
+}
+.mef-eyebrow-red { color: var(--red); }
+
+/* ── Animations ── */
+@keyframes mefFadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes mefFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+@keyframes mefPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}
+
+.mef-page { animation: mefFadeUp 0.4s ease both; }
+
+/* ── Mobile nav ── */
+.mef-nav-desktop { display: flex; align-items: center; gap: 2px; }
+.mef-hamburger   { display: none; align-items: center; gap: 8px; }
+.mef-mobile-menu {
+  display: none;
+  position: fixed; top: 72px; left: 0; right: 0; z-index: 999;
+  background: white; box-shadow: 0 12px 40px rgba(9,9,67,0.12);
+  padding: 12px; flex-direction: column; gap: 4px;
+  animation: mefFadeUp 0.2s ease both;
+}
+.mef-mobile-menu.open { display: flex; }
+.mef-mobile-link {
+  background: none; border: none; width: 100%; text-align: left;
+  padding: 12px 16px; border-radius: 10px;
+  font-family: var(--font-nunito, 'Nunito', sans-serif);
+  font-weight: 700; font-size: 15px; color: var(--navy); cursor: pointer;
+  transition: background 0.15s; text-decoration: none; display: block;
+}
+.mef-mobile-link:hover, .mef-mobile-link.active { background: var(--blue-lt); color: var(--blue); }
+.mef-mobile-divider { height: 1px; background: #f3f4f6; margin: 6px 0; }
+
+/* ── Responsive ── */
+@media (max-width: 767px) {
+  .mef-container { padding: 0 16px; }
+  .mef-h2        { font-size: 26px; margin-bottom: 16px; }
+  .mef-btn       { font-size: 14px; padding: 11px 20px; }
+}
+@media (max-width: 899px) {
+  .mef-nav-desktop { display: none; }
+  .mef-hamburger   { display: flex; }
+}
+
