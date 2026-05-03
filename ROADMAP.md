@@ -9,7 +9,9 @@
 - ✅ Initialisation Next.js 14 (App Router, TypeScript strict)
 - ✅ Configuration ESLint + Prettier + pré-commit Husky
 - ✅ Schéma Prisma : `Product`, `Order`, `OrderItem`, `AdminUser`
-- ✅ Client Prisma singleton (`lib/db.ts`)
+- ✅ Tables `Training` (moodleCourseId) et `Ebook` (fileUrl) ; enum `AccessType` (PAID/FREE_DIRECT)
+- ✅ Client Prisma singleton (`lib/db.ts`) + adapter-pg (Prisma 7)
+- ✅ Script de seed (`prisma/seed.ts`) avec fixtures training/ebook
 - ✅ Alias TypeScript (`@/`)
 - ✅ Structure de dossiers et route groups (`(shop)`, `(secondary)`)
 - ✅ Migrations PostgreSQL initiales (types monétaires `NUMERIC(10,2)`)
@@ -41,10 +43,10 @@
 
 ## 4. Catalogue Produits & Formations
 
-- ⬜ Page catalogue Outils (`/outils`) : grille de produits depuis la DB
-- ⬜ Page détail Outil (`/outils/[slug]`) : description, prix, CTA achat
-- ⬜ Page catalogue Formations (`/formations`) : grille de formations depuis la DB
-- ⬜ Page détail Formation (`/formations/[slug]`) : description, contenu, CTA achat
+- ✅ Page catalogue Outils (`/outils`) : grille de produits depuis la DB
+- ⬜ Page détail Outil (`/outils/[slug]`) : placeholder — à connecter à la DB
+- ✅ Page catalogue Formations (`/formations`) : grille de formations depuis la DB
+- ✅ Page détail Formation (`/formations/[slug]`) : description, contenu, CTA achat
 - ⬜ Composant `ProductCard` réutilisable
 - ⬜ Galerie d'images produit
 
@@ -63,23 +65,21 @@
 
 ## 6. Pages de contenu éditorial
 
-- 🔄 Page d'accueil (`/`) : placeholder — à construire (hero, valeur, CTA)
-- ⬜ Page Comprendre (`/comprendre`) : 3 onglets (Trouble du développement, L'autisme de A à Z, Trouble de l'attention)
-- ⬜ Page Aider (`/aider`) : 4 onglets (Les parents, Les professionnels, Les méthodes, Les outils de communication)
-- ⬜ Page Ressources (`/ressources`) : contenus gratuits (articles, téléchargements)
-- ⬜ Page Qui suis-je ? (`/qui-suis-je`)
-- ⬜ Page Le site (`/le-site`)
-- ⬜ Page FAQ (`/faq`)
-- ⬜ Page Contact (`/contact`) avec formulaire fonctionnel
+- ✅ Page d'accueil (`/`) : hero, valeurs, StatBlocks, CTA
+- ✅ Page Comprendre (`/comprendre`) : 3 onglets via `TabSection`
+- ✅ Page Aider (`/aider`) : 4 onglets via `TabSection`
+- ✅ Page Ressources (`/ressources`) : contenus gratuits
+- ✅ Page Qui suis-je ? (`/qui-suis-je`)
+- ✅ Page Le site (`/le-site`)
+- ✅ Page FAQ (`/faq`)
+- 🔄 Page Contact (`/contact`) : formulaire UI complet — API d'envoi à connecter
 
 ---
 
 ## 7. Navigation & Layout
 
-- 🔄 `Navbar.tsx` : composant créé, liens en dur — à finaliser (style, responsive)
-- 🔄 `SecondaryDropdown.tsx` : créé, à styliser
-- ⬜ Menu hamburger mobile
-- ⬜ Footer (liens légaux, réseaux sociaux, contact)
+- ✅ `Navbar.tsx` : nav inline, style complet, menu hamburger mobile
+- ✅ `Footer.tsx` : liens légaux, réseaux sociaux, contact
 - ⬜ Mentions légales / CGV / Politique de confidentialité
 
 ---
