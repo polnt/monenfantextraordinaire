@@ -4,7 +4,7 @@ const tabs = [
   {
     id: 'developpement',
     label: 'Trouble du développement',
-    image: '/uploads/magic_editTUFISVZrTm1GX0UjMSM0ZDk2MzkxN2MzZWY1Mjk3M2ZkYjNiZGFhNjM0ODZhOSMxOTIwIyNUUkFOU0ZPUk1BVElPTl9SRVFVRVNU (1).jpg',
+    image: '/uploads/trouble-developpement.jpg',
   },
   { id: 'autisme', label: "L'autisme de A à Z", image: '/uploads/Autisme de A à Z.jpg' },
   { id: 'attention', label: "Trouble de l'attention", image: "/uploads/trouble de l'attention.jpg" },
