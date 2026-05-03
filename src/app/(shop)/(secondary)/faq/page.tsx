@@ -32,7 +32,7 @@ export default function FaqPage(): React.JSX.Element {
       </section>
       <section style={{ background: 'white', padding: '48px 0 80px' }}>
         <div className="mef-container" style={{ maxWidth: 960 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {faqs.map((f, i) => (
               <div
                 key={i}
