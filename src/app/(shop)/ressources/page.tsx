@@ -2,14 +2,16 @@
 
 import { useIsMobile } from '@/hooks/useIsMobile';
 
-const articles = [
-  { title: 'Les stades du développement du langage', sub: "Le langage, c'est bien plus que parler — c'est tout ce qui permet à un enfant de comprendre le monde.", bg: '#FDF482', fg: '#090943' },
-  { title: "TDAH : trouble de l'attention avec ou sans hyperactivité", sub: "Un trouble neurodéveloppemental qui affecte la concentration, l'organisation et le contrôle des impulsions.", bg: '#f8a882', fg: '#090943' },
-  { title: 'Mini astuces pour développer le langage', sub: "Des conseils pratiques et accessibles à mettre en place dès aujourd'hui dans votre quotidien.", bg: '#87ceeb', fg: '#0f3d5a' },
-  { title: 'Comprendre le comportement de mon enfant autiste', sub: 'Décoder les comportements atypiques pour mieux y répondre avec calme et bienveillance.', bg: '#e8f5e9', fg: '#1b5e20' },
-  { title: "Les émotions et l'autisme", sub: 'Comment aider un enfant autiste à identifier et exprimer ses émotions au quotidien.', bg: '#f3e8ff', fg: '#4a148c' },
-  { title: "Scolarisation d'un enfant neurodivers", sub: 'ULIS, SESSAD, AVS — tout comprendre sur les dispositifs scolaires disponibles.', bg: '#e8f4fd', fg: '#0d47a1' },
-];
+const PDF_URL = '/ressources/Article%20Le%20d%C3%A9veloppement%20du%20langage%20(1)%20(1).pdf';
+
+const resource = {
+  title: 'Les stades du développement du langage',
+  description:
+    "Le langage, c'est bien plus que parler — c'est tout ce qui permet à un enfant de comprendre le monde et d'y prendre sa place. Cet article vous guide à travers les grandes étapes du développement langagier et vous donne des repères concrets pour accompagner votre enfant.",
+  tag: 'Article · PDF gratuit',
+  bg: '#FDF482',
+  fg: '#090943',
+};
 
 export default function RessourcesPage(): React.JSX.Element {
   const isMobile = useIsMobile();
@@ -29,36 +31,50 @@ export default function RessourcesPage(): React.JSX.Element {
           </p>
         </div>
       </section>
+
       <section style={{ background: 'white', padding: isMobile ? '32px 0 56px' : '48px 0 80px' }}>
         <div className="mef-container">
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
-            {articles.map((a, i) => (
-              <div key={i} className="mef-card" style={{ overflow: 'hidden' }}>
-                <div
-                  style={{
-                    height: 160,
-                    background: a.bg,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    borderRadius: 0,
-                  }}
-                >
-                  <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(0,0,0,0.025) 12px,rgba(0,0,0,0.025) 13px)' }} />
-                  <span style={{ position: 'relative', zIndex: 1, fontFamily: 'monospace', fontSize: 10, color: a.fg, textAlign: 'center', padding: 12, lineHeight: 1.5 }}>
-                    photo article {i + 1}
-                  </span>
-                </div>
-                <div style={{ padding: '20px 22px' }}>
-                  <h4 style={{ fontFamily: 'var(--font-nunito)', fontSize: 16, fontWeight: 700, marginBottom: 10, lineHeight: 1.4 }}>{a.title}</h4>
-                  <p style={{ color: '#5a6070', fontSize: 14, lineHeight: 1.65 }}>{a.sub}</p>
-                  <button className="mef-btn mef-btn-outline" style={{ marginTop: 16, padding: '8px 20px', fontSize: 13 }}>
-                    Lire l&apos;article
-                  </button>
-                </div>
+          <div style={{ maxWidth: 560 }}>
+            <div className="mef-card" style={{ overflow: 'hidden' }}>
+              <div
+                style={{
+                  height: 160,
+                  background: resource.bg,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative',
+                }}
+              >
+                <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(0,0,0,0.025) 12px,rgba(0,0,0,0.025) 13px)' }} />
+                <svg style={{ position: 'relative', zIndex: 1 }} width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="rgba(9,9,67,0.07)" />
+                  <polyline points="14 2 14 8 20 8" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <line x1="8" y1="13" x2="16" y2="13" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" />
+                  <line x1="8" y1="17" x2="16" y2="17" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" />
+                  <line x1="8" y1="9" x2="10" y2="9" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
               </div>
-            ))}
+
+              <div style={{ padding: '20px 22px' }}>
+                <span style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#5a6070', marginBottom: 10 }}>
+                  {resource.tag}
+                </span>
+                <h4 style={{ fontFamily: 'var(--font-nunito)', fontSize: 18, fontWeight: 700, marginBottom: 10, lineHeight: 1.4, color: '#090943' }}>
+                  {resource.title}
+                </h4>
+                <p style={{ color: '#5a6070', fontSize: 14, lineHeight: 1.65 }}>{resource.description}</p>
+                <a
+                  href={PDF_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mef-btn mef-btn-outline"
+                  style={{ display: 'inline-block', marginTop: 18, padding: '8px 20px', fontSize: 13, textDecoration: 'none' }}
+                >
+                  Lire l&apos;article
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
