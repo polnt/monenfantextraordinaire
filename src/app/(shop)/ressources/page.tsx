@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
 const PDF_URL = '/ressources/Article%20Le%20d%C3%A9veloppement%20du%20langage%20(1)%20(1).pdf';
@@ -9,8 +10,8 @@ const resource = {
   description:
     "Le langage, c'est bien plus que parler — c'est tout ce qui permet à un enfant de comprendre le monde et d'y prendre sa place. Cet article vous guide à travers les grandes étapes du développement langagier et vous donne des repères concrets pour accompagner votre enfant.",
   tag: 'Article · PDF gratuit',
-  bg: '#FDF482',
-  fg: '#090943',
+  img: '/uploads/Miniature Le développement du langage-1.png',
+  imgPosition: 'top',
 };
 
 export default function RessourcesPage(): React.JSX.Element {
@@ -36,24 +37,14 @@ export default function RessourcesPage(): React.JSX.Element {
         <div className="mef-container">
           <div style={{ maxWidth: 560 }}>
             <div className="mef-card" style={{ overflow: 'hidden' }}>
-              <div
-                style={{
-                  height: 160,
-                  background: resource.bg,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative',
-                }}
-              >
-                <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(0,0,0,0.025) 12px,rgba(0,0,0,0.025) 13px)' }} />
-                <svg style={{ position: 'relative', zIndex: 1 }} width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="rgba(9,9,67,0.07)" />
-                  <polyline points="14 2 14 8 20 8" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <line x1="8" y1="13" x2="16" y2="13" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" />
-                  <line x1="8" y1="17" x2="16" y2="17" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" />
-                  <line x1="8" y1="9" x2="10" y2="9" stroke={resource.fg} strokeWidth="1.5" strokeLinecap="round" />
-                </svg>
+              <div style={{ position: 'relative', height: 160, overflow: 'hidden' }}>
+                <Image
+                  src={resource.img}
+                  alt={resource.title}
+                  fill
+                  style={{ objectFit: 'cover', objectPosition: resource.imgPosition ?? 'center center' }}
+                  sizes="560px"
+                />
               </div>
 
               <div style={{ padding: '20px 22px' }}>
