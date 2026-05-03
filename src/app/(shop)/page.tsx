@@ -12,6 +12,7 @@ const slides = [
     sub: "Comprendre, accompagner et aider votre enfant autiste ou neurodivers à développer tout son potentiel — pas à pas, avec bienveillance.",
     bg: '#FDF482',
     img: '/uploads/michellemaria_pitzel-beach-7017637_1920.jpg',
+    imgPosition: 'center',
   },
   {
     tag: 'Formations pratiques en ligne',
@@ -19,6 +20,7 @@ const slides = [
     sub: "Des méthodes ABA, TEACCH, PECS expliquées simplement — applicables dès aujourd'hui à la maison.",
     bg: '#e8f4fd',
     img: '/uploads/drnickstafford-young-5122497_1920.jpg',
+    imgPosition: 'center',
   },
   {
     tag: 'Communauté & soutien',
@@ -26,6 +28,7 @@ const slides = [
     sub: "Rejoignez des milliers de parents et professionnels qui partagent, s'entraident et progressent ensemble.",
     bg: '#ffe5e8',
     img: '/uploads/mojpe-mother-1613726_1920.jpg',
+    imgPosition: 'left center',
   },
 ];
 
@@ -65,7 +68,7 @@ export default function HomePage(): React.JSX.Element {
                   inset: 0,
                   backgroundImage: `url(${sl.img})`,
                   backgroundSize: 'cover',
-                  backgroundPosition: 'center',
+                  backgroundPosition: sl.imgPosition ?? 'center',
                   opacity: i === slideIdx ? 1 : 0,
                   transition: 'opacity 0.9s ease',
                 }}
@@ -94,7 +97,7 @@ export default function HomePage(): React.JSX.Element {
                     inset: 0,
                     backgroundImage: `url(${sl.img})`,
                     backgroundSize: 'cover',
-                    backgroundPosition: 'center',
+                    backgroundPosition: sl.imgPosition ?? 'center',
                     opacity: i === slideIdx ? 1 : 0,
                     transition: 'opacity 0.9s ease',
                   }}

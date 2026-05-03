@@ -19,6 +19,7 @@ interface Tab {
   id: string;
   label: string;
   image?: string;
+  imgPosition?: string;
 }
 
 interface TabSectionProps {
@@ -135,6 +136,7 @@ export default function TabSection({
   const active: TabItem | undefined = items[activeIdx] ?? items[0];
   const currentTab = tabs.find((t) => t.id === tab);
   const tabImage = currentTab?.image;
+  const tabImgPosition = currentTab?.imgPosition ?? 'center 30%';
 
   const TabsBar = () => (
     <div
@@ -194,7 +196,7 @@ export default function TabSection({
                 width: '100%',
                 height: '240px',
                 objectFit: 'cover',
-                objectPosition: 'center 30%',
+                objectPosition: tabImgPosition,
                 display: 'block',
               }}
             />

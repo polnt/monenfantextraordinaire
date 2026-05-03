@@ -5,9 +5,20 @@ const tabs = [
     id: 'developpement',
     label: 'Trouble du développement',
     image: '/uploads/trouble-developpement.jpg',
+    imgPosition: 'center 30%',
   },
-  { id: 'autisme', label: "L'autisme de A à Z", image: '/uploads/Autisme de A à Z.jpg' },
-  { id: 'attention', label: "Trouble de l'attention", image: "/uploads/trouble de l'attention.jpg" },
+  {
+    id: 'autisme',
+    label: "L'autisme de A à Z",
+    image: '/uploads/Autisme de A à Z.jpg',
+    imgPosition: 'center',
+  },
+  {
+    id: 'attention',
+    label: "Trouble de l'attention",
+    image: "/uploads/trouble de l'attention.jpg",
+    imgPosition: 'center 30%',
+  },
 ];
 
 const content = {

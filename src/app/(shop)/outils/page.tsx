@@ -8,6 +8,7 @@ const products = [
     title: 'Je découvre les fruits et légumes en photos',
     subtitle: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
     img: '/uploads/visuel vignettes produit - outils pédagogiques - legumes_photo.png',
+    imgPosition: 'center 30%',
     bg: '#e8f4fd',
     price: '14,90 €',
     href: '/outils/legumes-photos',
@@ -17,6 +18,7 @@ const products = [
     title: 'Je découvre les fruits et légumes en illustrations',
     subtitle: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
     img: '/uploads/visuel vignettes produit - outils pédagogiques - legume_illustration.png',
+    imgPosition: 'center 30%',
     bg: '#e8f5e9',
     price: '14,90 €',
     href: '/outils/legumes-illustrations',
@@ -58,7 +60,7 @@ export default function OutilsPage(): React.JSX.Element {
               <div key={i} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ height: isMobile ? 200 : 260, background: p.bg, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {p.img ? (
-                    <img src={p.img} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    <img src={p.img} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.imgPosition ?? 'center center', display: 'block' }} />
                   ) : (
                     <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(0,0,0,0.025) 12px,rgba(0,0,0,0.025) 13px)' }} />
