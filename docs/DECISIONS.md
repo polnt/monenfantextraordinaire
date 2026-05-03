@@ -160,6 +160,16 @@ MOODLE_TOKEN=
 
 ---
 
+## 📄 Pages outils — données statiques (MVP)
+
+Les pages `/outils/[slug]` (`legumes-photos`, `legumes-illustrations`, `animaux`) utilisent des données **statiques hardcodées** dans le fichier page.tsx, générées à build-time via `generateStaticParams`.
+
+**Pourquoi :** gain de temps pour le MVP — pas besoin de BDD ni d'admin pour les 3 premiers outils.
+
+**À faire plus tard :** remplacer les constantes `PRODUCTS` par des requêtes Prisma, et utiliser ISR (`revalidate`) pour que les mises à jour produit n'imposent pas de rebuild complet.
+
+---
+
 ## 🚧 Décisions en attente
 
 - [ ] Choix final entre **admin custom** et **Sanity.io** pour la gestion produits
