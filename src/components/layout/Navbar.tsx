@@ -191,25 +191,29 @@ export default function Navbar(): React.JSX.Element {
           </div>
 
           {/* CTA */}
-          <Link
-            href="/ressources"
+          <a
+            href={`${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/login/index.php`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mef-btn mef-btn-blue"
             style={{ marginLeft: 10, padding: "9px 18px", fontSize: 13 }}
           >
-            Accéder aux ressources
-          </Link>
+            Accéder à Moodle
+          </a>
         </div>
 
         {/* Mobile: CTA + hamburger */}
         <div ref={menuRef} className="mef-hamburger">
-          <Link
-            href="/ressources"
+          <a
+            href={`${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/login/index.php`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mef-btn mef-btn-blue"
             style={{ padding: "9px 14px", fontSize: 13 }}
             onClick={closeMenu}
           >
-            Ressources
-          </Link>
+            Moodle
+          </a>
           <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Menu"
