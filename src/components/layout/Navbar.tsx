@@ -29,6 +29,7 @@ export default function Navbar(): React.JSX.Element {
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const dotsRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect((): (() => void) => {
     const onScroll = (): void => setScrolled(window.scrollY > 24);
@@ -37,7 +38,10 @@ export default function Navbar(): React.JSX.Element {
       if (dotsRef.current && !dotsRef.current.contains(e.target as Node)) {
         setDotsOpen(false);
       }
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      if (
+        menuRef.current && !menuRef.current.contains(e.target as Node) &&
+        drawerRef.current && !drawerRef.current.contains(e.target as Node)
+      ) {
         setMenuOpen(false);
       }
     };
@@ -232,7 +236,7 @@ export default function Navbar(): React.JSX.Element {
       </div>
 
       {/* Mobile drawer */}
-      <div className={`mef-mobile-menu${menuOpen ? " open" : ""}`}>
+      <div ref={drawerRef} className={`mef-mobile-menu${menuOpen ? " open" : ""}`}>
         {mainLinks.map((link) => {
           const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
           return (
