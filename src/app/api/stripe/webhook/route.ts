@@ -70,13 +70,13 @@ export async function POST(req: Request): Promise<Response> {
 
   const customerName = `${order.customerFirstName} ${order.customerLastName}`;
 
-  const moodleBaseUrl = `${process.env.MOODLE_BASE_URL}/webservice/rest/server.php`;
+  const moodleBaseUrl = `${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/webservice/rest/server.php`;
   const moodleToken = process.env.MOODLE_TOKEN;
 
   for (const item of order.items) {
     if (item.product.type === ProductType.TRAINING && item.product.training?.moodleCourseId) {
       if (!moodleBaseUrl || !moodleToken) {
-        console.error(`Cannot send Moodle link for order item ${item.id}: MOODLE_BASE_URL or MOODLE_TOKEN is not configured`);
+        console.error(`Cannot send Moodle link for order item ${item.id}: NEXT_PUBLIC_MOODLE_BASE_URL or MOODLE_TOKEN is not configured`);
         continue;
       }
       const moodleLink = `${moodleBaseUrl}/course/view.php?id=${item.product.training?.moodleCourseId}&token=${moodleToken}`;
