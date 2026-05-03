@@ -85,7 +85,7 @@ export async function POST(req: Request): Promise<Response> {
 
   const customerName = `${order.customerFirstName} ${order.customerLastName}`;
 
-  const moodleBaseUrl = process.env.MOODLE_BASE_URL;
+  const moodleBaseUrl = `${process.env.MOODLE_BASE_URL}/webservice/rest/server.php`;
   const moodleToken = process.env.MOODLE_TOKEN;
 
   for (const item of order.items) {
