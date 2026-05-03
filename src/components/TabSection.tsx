@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 interface SubSection {
   title: string;
-  content: string;
+  content: string | string[];
 }
 
 interface TabItem {
@@ -85,23 +85,42 @@ function SubAccordion({
           </button>
           <div
             style={{
-              maxHeight: open === i ? 400 : 0,
+              maxHeight: open === i ? 600 : 0,
               overflow: 'hidden',
-              transition: 'max-height 280ms ease',
+              transition: 'max-height 320ms ease',
             }}
           >
-            <p
+            <div
               style={{
-                margin: 0,
-                padding: '12px 18px 14px',
-                fontSize: 13,
-                color: '#5a6070',
-                lineHeight: 1.7,
                 borderTop: '0.5px solid #e5e7eb',
+                padding: '12px 18px 14px',
               }}
             >
-              {s.content}
-            </p>
+              {Array.isArray(s.content) ? (
+                <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
+                  {s.content.map((line, li) => (
+                    <li key={li} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                      <span
+                        style={{
+                          width: 5,
+                          height: 5,
+                          borderRadius: '50%',
+                          background: accentColor,
+                          flexShrink: 0,
+                          marginTop: 7,
+                          display: 'inline-block',
+                        }}
+                      />
+                      <span style={{ fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>{line}</span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ margin: 0, fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>
+                  {s.content}
+                </p>
+              )}
+            </div>
           </div>
         </div>
       ))}
@@ -146,6 +165,7 @@ export default function TabSection({
         borderBottom: '2px solid #f3f4f6',
         marginBottom: tabImage ? 0 : 32,
         overflowX: 'auto',
+        overflowY: 'hidden',
       }}
     >
       {tabs.map((t) => (
@@ -381,23 +401,67 @@ export default function TabSection({
             </button>
             <div
               style={{
-                maxHeight: openMobile === i ? 400 : 0,
+                maxHeight: openMobile === i ? (item.sections ? 2000 : 400) : 0,
                 overflow: 'hidden',
-                transition: 'max-height 300ms ease',
+                transition: 'max-height 350ms ease',
                 background: 'white',
               }}
             >
-              <p
-                style={{
-                  padding: '16px 24px',
-                  color: '#5a6070',
-                  fontSize: 14,
-                  lineHeight: 1.7,
-                  margin: 0,
-                }}
-              >
-                {item.desc}
-              </p>
+              {item.sections ? (
+                <div style={{ padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {item.sections.map((s, si) => (
+                    <div key={si}>
+                      <p
+                        style={{
+                          fontFamily: 'var(--font-nunito)',
+                          fontWeight: 700,
+                          fontSize: 12,
+                          color: '#090943',
+                          margin: '0 0 6px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                        }}
+                      >
+                        {s.title}
+                      </p>
+                      {Array.isArray(s.content) ? (
+                        <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
+                          {s.content.map((line, li) => (
+                            <li key={li} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                              <span
+                                style={{
+                                  width: 4,
+                                  height: 4,
+                                  borderRadius: '50%',
+                                  background: accentColor,
+                                  flexShrink: 0,
+                                  marginTop: 8,
+                                  display: 'inline-block',
+                                }}
+                              />
+                              <span style={{ fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>{line}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : (
+                        <p style={{ margin: 0, fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>{s.content}</p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p
+                  style={{
+                    padding: '16px 24px',
+                    color: '#5a6070',
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                    margin: 0,
+                  }}
+                >
+                  {item.desc}
+                </p>
+              )}
             </div>
           </div>
         ))}
