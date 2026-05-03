@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const mainLinks = [
@@ -65,17 +66,24 @@ export default function Navbar(): React.JSX.Element {
 
         {/* Logo */}
         <Link href="/" className="flex-shrink-0 no-underline" onClick={closeMenu}>
-          <span
-            style={{
-              fontFamily: "var(--font-nunito, 'Nunito', sans-serif)",
-              fontWeight: 800,
-              fontSize: 17,
-              color: "var(--navy)",
-              letterSpacing: -0.3,
-            }}
-          >
-            Mon Enfant Extra-Ordinaire
-          </span>
+          <Image
+            src="/logo-full.png"
+            alt="Mon Enfant Extra-Ordinaire"
+            height={44}
+            width={200}
+            style={{ height: 44, width: "auto" }}
+            className="hidden md:block"
+            priority
+          />
+          <Image
+            src="/logo.png"
+            alt="Mon Enfant Extra-Ordinaire"
+            height={44}
+            width={44}
+            style={{ height: 44, width: "auto" }}
+            className="block md:hidden"
+            priority
+          />
         </Link>
 
         {/* Desktop: Nav links + dots + CTA */}
