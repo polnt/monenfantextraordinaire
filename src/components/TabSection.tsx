@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface SubSection {
   title: string;
@@ -137,6 +137,20 @@ export default function TabSection({
   const [activeIdx, setActiveIdx] = useState(0);
   const [isDesktop, setIsDesktop] = useState(true);
   const [openMobile, setOpenMobile] = useState<number | null>(null);
+  const tabsBarRef = useRef<HTMLDivElement>(null);
+  const tabButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+
+  const handleTabClick = (tabId: string, idx: number) => {
+    setTab(tabId);
+    const container = tabsBarRef.current;
+    const clickedBtn = tabButtonRefs.current[idx];
+    const firstBtn = tabButtonRefs.current[0];
+    if (container && clickedBtn && firstBtn) {
+      const targetScroll = clickedBtn.offsetLeft - firstBtn.offsetLeft;
+      const maxScroll = container.scrollWidth - container.clientWidth;
+      container.scrollTo({ left: Math.min(Math.max(0, targetScroll), maxScroll), behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
@@ -159,6 +173,7 @@ export default function TabSection({
 
   const TabsBar = () => (
     <div
+      ref={tabsBarRef}
       style={{
         display: 'flex',
         gap: 4,
@@ -168,10 +183,11 @@ export default function TabSection({
         overflowY: 'hidden',
       }}
     >
-      {tabs.map((t) => (
+      {tabs.map((t, idx) => (
         <button
+          ref={(el) => { tabButtonRefs.current[idx] = el; }}
           key={t.id}
-          onClick={() => setTab(t.id)}
+          onClick={() => handleTabClick(t.id, idx)}
           style={{
             padding: '13px 22px',
             border: 'none',
@@ -197,7 +213,7 @@ export default function TabSection({
   if (isDesktop) {
     return (
       <>
-        <TabsBar />
+        {TabsBar()}
         {tabImage && (
           <div
             style={{
@@ -334,7 +350,7 @@ export default function TabSection({
 
   return (
     <>
-      <TabsBar />
+      {TabsBar()}
       {tabImage && (
         <div
           style={{
@@ -408,46 +424,8 @@ export default function TabSection({
               }}
             >
               {item.sections ? (
-                <div style={{ padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  {item.sections.map((s, si) => (
-                    <div key={si}>
-                      <p
-                        style={{
-                          fontFamily: 'var(--font-nunito)',
-                          fontWeight: 700,
-                          fontSize: 12,
-                          color: '#090943',
-                          margin: '0 0 6px',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em',
-                        }}
-                      >
-                        {s.title}
-                      </p>
-                      {Array.isArray(s.content) ? (
-                        <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
-                          {s.content.map((line, li) => (
-                            <li key={li} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                              <span
-                                style={{
-                                  width: 4,
-                                  height: 4,
-                                  borderRadius: '50%',
-                                  background: accentColor,
-                                  flexShrink: 0,
-                                  marginTop: 8,
-                                  display: 'inline-block',
-                                }}
-                              />
-                              <span style={{ fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>{line}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p style={{ margin: 0, fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>{s.content}</p>
-                      )}
-                    </div>
-                  ))}
+                <div style={{ padding: '12px 16px' }}>
+                  <SubAccordion sections={item.sections} accentColor={accentColor} />
                 </div>
               ) : (
                 <p
