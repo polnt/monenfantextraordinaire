@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useCart } from "@/contexts/CartContext";
 
 const mainLinks = [
   { label: "Accueil", href: "/" },
@@ -21,15 +22,24 @@ const dotsLinks = [
   { label: "FAQ", href: "/faq" },
 ];
 
+function formatPrice(price: number, currency: string): string {
+  return new Intl.NumberFormat("fr-FR", { style: "currency", currency }).format(price);
+}
+
 export default function Navbar(): React.JSX.Element {
   const pathname = usePathname();
+  const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
   const [dotsOpen, setDotsOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const [hoveredHref, setHoveredHref] = useState<string | null>(null);
   const dotsRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const cartRef = useRef<HTMLDivElement>(null);
+
+  const { items, totalItems, totalPrice, currency, removeFromCart, updateQuantity } = useCart();
 
   useEffect((): (() => void) => {
     const onScroll = (): void => setScrolled(window.scrollY > 24);
@@ -44,6 +54,9 @@ export default function Navbar(): React.JSX.Element {
       ) {
         setMenuOpen(false);
       }
+      if (cartRef.current && !cartRef.current.contains(e.target as Node)) {
+        setCartOpen(false);
+      }
     };
     document.addEventListener("mousedown", onClickOutside);
     return (): void => {
@@ -52,10 +65,13 @@ export default function Navbar(): React.JSX.Element {
     };
   }, []);
 
-  // Close mobile menu on navigation
   const closeMenu = (): void => { setMenuOpen(false); setDotsOpen(false); };
-
   const isDotsActive = dotsLinks.some((l) => pathname === l.href);
+
+  const handleCheckout = (): void => {
+    setCartOpen(false);
+    router.push("/checkout");
+  };
 
   return (
     <nav
@@ -90,7 +106,7 @@ export default function Navbar(): React.JSX.Element {
           />
         </Link>
 
-        {/* Desktop: Nav links + dots + CTA */}
+        {/* Desktop: Nav links + dots + cart + CTA */}
         <div className="mef-nav-desktop" style={{ gap: 2 }}>
           {mainLinks.map((link) => {
             const isActive =
@@ -190,6 +206,127 @@ export default function Navbar(): React.JSX.Element {
             )}
           </div>
 
+          {/* Cart icon */}
+          <div ref={cartRef} style={{ position: "relative", marginLeft: 4 }}>
+            <button
+              onClick={() => setCartOpen((v) => !v)}
+              title="Mon panier"
+              style={{
+                background: cartOpen ? "var(--blue-lt)" : "none",
+                border: "none",
+                width: 36,
+                height: 36,
+                borderRadius: 8,
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                transition: "all 0.2s",
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={cartOpen ? "var(--blue)" : "var(--gray)"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="9" cy="21" r="1" />
+                <circle cx="20" cy="21" r="1" />
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+              </svg>
+              {totalItems > 0 && (
+                <span style={{
+                  position: "absolute",
+                  top: 2,
+                  right: 2,
+                  background: "var(--blue)",
+                  color: "white",
+                  borderRadius: "50%",
+                  width: 16,
+                  height: 16,
+                  fontSize: 10,
+                  fontWeight: 800,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontFamily: "var(--font-nunito)",
+                  lineHeight: 1,
+                }}>
+                  {totalItems > 9 ? "9+" : totalItems}
+                </span>
+              )}
+            </button>
+
+            {/* Mini-cart dropdown */}
+            {cartOpen && (
+              <div style={{
+                position: "absolute",
+                top: "calc(100% + 8px)",
+                right: 0,
+                background: "white",
+                borderRadius: 16,
+                boxShadow: "0 12px 40px rgba(9,9,67,0.14)",
+                padding: 16,
+                minWidth: 320,
+                maxWidth: 360,
+                zIndex: 2000,
+                animation: "mefFadeUp 0.2s ease both",
+              }}>
+                {items.length === 0 ? (
+                  <div style={{ padding: "16px 8px", textAlign: "center" }}>
+                    <div style={{ fontSize: 32, marginBottom: 8 }}>🛒</div>
+                    <p style={{ fontFamily: "var(--font-nunito)", fontSize: 14, color: "var(--gray)", margin: 0 }}>
+                      Votre panier est vide
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 800, fontSize: 14, color: "#090943", marginBottom: 12 }}>
+                      Mon panier
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 12 }}>
+                      {items.map((item) => (
+                        <div key={item.productId} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#fafbff", borderRadius: 10, border: "1px solid #f0f0f8" }}>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <p style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, color: "#090943", margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                              {item.name}
+                            </p>
+                            <p style={{ fontFamily: "var(--font-nunito)", fontSize: 12, color: "var(--gray)", margin: "2px 0 0" }}>
+                              {formatPrice(item.price, item.currency)}
+                            </p>
+                          </div>
+                          <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
+                            <button
+                              onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                              style={{ width: 22, height: 22, borderRadius: 6, border: "1px solid #e5e7eb", background: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: "#090943" }}
+                            >−</button>
+                            <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, minWidth: 16, textAlign: "center" }}>{item.quantity}</span>
+                            <button
+                              onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                              style={{ width: 22, height: 22, borderRadius: 6, border: "1px solid #e5e7eb", background: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, color: "#090943" }}
+                            >+</button>
+                          </div>
+                          <button
+                            onClick={() => removeFromCart(item.productId)}
+                            title="Supprimer"
+                            style={{ width: 24, height: 24, borderRadius: 6, border: "none", background: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#9ca3af", fontSize: 16, flexShrink: 0 }}
+                          >×</button>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: 12, marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, color: "var(--gray)" }}>Total</span>
+                      <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 16, color: "#090943" }}>{formatPrice(totalPrice, currency)}</span>
+                    </div>
+                    <button
+                      onClick={handleCheckout}
+                      className="mef-btn mef-btn-blue"
+                      style={{ width: "100%", justifyContent: "center", fontSize: 14, padding: "12px 20px" }}
+                    >
+                      Commander →
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
           {/* CTA */}
           <a
             href={`${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/login/index.php`}
@@ -202,8 +339,53 @@ export default function Navbar(): React.JSX.Element {
           </a>
         </div>
 
-        {/* Mobile: CTA + hamburger */}
-        <div ref={menuRef} className="mef-hamburger">
+        {/* Mobile: cart icon + CTA + hamburger */}
+        <div ref={menuRef} className="mef-hamburger" style={{ gap: 8 }}>
+          {/* Mobile cart icon */}
+          <button
+            onClick={() => { setCartOpen((v) => !v); setMenuOpen(false); }}
+            title="Mon panier"
+            style={{
+              background: "none",
+              border: "none",
+              width: 36,
+              height: 36,
+              borderRadius: 8,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "relative",
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gray)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+            </svg>
+            {totalItems > 0 && (
+              <span style={{
+                position: "absolute",
+                top: 2,
+                right: 2,
+                background: "var(--blue)",
+                color: "white",
+                borderRadius: "50%",
+                width: 16,
+                height: 16,
+                fontSize: 10,
+                fontWeight: 800,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontFamily: "var(--font-nunito)",
+                lineHeight: 1,
+              }}>
+                {totalItems > 9 ? "9+" : totalItems}
+              </span>
+            )}
+          </button>
+
           <a
             href={`${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/login/index.php`}
             target="_blank"
@@ -269,6 +451,51 @@ export default function Navbar(): React.JSX.Element {
           );
         })}
       </div>
+
+      {/* Mobile mini-cart (below navbar, fixed) */}
+      {cartOpen && (
+        <div className="flex flex-col md:hidden" style={{
+          position: "fixed",
+          top: 72 + 36,
+          left: 0,
+          right: 0,
+          background: "white",
+          boxShadow: "0 8px 32px rgba(9,9,67,0.12)",
+          padding: 16,
+          zIndex: 1999,
+          gap: 12,
+        }}>
+          {items.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "8px 0" }}>
+              <p style={{ fontFamily: "var(--font-nunito)", fontSize: 14, color: "var(--gray)", margin: 0 }}>
+                🛒 Votre panier est vide
+              </p>
+            </div>
+          ) : (
+            <>
+              {items.map((item) => (
+                <div key={item.productId} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#fafbff", borderRadius: 10, border: "1px solid #f0f0f8" }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, color: "#090943", margin: 0 }}>{item.name}</p>
+                    <p style={{ fontFamily: "var(--font-nunito)", fontSize: 12, color: "var(--gray)", margin: "2px 0 0" }}>{formatPrice(item.price, item.currency)}</p>
+                  </div>
+                  <button
+                    onClick={() => removeFromCart(item.productId)}
+                    style={{ background: "none", border: "none", cursor: "pointer", color: "#9ca3af", fontSize: 20 }}
+                  >×</button>
+                </div>
+              ))}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #f3f4f6", paddingTop: 8 }}>
+                <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 14, color: "var(--gray)" }}>Total</span>
+                <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 16, color: "#090943" }}>{formatPrice(totalPrice, currency)}</span>
+              </div>
+              <button onClick={handleCheckout} className="mef-btn mef-btn-blue" style={{ width: "100%", justifyContent: "center" }}>
+                Commander →
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 }

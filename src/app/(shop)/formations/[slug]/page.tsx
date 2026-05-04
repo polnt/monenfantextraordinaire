@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useAddToCart } from '@/hooks/useAddToCart';
 
 const formationColors: Record<string, string> = {
   'accompagner-mon-enfant-autiste': '#0792dc',
@@ -95,9 +96,12 @@ interface PriceCardProps {
   features: string[];
   highlighted: boolean;
   color: string;
+  slug: string;
+  onBuy: (slug: string) => Promise<void>;
+  loading: boolean;
 }
 
-function PriceCard({ plan, price, features, highlighted, color }: PriceCardProps): React.JSX.Element {
+function PriceCard({ plan, price, features, highlighted, color, slug, onBuy, loading }: PriceCardProps): React.JSX.Element {
   return (
     <div style={{
       background: highlighted ? color : 'white',
@@ -133,14 +137,18 @@ function PriceCard({ plan, price, features, highlighted, color }: PriceCardProps
       </div>
       <button
         className="mef-btn"
+        disabled={loading}
+        onClick={() => void onBuy(slug)}
         style={{
           width: '100%', justifyContent: 'center', fontSize: 15, padding: '14px 24px',
           background: highlighted ? 'white' : color,
           color: highlighted ? color : 'white',
           fontWeight: 800,
+          opacity: loading ? 0.7 : 1,
+          cursor: loading ? 'wait' : 'pointer',
         }}
       >
-        S&apos;inscrire maintenant
+        {loading ? 'Chargement…' : "S'inscrire maintenant"}
       </button>
     </div>
   );
@@ -150,6 +158,7 @@ export default function FormationDetailPage(): React.JSX.Element {
   const { slug } = useParams<{ slug: string }>();
   const isMobile = useIsMobile();
   const color = formationColors[slug] ?? '#0792dc';
+  const { addAndCheckout, loading } = useAddToCart();
 
   const scrollTo = (id: string): void => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -430,6 +439,9 @@ export default function FormationDetailPage(): React.JSX.Element {
               price="99 €"
               highlighted={false}
               color={color}
+              slug={slug}
+              onBuy={addAndCheckout}
+              loading={loading}
               features={[
                 'Accès aux 4 modules complets',
                 'Vidéos courtes et ludiques',
@@ -444,6 +456,9 @@ export default function FormationDetailPage(): React.JSX.Element {
               price="249 €"
               highlighted={true}
               color={color}
+              slug={`${slug}-accompagne`}
+              onBuy={addAndCheckout}
+              loading={loading}
               features={[
                 'Tout ce qui est inclus dans la formule de base',
                 '4 séances individuelles avec Laurence BUGNET, psychologue spécialiste TSA (valeur 280 €)',

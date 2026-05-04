@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useAddToCart } from '@/hooks/useAddToCart';
 
 const products = [
   {
@@ -12,6 +13,7 @@ const products = [
     bg: '#e8f4fd',
     price: '14,90 €',
     href: '/outils/legumes-photos',
+    slug: 'legumes-photos',
     color: '#0792dc',
   },
   {
@@ -22,6 +24,7 @@ const products = [
     bg: '#e8f5e9',
     price: '14,90 €',
     href: '/outils/legumes-illustrations',
+    slug: 'legumes-illustrations',
     color: '#27ae60',
   },
   {
@@ -31,12 +34,14 @@ const products = [
     bg: '#fff3e0',
     price: '19,90 €',
     href: '/outils/animaux',
+    slug: 'animaux',
     color: '#ff7043',
   },
 ];
 
 export default function OutilsPage(): React.JSX.Element {
   const isMobile = useIsMobile();
+  const { addToCart, loading } = useAddToCart();
 
   return (
     <div style={{ paddingTop: 72 }}>
@@ -71,11 +76,21 @@ export default function OutilsPage(): React.JSX.Element {
                 <div style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                   <h4 style={{ fontFamily: 'var(--font-nunito)', fontSize: 15, fontWeight: 800, marginBottom: 8, lineHeight: 1.4, color: '#090943' }}>{p.title}</h4>
                   <p style={{ color: '#5a6070', fontSize: 13, lineHeight: 1.65, flex: 1, fontStyle: 'italic' }}>{p.subtitle}</p>
-                  <div style={{ marginTop: 16, borderTop: '1px solid #f3f4f6', paddingTop: 14, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: p.color }}>{p.price}</span>
-                    <Link href={p.href} className="mef-btn" style={{ padding: '9px 18px', fontSize: 13, background: p.color, color: 'white' }}>
-                      Découvrir →
-                    </Link>
+                  <div style={{ marginTop: 16, borderTop: '1px solid #f3f4f6', paddingTop: 14 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                      <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: p.color }}>{p.price}</span>
+                      <Link href={p.href} style={{ fontFamily: 'var(--font-nunito)', fontSize: 13, color: 'var(--gray)', textDecoration: 'underline' }}>
+                        Détails →
+                      </Link>
+                    </div>
+                    <button
+                      onClick={() => void addToCart(p.slug)}
+                      disabled={loading}
+                      className="mef-btn"
+                      style={{ width: '100%', justifyContent: 'center', padding: '10px 18px', fontSize: 13, background: p.color, color: 'white', opacity: loading ? 0.7 : 1, cursor: loading ? 'wait' : 'pointer' }}
+                    >
+                      {loading ? 'Chargement…' : '🛒 Ajouter au panier'}
+                    </button>
                   </div>
                 </div>
               </div>
