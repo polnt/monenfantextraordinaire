@@ -6,6 +6,7 @@ import {
 } from "@/lib/flutterwave";
 import { db } from "@/lib/db";
 import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
+import { getOrCreateUser, enrolUserToCourse } from "@/lib/moodle/client";
 import { ProductType } from "@prisma/client";
 
 export async function POST(req: Request): Promise<Response> {
@@ -85,22 +86,19 @@ export async function POST(req: Request): Promise<Response> {
 
   const customerName = `${order.customerFirstName} ${order.customerLastName}`;
 
-  const moodleBaseUrl = `${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/webservice/rest/server.php`;
-  const moodleToken = process.env.MOODLE_TOKEN;
-
   for (const item of order.items) {
     if (
       item.product.type === ProductType.TRAINING &&
       item.product.training?.moodleCourseId
     ) {
-      if (!moodleBaseUrl || !moodleToken) {
-        console.error(
-          `Cannot send Moodle link for order item ${item.id}: NEXT_PUBLIC_MOODLE_BASE_URL or MOODLE_TOKEN is not configured`
-        );
-        continue;
-      }
-      const moodleLink = `${moodleBaseUrl}/course/view.php?id=${item.product.training?.moodleCourseId}&token=${moodleToken}`;
       try {
+        const moodleUserId = await getOrCreateUser(
+          order.customerEmail,
+          order.customerFirstName,
+          order.customerLastName
+        );
+        await enrolUserToCourse(moodleUserId, item.product.training.moodleCourseId);
+        const moodleLink = `${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/course/view.php?id=${item.product.training.moodleCourseId}`;
         await sendMoodleAccessEmail({
           to: order.customerEmail,
           customerName,
@@ -114,7 +112,7 @@ export async function POST(req: Request): Promise<Response> {
         });
       } catch (err) {
         console.error(
-          `Failed to send Moodle email for order item ${item.id}:`,
+          `Moodle enrolment failed for order item ${item.id}:`,
           err
         );
       }
