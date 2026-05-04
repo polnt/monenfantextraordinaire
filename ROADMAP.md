@@ -63,12 +63,14 @@
 
 ## 6. Panier & Checkout
 
-- ⬜ État du panier côté client (Context API ou Zustand)
-- ⬜ Composant panier (ajout/suppression/quantité)
-- ⬜ Page checkout (`/checkout`) : récapitulatif + formulaire client (email, pays, adresse)
-- ⬜ Sélection visuelle du moyen de paiement (Stripe / Flutterwave) selon le pays détecté
-- ⬜ Validation côté client avant appel API
-- ⬜ Page confirmation de commande (`/checkout/confirmation`) : résumé post-paiement
+- ✅ État du panier côté client (Context API + localStorage)
+- ✅ Composant panier (ajout/suppression/quantité) — mini-cart navbar (dropdown desktop, panel mobile)
+- ✅ Page checkout (`/checkout`) : récapitulatif + formulaire client (prénom, nom, email, pays, téléphone si Flutterwave)
+- ✅ Sélection visuelle du moyen de paiement (Stripe / Flutterwave) selon le pays détecté
+- ✅ Validation côté client avant appel API
+- ✅ Page confirmation de commande (`/checkout/confirmation`) : résumé post-paiement
+- ✅ API `GET /api/products/[slug]` pour résoudre slug → ID produit DB
+- ✅ Boutons d'achat branchés sur les pages formations et outils
 
 ---
 
