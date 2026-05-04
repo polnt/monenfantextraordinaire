@@ -34,14 +34,23 @@
 
 - ✅ Intégration Resend (`lib/email.ts`)
 - ✅ Email de confirmation de commande (liste des articles + total)
-- ✅ Email d'accès Moodle post-achat (lien tokenisé)
+- ✅ Email d'accès Moodle post-achat (URL de cours propre, après enrôlement réel)
 - ✅ Échappement HTML dans les templates (`lib/escapeHtml.ts`)
-- ✅ Gestion gracieuse si configuration Moodle absente
 - ⬜ Templates React Email avec mise en page visuelle soignée
 
 ---
 
-## 4. Catalogue Produits & Formations
+## 4. Intégration Moodle
+
+- ✅ Client REST Moodle (`lib/moodle/client.ts`) — token via `MOODLE_TOKEN`
+- ✅ `getOrCreateUser` : recherche par email (`core_user_get_users`) + création si absent (`core_user_create_users`, `createpassword=1`)
+- ✅ `enrolUserToCourse` : inscription manuelle au cours (`enrol_manual_enrol_users`, rôle étudiant)
+- ✅ Webhooks Stripe + Flutterwave : enrôlement automatique post-achat, formations uniquement
+- ⬜ Back-office : association produit ↔ `moodleCourseId`
+
+---
+
+## 5. Catalogue Produits & Formations
 
 - ✅ Page catalogue Outils (`/outils`) : grille de produits depuis la DB
 - ⬜ Page détail Outil (`/outils/[slug]`) : placeholder — à connecter à la DB
@@ -52,7 +61,7 @@
 
 ---
 
-## 5. Panier & Checkout
+## 6. Panier & Checkout
 
 - ⬜ État du panier côté client (Context API ou Zustand)
 - ⬜ Composant panier (ajout/suppression/quantité)
@@ -63,7 +72,7 @@
 
 ---
 
-## 6. Pages de contenu éditorial
+## 7. Pages de contenu éditorial
 
 - ✅ Page d'accueil (`/`) : hero, valeurs, StatBlocks, CTA
 - ✅ Page Comprendre (`/comprendre`) : 3 onglets via `TabSection`
@@ -76,7 +85,7 @@
 
 ---
 
-## 7. Navigation & Layout
+## 8. Navigation & Layout
 
 - ✅ `Navbar.tsx` : nav inline, style complet, menu hamburger mobile
 - ✅ `Footer.tsx` : liens légaux, réseaux sociaux, contact
@@ -84,7 +93,7 @@
 
 ---
 
-## 8. Back-office Admin
+## 9. Back-office Admin
 
 - ✅ Modèle `AdminUser` en base
 - ✅ NextAuth.js installé
@@ -97,7 +106,7 @@
 
 ---
 
-## 9. SEO & Performance
+## 10. SEO & Performance
 
 - ⬜ Métadonnées `<title>` et `<description>` sur chaque page
 - ⬜ Open Graph / Twitter Card pour le partage social
@@ -108,7 +117,7 @@
 
 ---
 
-## 10. Tests & Qualité
+## 11. Tests & Qualité
 
 - ⬜ Tests unitaires sur les helpers (`geo.ts`, `email.ts`, `escapeHtml.ts`)
 - ⬜ Tests d'intégration : flux checkout → webhook → email
@@ -117,7 +126,7 @@
 
 ---
 
-## 11. Déploiement & DevOps
+## 12. Déploiement & DevOps
 
 - 🔄 Configuration déploiement Infomaniak (Node.js)
   - ✅ Node.js 24 ciblé (`engines`, `@types/node`, `.nvmrc`)
