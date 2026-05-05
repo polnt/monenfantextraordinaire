@@ -14,6 +14,8 @@ const formations = [
     price: '97 €',
     color: '#0792dc',
     popular: true,
+    img: '/visuel-formation.png',
+    imgPosition: 'center top',
   },
   {
     slug: 'maitriser-la-methode-aba',
@@ -25,6 +27,8 @@ const formations = [
     price: '67 €',
     color: '#27ae60',
     popular: false,
+    img: '/visuel-formation.png',
+    imgPosition: 'center top',
   },
   {
     slug: 'communication-alternative-pecs-makaton',
@@ -36,6 +40,8 @@ const formations = [
     price: '49 €',
     color: '#F90021',
     popular: false,
+    img: '/visuel-formation.png',
+    imgPosition: 'center top',
   },
 ];
 
@@ -65,7 +71,7 @@ export default function FormationsPage(): React.JSX.Element {
                   </div>
                 )}
                 <div style={{ position: 'relative', overflow: 'hidden' }}>
-                  <img src="/visuel-formation.png" alt="Visuel formation" style={{ height: 180, width: '100%', objectFit: 'cover', display: 'block' }} />
+                  <img src={f.img} alt={f.title} style={{ height: 180, width: '100%', objectFit: 'cover', objectPosition: f.imgPosition, display: 'block' }} />
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 6, background: f.color }} />
                 </div>
                 <div style={{ padding: isMobile ? '20px 18px' : 28 }}>
