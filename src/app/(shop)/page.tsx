@@ -6,6 +6,8 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 
 // font-aleo CSS variable assumed available globally (see layout.tsx)
 
+const heroBannerImgPosition = 'center 10%';
+
 const heroNavLinks = [
   { label: 'COMPRENDRE', href: '/comprendre' },
   { label: 'ACCOMPAGNER', href: '/aider' },
@@ -25,7 +27,7 @@ export default function HomePage(): React.JSX.Element {
           <img
             src={isMobile ? '/uploads/bandeau-mobile.png' : '/uploads/bandeau-desktop.png'}
             alt="Mon enfant extra-ordinaire — Chaque enfant est unique, chaque différence mérite d'être comprise."
-            style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+            style={{ width: '100%', height: isMobile ? 'auto' : '47vw', display: 'block', objectFit: 'cover', objectPosition: isMobile ? 'center center' : heroBannerImgPosition }}
           />
           {!isMobile && (
             <div style={{ position: 'absolute', left: '6%', bottom: '12%', display: 'flex', gap: 'clamp(8px,1.6vw,28px)', alignItems: 'center' }}>
