@@ -1,225 +1,58 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import StatBlock from '@/components/StatBlock';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
-const slides = [
-  {
-    tag: 'Ressources pour parents & éducateurs',
-    h: 'Votre enfant est extra-ordinaire',
-    sub: "Comprendre, accompagner et aider votre enfant autiste ou neurodivers à développer tout son potentiel — pas à pas, avec bienveillance.",
-    bg: '#FDF482',
-    img: '/uploads/michellemaria_pitzel-beach-7017637_1920.jpg',
-    imgPosition: 'center',
-  },
-  {
-    tag: 'Formations pratiques en ligne',
-    h: 'Des outils concrets pour chaque famille',
-    sub: "Des méthodes ABA, TEACCH, PECS expliquées simplement — applicables dès aujourd'hui à la maison.",
-    bg: '#e8f4fd',
-    img: '/uploads/drnickstafford-young-5122497_1920.jpg',
-    imgPosition: 'center',
-  },
-  {
-    tag: 'Communauté & soutien',
-    h: "Vous n'êtes pas seuls dans ce parcours",
-    sub: "Rejoignez des milliers de parents et professionnels qui partagent, s'entraident et progressent ensemble.",
-    bg: '#ffe5e8',
-    img: '/uploads/mojpe-mother-1613726_1920.jpg',
-    imgPosition: 'left center',
-  },
+// font-aleo CSS variable assumed available globally (see layout.tsx)
+
+const heroNavLinks = [
+  { label: 'COMPRENDRE', href: '/comprendre' },
+  { label: 'ACCOMPAGNER', href: '/aider' },
+  { label: 'FORMER', href: '/formations' },
+  { label: 'VALORISER', href: '/qui-suis-je' },
+  { label: 'ENSEMBLE', href: '/ressources' },
 ];
 
 export default function HomePage(): React.JSX.Element {
   const isMobile = useIsMobile();
-  const [slideIdx, setSlideIdx] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setSlideIdx((i) => (i + 1) % slides.length), 5000);
-    return () => clearInterval(t);
-  }, []);
-
-  const s = slides[slideIdx]!;
 
   return (
     <div>
-      {/* ── HERO ── */}
-      <section
-        style={{
-          background: 'white',
-          paddingTop: 72,
-          minHeight: isMobile ? 'auto' : '92vh',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Image panel — desktop: absolute right | mobile: top banner */}
-        {isMobile ? (
-          <div style={{ position: 'relative', width: '100%', height: 240, overflow: 'hidden' }}>
-            {slides.map((sl, i) => (
-              <div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  backgroundImage: `url(${sl.img})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: sl.imgPosition ?? 'center',
-                  opacity: i === slideIdx ? 1 : 0,
-                  transition: 'opacity 0.9s ease',
-                }}
-              />
-            ))}
-            <div style={{ position: 'absolute', inset: 0, background: s.bg, opacity: 0.18, transition: 'background 0.9s ease' }} />
-          </div>
-        ) : (
-          <>
-            <div
-              style={{
-                position: 'absolute',
-                right: 0,
-                top: 0,
-                bottom: 0,
-                width: '46%',
-                clipPath: 'polygon(6% 0, 100% 0, 100% 100%, 0% 100%)',
-                overflow: 'hidden',
-              }}
-            >
-              {slides.map((sl, i) => (
-                <div
-                  key={i}
+      {/* ── HERO BANNER ── */}
+      <section style={{ background: 'white', paddingTop: 72, position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', width: '100%', lineHeight: 0 }}>
+          <img
+            src={isMobile ? '/uploads/bandeau-mobile.png' : '/uploads/bandeau-desktop.png'}
+            alt="Mon enfant extra-ordinaire — Chaque enfant est unique, chaque différence mérite d'être comprise."
+            style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
+          />
+          {!isMobile && (
+            <div style={{ position: 'absolute', left: '6%', bottom: '12%', display: 'flex', gap: 'clamp(8px,1.6vw,28px)', alignItems: 'center' }}>
+              {heroNavLinks.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
                   style={{
-                    position: 'absolute',
-                    inset: 0,
-                    backgroundImage: `url(${sl.img})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: sl.imgPosition ?? 'center',
-                    opacity: i === slideIdx ? 1 : 0,
-                    transition: 'opacity 0.9s ease',
-                  }}
-                />
-              ))}
-              <div style={{ position: 'absolute', inset: 0, background: s.bg, opacity: 0.18, transition: 'background 0.9s ease' }} />
-            </div>
-            {/* Floating circles — desktop only */}
-            <div style={{ position: 'absolute', top: 120, right: '8%', width: 80, height: 80, borderRadius: '50%', background: '#0792dc', opacity: 0.12, animation: 'mefFloat 4s ease-in-out infinite' }} />
-            <div style={{ position: 'absolute', bottom: 120, right: '22%', width: 48, height: 48, borderRadius: '50%', background: '#F90021', opacity: 0.15, animation: 'mefFloat 5s ease-in-out infinite 1s' }} />
-            <div style={{ position: 'absolute', top: '40%', right: '42%', width: 32, height: 32, borderRadius: '50%', background: '#EFD010', opacity: 0.4, animation: 'mefFloat 3.5s ease-in-out infinite 0.5s' }} />
-          </>
-        )}
-
-        <div
-          className="mef-container"
-          style={{
-            flex: 1,
-            display: 'grid',
-            gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-            gap: isMobile ? 0 : 60,
-            alignItems: 'center',
-            padding: isMobile ? '32px 16px 40px' : '60px 40px',
-            position: 'relative',
-            zIndex: 1,
-          }}
-        >
-          <div key={slideIdx} style={{ animation: 'mefFadeUp 0.6s ease both' }}>
-            <span
-              style={{
-                display: 'inline-block',
-                background: '#e8f4fd',
-                color: '#0792dc',
-                borderRadius: 50,
-                padding: '6px 18px',
-                fontSize: 12,
-                fontFamily: 'var(--font-nunito)',
-                fontWeight: 800,
-                letterSpacing: 0.5,
-                marginBottom: 20,
-                textTransform: 'uppercase',
-              }}
-            >
-              {s.tag}
-            </span>
-            <h1
-              style={{
-                fontFamily: 'var(--font-nunito)',
-                fontSize: isMobile ? 34 : 52,
-                fontWeight: 900,
-                color: '#090943',
-                lineHeight: 1.1,
-                marginBottom: 18,
-              }}
-            >
-              {s.h.includes('extra-ordinaire') ? (
-                <>Votre enfant est <span style={{ color: '#0792dc' }}>extra-ordinaire</span></>
-              ) : (
-                s.h
-              )}
-            </h1>
-            <p style={{ fontSize: isMobile ? 16 : 18, color: '#5a6070', lineHeight: 1.75, marginBottom: 28, maxWidth: 480 }}>
-              {s.sub}
-            </p>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 28 }}>
-              <Link href="/ressources" className="mef-btn mef-btn-blue">Découvrir les ressources</Link>
-              <Link href="/outils" className="mef-btn mef-btn-yellow">Accéder à la boutique</Link>
-            </div>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-              <div style={{ display: 'flex' }}>
-                {['#0792dc', '#F90021', '#EFD010', '#27ae60'].map((c, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      width: 34,
-                      height: 34,
-                      borderRadius: '50%',
-                      background: c,
-                      border: '2px solid white',
-                      marginLeft: i ? -10 : 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: 11,
-                      color: i === 2 ? '#090943' : 'white',
-                      fontWeight: 700,
-                      fontFamily: 'var(--font-nunito)',
-                    }}
-                  >
-                    P
-                  </div>
-                ))}
-              </div>
-              <span style={{ fontSize: 13, color: '#9ca3af' }}>
-                <strong style={{ color: '#090943' }}>+456 000 familles</strong> accompagnées
-              </span>
-            </div>
-
-            <div style={{ display: 'flex', gap: 8, marginTop: 28 }}>
-              {slides.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSlideIdx(i)}
-                  style={{
-                    width: i === slideIdx ? 28 : 8,
-                    height: 8,
-                    borderRadius: 50,
-                    background: i === slideIdx ? '#0792dc' : '#d1d5db',
-                    border: 'none',
+                    background: 'transparent',
                     cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    padding: 0,
+                    fontFamily: 'var(--font-nunito)',
+                    fontWeight: 900,
+                    fontSize: 'clamp(10px,0.95vw,15px)',
+                    letterSpacing: 0.5,
+                    color: 'transparent',
+                    padding: '8px 4px',
+                    textDecoration: 'none',
+                    display: 'inline-block',
                   }}
-                />
+                  aria-label={l.label}
+                >
+                  {l.label}
+                </Link>
               ))}
             </div>
-          </div>
-          {/* Right column spacer — desktop only */}
-          {!isMobile && <div />}
+          )}
         </div>
-
         <svg style={{ display: 'block', marginTop: -1 }} viewBox="0 0 1440 64" preserveAspectRatio="none">
           <path d="M0,32 C360,64 1080,0 1440,32 L1440,64 L0,64Z" fill="#fafbff" />
         </svg>
@@ -286,6 +119,188 @@ export default function HomePage(): React.JSX.Element {
                   Méthode approuvée par des experts ✓
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA FORMATIONS / OUTILS / RESSOURCES ── */}
+      <section style={{ background: 'white', padding: isMobile ? '56px 0 24px' : '96px 0 32px' }}>
+        <div className="mef-container">
+          <div style={{ textAlign: 'center', marginBottom: isMobile ? 32 : 56 }}>
+            <div className="mef-eyebrow">Par où commencer ?</div>
+            <h2 className="mef-h2">
+              Trois façons d&apos;<span style={{ color: '#0792dc' }}>avancer</span> avec votre enfant
+            </h2>
+            <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.7, maxWidth: 640, margin: '0 auto' }}>
+              De la formation complète aux ressources gratuites, choisissez le niveau d&apos;accompagnement qui vous correspond.
+            </p>
+          </div>
+
+          {/* Formations — featured */}
+          <div
+            style={{
+              position: 'relative',
+              background: 'linear-gradient(135deg, #0792dc 0%, #0567a8 100%)',
+              borderRadius: 24,
+              padding: isMobile ? '32px 24px' : '48px 56px',
+              color: 'white',
+              marginBottom: 24,
+              overflow: 'hidden',
+              boxShadow: '0 16px 48px rgba(7,146,220,0.28)',
+            }}
+          >
+            <div style={{ position: 'absolute', top: -60, right: -60, width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,0.08)' }} />
+            <div style={{ position: 'absolute', bottom: -80, right: 120, width: 160, height: 160, borderRadius: '50%', background: 'rgba(253,244,130,0.12)' }} />
+
+            <div style={{ position: 'relative', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.4fr 1fr', gap: isMobile ? 24 : 48, alignItems: 'center' }}>
+              <div>
+                <div
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    background: '#FDF482', color: '#090943',
+                    padding: '6px 14px', borderRadius: 50,
+                    fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1.5,
+                    marginBottom: 16,
+                  }}
+                >
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#EFD010' }} />
+                  Recommandé · accompagnement complet
+                </div>
+
+                <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: isMobile ? 28 : 38, color: 'white', lineHeight: 1.15, marginBottom: 16 }}>
+                  Formations pratiques pour <span style={{ color: '#FDF482' }}>aider votre enfant</span> au quotidien
+                </h3>
+                <p style={{ fontSize: isMobile ? 15 : 16, lineHeight: 1.7, color: 'rgba(255,255,255,0.92)', marginBottom: 20 }}>
+                  Apprenez à développer son langage, améliorer la communication, stimuler ses apprentissages et mieux gérer les défis du quotidien avec plus de confiance et de sérénité.
+                </p>
+                <p style={{ fontSize: isMobile ? 14 : 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', marginBottom: 28, fontStyle: 'italic' }}>
+                  Commencez par notre formation complète et pratique pour{' '}
+                  <strong style={{ color: 'white', fontStyle: 'normal' }}>stimuler le langage de votre enfant en 20 minutes par jour</strong>,
+                  {' '}avec un accompagnement adapté à vos besoins.
+                </p>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                  <Link href="/formations" className="mef-btn mef-btn-yellow" style={{ fontSize: 15 }}>
+                    Découvrir la formation langage
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ marginLeft: 6 }}>
+                      <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </Link>
+                  <Link
+                    href="/formations"
+                    style={{
+                      background: 'transparent', color: 'white', border: '2px solid rgba(255,255,255,0.4)',
+                      padding: '11px 24px', borderRadius: 50, fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 15,
+                      textDecoration: 'none', display: 'inline-flex', alignItems: 'center',
+                    }}
+                  >
+                    Voir toutes les formations
+                  </Link>
+                </div>
+              </div>
+
+              {!isMobile && (
+                <div>
+                  <div
+                    style={{
+                      background: 'rgba(255,255,255,0.12)',
+                      backdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(255,255,255,0.18)',
+                      borderRadius: 20,
+                      padding: 28,
+                    }}
+                  >
+                    <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 13, color: '#FDF482', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 18 }}>
+                      Ce que vous obtenez
+                    </div>
+                    <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
+                      {[
+                        'Méthodes étape par étape, faciles à appliquer',
+                        'Vidéos, fiches et exercices concrets',
+                        'Accompagnement adapté à votre enfant',
+                        'Accès à vie aux contenus de formation',
+                      ].map((t, i) => (
+                        <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 14, lineHeight: 1.5, color: 'white' }}>
+                          <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#FDF482', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>
+                            <svg width="10" height="8" viewBox="0 0 10 8">
+                              <path d="M1 4l2.5 2.5L9 1" stroke="#090943" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                          </div>
+                          {t}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Outils + Ressources — secondary */}
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16 }}>
+
+            {/* Outils pédagogiques */}
+            <div className="mef-card" style={{ padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', borderTop: '4px solid #F90021' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 14, background: '#ffe5e8', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F90021" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="16" rx="2" />
+                    <path d="M7 8h10M7 12h10M7 16h6" />
+                  </svg>
+                </div>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#F90021', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Prêts à l&apos;emploi</div>
+                  <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 20, color: '#090943' }}>Outils pédagogiques</h3>
+                </div>
+              </div>
+              <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, fontStyle: 'italic', color: '#5a6070', marginBottom: 12 }}>
+                Des outils guidés prêts à l&apos;emploi
+              </p>
+              <p style={{ color: '#5a6070', lineHeight: 1.7, fontSize: 15, marginBottom: 24, flexGrow: 1 }}>
+                Activités, routines visuelles, supports éducatifs et fiches à télécharger pour favoriser l&apos;apprentissage, l&apos;autonomie et le bien-être de votre enfant.
+              </p>
+              <Link
+                href="/outils"
+                className="mef-btn mef-btn-outline"
+                style={{ alignSelf: 'flex-start', color: '#F90021', borderColor: '#F90021', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 8 }}
+              >
+                Voir les outils
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                  <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
+            </div>
+
+            {/* Ressources */}
+            <div className="mef-card" style={{ padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', borderTop: '4px solid #27ae60' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+                <div style={{ width: 48, height: 48, borderRadius: 14, background: '#e8f5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2 4h7a3 3 0 013 3v13a2 2 0 00-2-2H2V4zM22 4h-7a3 3 0 00-3 3v13a2 2 0 012-2h8V4z" />
+                  </svg>
+                </div>
+                <div>
+                  <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#27ae60', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Gratuit · pour commencer</div>
+                  <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 20, color: '#090943' }}>Ressources</h3>
+                </div>
+              </div>
+              <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, fontStyle: 'italic', color: '#5a6070', marginBottom: 12 }}>
+                Pour commencer simplement
+              </p>
+              <p style={{ color: '#5a6070', lineHeight: 1.7, fontSize: 15, marginBottom: 24, flexGrow: 1 }}>
+                Profitez gratuitement de ressources utiles et concrètes : guides, fiches pédagogiques, routines, conseils et explications claires pour mieux accompagner votre enfant au quotidien.
+              </p>
+              <Link
+                href="/ressources"
+                className="mef-btn mef-btn-outline"
+                style={{ alignSelf: 'flex-start', color: '#27ae60', borderColor: '#27ae60', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 8 }}
+              >
+                Accéder aux ressources
+                <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                  <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </Link>
             </div>
           </div>
         </div>
