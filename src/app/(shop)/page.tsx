@@ -96,7 +96,7 @@ export default function HomePage(): React.JSX.Element {
             </div>
             <div style={{ position: 'relative' }}>
               <img
-                src="/uploads/pexels-beach-1867271_1920.jpg"
+                src="/uploads/mission.png"
                 alt="Maman et enfant accompagnement"
                 style={{ width: '100%', height: isMobile ? 260 : 400, objectFit: 'cover', objectPosition: 'center', borderRadius: 20, display: 'block' }}
               />
@@ -165,14 +165,14 @@ export default function HomePage(): React.JSX.Element {
                   }}
                 >
                   <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#EFD010' }} />
-                  Recommandé · accompagnement complet
+                  Recommandé pour un accompagnement complet
                 </div>
 
                 <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: isMobile ? 28 : 38, color: 'white', lineHeight: 1.15, marginBottom: 16 }}>
                   Formations pratiques pour <span style={{ color: '#FDF482' }}>aider votre enfant</span> au quotidien
                 </h3>
                 <p style={{ fontSize: isMobile ? 15 : 16, lineHeight: 1.7, color: 'rgba(255,255,255,0.92)', marginBottom: 20 }}>
-                  Apprenez à développer son langage, améliorer la communication, stimuler ses apprentissages et mieux gérer les défis du quotidien avec plus de confiance et de sérénité.
+                  Découvrez des formations pratiques et accessibles pour apprendre à aider votre enfant à développer son langage, améliorer la communication, stimuler ses apprentissages et mieux gérer les défis du quotidien avec plus de confiance et de sérénité.
                 </p>
                 <p style={{ fontSize: isMobile ? 14 : 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', marginBottom: 28, fontStyle: 'italic' }}>
                   Commencez par notre formation complète et pratique pour{' '}
@@ -250,15 +250,12 @@ export default function HomePage(): React.JSX.Element {
                   </svg>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#F90021', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Prêts à l&apos;emploi</div>
+                  <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#F90021', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Guidés et prêts à l’emploi</div>
                   <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 20, color: '#090943' }}>Outils pédagogiques</h3>
                 </div>
               </div>
-              <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, fontStyle: 'italic', color: '#5a6070', marginBottom: 12 }}>
-                Des outils guidés prêts à l&apos;emploi
-              </p>
               <p style={{ color: '#5a6070', lineHeight: 1.7, fontSize: 15, marginBottom: 24, flexGrow: 1 }}>
-                Activités, routines visuelles, supports éducatifs et fiches à télécharger pour favoriser l&apos;apprentissage, l&apos;autonomie et le bien-être de votre enfant.
+                Accédez à des outils pédagogiques pratiques et adaptés : activités, routines visuelles, supports éducatifs et fiches à télécharger pour favoriser l’apprentissage, l’autonomie et le bien-être de votre enfant.
               </p>
               <Link
                 href="/outils"
@@ -281,15 +278,16 @@ export default function HomePage(): React.JSX.Element {
                   </svg>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#27ae60', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Gratuit · pour commencer</div>
+                  <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#27ae60', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Gratuit · pour commencer simplement</div>
                   <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 20, color: '#090943' }}>Ressources</h3>
                 </div>
               </div>
-              <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, fontStyle: 'italic', color: '#5a6070', marginBottom: 12 }}>
+              {/* <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, fontStyle: 'italic', color: '#5a6070', marginBottom: 12 }}>
                 Pour commencer simplement
-              </p>
+              </p> */}
               <p style={{ color: '#5a6070', lineHeight: 1.7, fontSize: 15, marginBottom: 24, flexGrow: 1 }}>
-                Profitez gratuitement de ressources utiles et concrètes : guides, fiches pédagogiques, routines, conseils et explications claires pour mieux accompagner votre enfant au quotidien.
+                Retrouvez des explications et des contenus clairs et accessibles pour mieux accompagner votre enfant au quotidien.<br />
+                Profitez gratuitement de ressources utiles et concrètes : guides, fiches pédagogiques, routines, conseils et outils pratiques pour vous accompagner au quotidien.
               </p>
               <Link
                 href="/ressources"
