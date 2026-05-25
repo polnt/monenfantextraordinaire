@@ -325,6 +325,11 @@ export default function HomePage(): React.JSX.Element {
               </div>
             ))}
           </div>
+          <img
+            src="/uploads/objectifs.png"
+            alt="Illustration de nos objectifs"
+            style={{ width: isMobile ? '100%' : '50%', height: 'auto', objectFit: 'cover', borderRadius: isMobile ? 16 : 20, display: 'block', marginTop: isMobile ? 32 : 48, marginLeft: 'auto', marginRight: 'auto' }}
+          />
         </div>
       </section>
 
@@ -355,7 +360,7 @@ export default function HomePage(): React.JSX.Element {
                     fontSize: 15,
                   }}
                 >
-                  +15 ans d&apos;expérience
+                  +15 ans d&apos;expertise
                 </div>
               </div>
             )}
