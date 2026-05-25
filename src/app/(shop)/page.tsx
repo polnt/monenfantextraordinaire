@@ -235,16 +235,20 @@ export default function HomePage(): React.JSX.Element {
                 Vous n&apos;êtes <span style={{ color: '#0792dc' }}>pas seuls</span>
               </h2>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
-                Aider les parents à trouver la méthode adaptée pour accompagner leur enfant autiste ou atteint de troubles neurodéveloppementaux — avec des ressources concrètes et accessibles.
+                Une plateforme dédiée à l’accompagnement d’enfants atypiques, pensée pour les parents et les familles.
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 28 }}>
-                Des formations complètes et pratiques pour mieux comprendre le langage de l&apos;autisme et aider votre enfant à progresser chaque jour.
+                Vous souhaitez mieux comprendre votre enfant et trouver des solutions concrètes au quotidien ?
               </p>
+              <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 28 }}>
+                Autisme, TND, retard de langage, trouble de l’attention, trouble dys : découvrez des solutions
+                simples, concrètes, bienveillantes pour avancer sereinement au quotidien.              </p>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {[
-                  "Accompagner l'enfant à chaque étape de son développement",
-                  'Offrir des outils pratiques adaptés à chaque profil',
-                  'Renforcer la confiance et le lien parent-enfant',
+                  "Vous aider à comprendre votre enfant",
+                  'Développer ses compétences et avancer avec plus de sérénité',
+                  'Découvrir des ressources fiables, accessibles et bienveillantes',
+                  'Renforcer le lien parent enfant et le plaisir partagé'
                 ].map((t, i) => (
                   <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
                     <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#0792dc', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>
@@ -296,10 +300,10 @@ export default function HomePage(): React.JSX.Element {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 16 }}>
             {[
-              { n: '01', title: 'Comprendre', desc: "Accompagner les parents dans chaque étape de la prise en charge de leur enfant neurodivers.", color: '#0792dc' },
-              { n: '02', title: 'Offrir les bons outils', desc: 'Des ressources complètes et pratiques pour appliquer les bonnes méthodes au quotidien.', color: '#F90021' },
-              { n: '03', title: 'Apporter des solutions', desc: "Identifier les ressources et professionnels adaptés à la situation unique de votre enfant.", color: '#EFD010' },
-              { n: '04', title: 'Partager & échanger', desc: 'Mettre en contact les familles et professionnels pour une communauté bienveillante et solidaire.', color: '#27ae60' },
+              { n: '01', title: 'Epanouissement', desc: "Offrir à chaque enfant extraordinaire les moyens de s’épanouir et de réussir en créant des ressources adaptées qui respectent son rythme, valorisent ses forces, encouragent sa confiance et lui donne l’élan au quotidien", color: '#0792dc' },
+              { n: '02', title: 'Accompagnement', desc: 'Accompagner les parents dans leur quotidien avec une approche bienveillante, simple et concrète, pour leur permettre d’avancer avec plus de sérénité et de confiance.', color: '#F90021' },
+              { n: '03', title: 'Apprentissage', desc: "Faire du plaisir un moteur d’apprentissage en proposant des outils pédagogiques ludiques, pratiques et adaptés aux besoins des enfants neuroatypiques.", color: '#EFD010' },
+              { n: '04', title: 'Transmission', desc: 'Proposer des formations des outils et des ressources concrètes et accessibles pour permettre aux familles et aux professionnels de mieux comprendre, d’agir concrètement et d’accompagner chaque enfant avec des solutions personnalisées', color: '#27ae60' },
             ].map((o, i) => (
               <div key={i} className="mef-card" style={{ padding: isMobile ? '24px 20px' : '36px 32px', borderTop: `4px solid ${o.color}` }}>
                 <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: isMobile ? 36 : 52, color: o.color, opacity: 0.25, lineHeight: 1, marginBottom: 4 }}>{o.n}</div>
@@ -338,7 +342,7 @@ export default function HomePage(): React.JSX.Element {
                     fontSize: 15,
                   }}
                 >
-                  +10 ans d&apos;expérience
+                  +15 ans d&apos;expérience
                 </div>
               </div>
             )}
@@ -346,10 +350,20 @@ export default function HomePage(): React.JSX.Element {
               <div className="mef-eyebrow">À propos</div>
               <h2 className="mef-h2">Qui suis-je ?</h2>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
-                Éducatrice spécialisée et maman d&apos;un enfant autiste, j&apos;accompagne des familles depuis plus de 10 ans dans la compréhension et la prise en charge de leurs enfants neurodiverses.
+                Passionnée par le développement de l’enfant et les liens humains. Spécialisée en TSA et troubles du neurodéveloppement, <strong style={{ color: '#090943' }}>j’accompagne depuis plus de 15 ans</strong> les enfants et familles dans leurs parcours de vie singuliers.
               </p>
-              <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 28 }}>
-                Ma <strong style={{ color: '#090943' }}>méthode complète</strong> combine les meilleures approches reconnues — ABA, TEACCH, PECS — pour vous donner des outils concrets et efficaces au quotidien.
+              <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
+                Je permets aux parents de comprendre, soutenir et stimuler le développement de leur enfant grâce à des <strong style={{ color: '#090943' }}>formations clés en main, des outils simples et accessibles.</strong>
+              </p>
+              <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
+                Riches des résultats obtenus à l’école l’éveil, <strong style={{ color: '#090943' }}>j’ai créé une méthode complète</strong> et ludique pour accompagner votre enfant dans toutes ses spécificités.
+              </p>
+              <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
+                La méthode <strong style={{ color: '#090943' }}>Élan quotidien</strong> est une approche d’accompagnement basée sur <strong style={{ color: '#090943' }}>15 à 20 minutes d’activités par jour</strong>, conçue pour stimuler principalement le développement du langage, de la communication et les intéractions sociales chez l’enfant.
+              </p>
+              <p style={{ color: '#5a6070', lineHeight: 1.8, fontSize: 15, marginBottom: 24, fontStyle: 'italic' }}>
+                Parce que je considère que la communication est la base de la vie, apprendre à son enfant à
+                communiquer même sans les mots, c’est lui donner la chance de réussir
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link href="/qui-suis-je" className="mef-btn mef-btn-blue">En savoir plus</Link>
@@ -378,13 +392,13 @@ export default function HomePage(): React.JSX.Element {
             Quelques chiffres
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 8 : 24 }}>
-            <StatBlock target={20000000} suffix="+" label="Naissances par an dans le monde" />
-            <StatBlock target={456000} suffix="" label="Enfants autistes recensés en France" />
-            <StatBlock target={97} suffix=",5 %" label="Taux de satisfaction des familles accompagnées" />
+            <StatBlock target={350} prefix="+" label="enfants accompagnés" />
+            <StatBlock target={15} prefix="+" suffix=" ans" label="une méthode éprouvée" />
+            <StatBlock target={98} suffix="%" label="de familles accompagnées satisfaites" />
           </div>
-          <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.35)', fontSize: 12, marginTop: 32 }}>
+          {/* <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.35)', fontSize: 12, marginTop: 32 }}>
             *Statistiques pour aider à se déterminer
-          </p>
+          </p> */}
         </div>
       </section>
 

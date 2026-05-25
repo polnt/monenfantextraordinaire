@@ -4,11 +4,12 @@ import { useState, useEffect, useRef } from 'react';
 
 interface StatBlockProps {
   target: number;
-  suffix: string;
+  suffix?: string;
   label: string;
+  prefix?: string;
 }
 
-export default function StatBlock({ target, suffix, label }: StatBlockProps): React.JSX.Element {
+export default function StatBlock({ target, suffix, label, prefix }: StatBlockProps): React.JSX.Element {
   const [val, setVal] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const done = useRef(false);
@@ -54,7 +55,7 @@ export default function StatBlock({ target, suffix, label }: StatBlockProps): Re
           letterSpacing: -2,
         }}
       >
-        {fmt(val)}{suffix}
+        {prefix}{fmt(val)}{suffix}
       </div>
       <div
         style={{
