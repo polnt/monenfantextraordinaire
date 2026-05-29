@@ -2,14 +2,21 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-interface SubSection {
+export type ContentBlock =
+  | { type: 'paragraph'; text: string }
+  | { type: 'list'; items: string[] };
+
+export interface SubSection {
   title: string;
-  content: string | string[];
+  content?: string | string[];
+  blocks?: ContentBlock[];
 }
 
-interface TabItem {
+export interface TabItem {
   key: string;
   desc?: string;
+  list?: string[];
+  blocks?: ContentBlock[];
   color: string;
   text: string;
   sections?: SubSection[];
@@ -26,6 +33,39 @@ interface TabSectionProps {
   tabs: Tab[];
   content: Record<string, TabItem[]>;
   accentColor?: string;
+}
+
+function renderBlocks(blocks: ContentBlock[], accentColor: string): React.JSX.Element {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {blocks.map((block, i) =>
+        block.type === 'paragraph' ? (
+          <p key={i} style={{ margin: 0, fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>
+            {block.text}
+          </p>
+        ) : (
+          <ul key={i} style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
+            {block.items.map((line, li) => (
+              <li key={li} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <span
+                  style={{
+                    width: 5,
+                    height: 5,
+                    borderRadius: '50%',
+                    background: accentColor,
+                    flexShrink: 0,
+                    marginTop: 7,
+                    display: 'inline-block',
+                  }}
+                />
+                <span style={{ fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>{line}</span>
+              </li>
+            ))}
+          </ul>
+        )
+      )}
+    </div>
+  );
 }
 
 function SubAccordion({
@@ -96,7 +136,7 @@ function SubAccordion({
                 padding: '12px 18px 14px',
               }}
             >
-              {Array.isArray(s.content) ? (
+              {s.blocks ? renderBlocks(s.blocks, accentColor) : Array.isArray(s.content) ? (
                 <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
                   {s.content.map((line, li) => (
                     <li key={li} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
@@ -125,6 +165,35 @@ function SubAccordion({
         </div>
       ))}
     </div>
+  );
+}
+
+function ItemList({
+  items,
+  accentColor,
+}: {
+  items: string[];
+  accentColor: string;
+}): React.JSX.Element {
+  return (
+    <ul style={{ margin: '12px 0 0', padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
+      {items.map((line, i) => (
+        <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+          <span
+            style={{
+              width: 5,
+              height: 5,
+              borderRadius: '50%',
+              background: accentColor,
+              flexShrink: 0,
+              marginTop: 7,
+              display: 'inline-block',
+            }}
+          />
+          <span style={{ fontSize: 14, color: '#5a6070', lineHeight: 1.7 }}>{line}</span>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -335,10 +404,17 @@ export default function TabSection({
               <div style={{ padding: '24px 28px' }}>
                 {active.sections ? (
                   <SubAccordion sections={active.sections} accentColor={accentColor} />
+                ) : active.blocks ? (
+                  renderBlocks(active.blocks, accentColor)
                 ) : (
-                  <p style={{ fontSize: 14, color: '#5a6070', lineHeight: 1.7, margin: 0 }}>
-                    {active.desc}
-                  </p>
+                  <>
+                    {active.desc && (
+                      <p style={{ fontSize: 14, color: '#5a6070', lineHeight: 1.7, margin: 0 }}>
+                        {active.desc}
+                      </p>
+                    )}
+                    {active.list && <ItemList items={active.list} accentColor={accentColor} />}
+                  </>
                 )}
               </div>
             </div>
@@ -417,7 +493,7 @@ export default function TabSection({
             </button>
             <div
               style={{
-                maxHeight: openMobile === i ? (item.sections ? 2000 : 400) : 0,
+                maxHeight: openMobile === i ? (item.sections ? 2000 : item.list ? 800 : 400) : 0,
                 overflow: 'hidden',
                 transition: 'max-height 350ms ease',
                 background: 'white',
@@ -427,18 +503,19 @@ export default function TabSection({
                 <div style={{ padding: '12px 16px' }}>
                   <SubAccordion sections={item.sections} accentColor={accentColor} />
                 </div>
+              ) : item.blocks ? (
+                <div style={{ padding: '16px 24px' }}>
+                  {renderBlocks(item.blocks, accentColor)}
+                </div>
               ) : (
-                <p
-                  style={{
-                    padding: '16px 24px',
-                    color: '#5a6070',
-                    fontSize: 14,
-                    lineHeight: 1.7,
-                    margin: 0,
-                  }}
-                >
-                  {item.desc}
-                </p>
+                <div style={{ padding: '16px 24px' }}>
+                  {item.desc && (
+                    <p style={{ color: '#5a6070', fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                      {item.desc}
+                    </p>
+                  )}
+                  {item.list && <ItemList items={item.list} accentColor={accentColor} />}
+                </div>
               )}
             </div>
           </div>
