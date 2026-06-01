@@ -57,8 +57,8 @@ export default function RessourcesPage(): React.JSX.Element {
             gap: 24,
           }}>
             {resources.map((resource) => (
-              <div key={resource.pdf} className="mef-card" style={{ overflow: 'hidden' }}>
-                <div style={{ position: 'relative', height: 160, overflow: 'hidden' }}>
+              <div key={resource.pdf} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ position: 'relative', height: isMobile ? 200 : 260, overflow: 'hidden' }}>
                   <Image
                     src={resource.img}
                     alt={resource.title}
