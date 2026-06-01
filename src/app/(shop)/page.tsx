@@ -70,13 +70,13 @@ export default function HomePage(): React.JSX.Element {
                 Vous n&apos;êtes <span style={{ color: '#0792dc' }}>pas seuls</span>
               </h2>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
-                Une plateforme dédiée à l’accompagnement d’enfants atypiques, pensée pour les parents et les familles.
+                Une plateforme dédiée à l&apos;accompagnement d&apos;enfants atypiques, pensée pour les parents et les familles.
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 28 }}>
                 Vous souhaitez mieux comprendre votre enfant et trouver des solutions concrètes au quotidien ?
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 28 }}>
-                Autisme, TND, retard de langage, trouble de l’attention, trouble dys : découvrez des solutions
+                Autisme, TND, retard de langage, trouble de l&apos;attention, trouble dys : découvrez des solutions
                 simples, concrètes, bienveillantes pour avancer sereinement au quotidien.              </p>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 12 }}>
                 {[
@@ -203,37 +203,12 @@ export default function HomePage(): React.JSX.Element {
               </div>
 
               {!isMobile && (
-                <div>
-                  <div
-                    style={{
-                      background: 'rgba(255,255,255,0.12)',
-                      backdropFilter: 'blur(8px)',
-                      border: '1px solid rgba(255,255,255,0.18)',
-                      borderRadius: 20,
-                      padding: 28,
-                    }}
-                  >
-                    <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 13, color: '#FDF482', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 18 }}>
-                      Ce que vous obtenez
-                    </div>
-                    <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 14 }}>
-                      {[
-                        'Méthodes étape par étape, faciles à appliquer',
-                        'Vidéos, fiches et exercices concrets',
-                        'Accompagnement adapté à votre enfant',
-                        'Accès à vie aux contenus de formation',
-                      ].map((t, i) => (
-                        <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, fontSize: 14, lineHeight: 1.5, color: 'white' }}>
-                          <div style={{ width: 22, height: 22, borderRadius: '50%', background: '#FDF482', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 1 }}>
-                            <svg width="10" height="8" viewBox="0 0 10 8">
-                              <path d="M1 4l2.5 2.5L9 1" stroke="#090943" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                            </svg>
-                          </div>
-                          {t}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div style={{ position: 'relative' }}>
+                  <img
+                    src="/uploads/cta-formation.png"
+                    alt="Un parent suit une formation en ligne pour mieux accompagner son enfant"
+                    style={{ width: '100%', height: 340, objectFit: 'cover', objectPosition: '62% 70%', borderRadius: 20, display: 'block', border: '4px solid rgba(255,255,255,0.22)', boxShadow: '0 16px 40px rgba(9,9,67,0.28)' }}
+                  />
                 </div>
               )}
             </div>
@@ -243,64 +218,80 @@ export default function HomePage(): React.JSX.Element {
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16 }}>
 
             {/* Outils pédagogiques */}
-            <div className="mef-card" style={{ padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', borderTop: '4px solid #F90021' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 14, background: '#ffe5e8', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F90021" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="4" width="18" height="16" rx="2" />
-                    <path d="M7 8h10M7 12h10M7 16h6" />
+            <div className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', borderTop: '4px solid #F90021' }}>
+              <img
+                src="/uploads/cta-outils.png"
+                alt="Un parent et son enfant utilisent un tableau de communication par images"
+                style={{ width: '100%', height: isMobile ? 150 : 168, objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
+              />
+              <div style={{ padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: '#ffe5e8', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F90021" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="4" width="18" height="16" rx="2" />
+                      <path d="M7 8h10M7 12h10M7 16h6" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#F90021', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Prêts à l&apos;emploi</div>
+                    <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 20, color: '#090943' }}>Outils pédagogiques</h3>
+                  </div>
+                </div>
+                <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, fontStyle: 'italic', color: '#5a6070', marginBottom: 12 }}>
+                  Des outils guidés prêts à l&apos;emploi
+                </p>
+                <p style={{ color: '#5a6070', lineHeight: 1.7, fontSize: 15, marginBottom: 24, flexGrow: 1 }}>
+                  Activités, routines visuelles, supports éducatifs et fiches à télécharger pour favoriser l&apos;apprentissage, l&apos;autonomie et le bien-être de votre enfant.
+                </p>
+                <Link
+                  href="/outils"
+                  className="mef-btn mef-btn-outline"
+                  style={{ alignSelf: 'flex-start', color: '#F90021', borderColor: '#F90021', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 8 }}
+                >
+                  Voir les outils
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </div>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#F90021', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Guidés et prêts à l’emploi</div>
-                  <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 20, color: '#090943' }}>Outils pédagogiques</h3>
-                </div>
+                </Link>
               </div>
-              <p style={{ color: '#5a6070', lineHeight: 1.7, fontSize: 15, marginBottom: 24, flexGrow: 1 }}>
-                Accédez à des outils pédagogiques pratiques et adaptés : activités, routines visuelles, supports éducatifs et fiches à télécharger pour favoriser l’apprentissage, l’autonomie et le bien-être de votre enfant.
-              </p>
-              <Link
-                href="/outils"
-                className="mef-btn mef-btn-outline"
-                style={{ alignSelf: 'flex-start', color: '#F90021', borderColor: '#F90021', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 8 }}
-              >
-                Voir les outils
-                <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                  <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
             </div>
 
             {/* Ressources */}
-            <div className="mef-card" style={{ padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', borderTop: '4px solid #27ae60' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
-                <div style={{ width: 48, height: 48, borderRadius: 14, background: '#e8f5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M2 4h7a3 3 0 013 3v13a2 2 0 00-2-2H2V4zM22 4h-7a3 3 0 00-3 3v13a2 2 0 012-2h8V4z" />
+            <div className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', borderTop: '4px solid #27ae60' }}>
+              <img
+                src="/uploads/cta-ressources.png"
+                alt="Une maman consulte des articles et des ressources sur l'autisme sur son ordinateur"
+                style={{ width: '100%', height: isMobile ? 150 : 168, objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
+              />
+              <div style={{ padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: '#e8f5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#27ae60" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M2 4h7a3 3 0 013 3v13a2 2 0 00-2-2H2V4zM22 4h-7a3 3 0 00-3 3v13a2 2 0 012-2h8V4z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#27ae60', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Gratuit · pour commencer</div>
+                    <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 20, color: '#090943' }}>Ressources</h3>
+                  </div>
+                </div>
+                <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, fontStyle: 'italic', color: '#5a6070', marginBottom: 12 }}>
+                  Pour commencer simplement
+                </p>
+                <p style={{ color: '#5a6070', lineHeight: 1.7, fontSize: 15, marginBottom: 24, flexGrow: 1 }}>
+                  Profitez gratuitement de ressources utiles et concrètes : guides, fiches pédagogiques, routines, conseils et explications claires pour mieux accompagner votre enfant au quotidien.
+                </p>
+                <Link
+                  href="/ressources"
+                  className="mef-btn mef-btn-outline"
+                  style={{ alignSelf: 'flex-start', color: '#27ae60', borderColor: '#27ae60', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 8 }}
+                >
+                  Accéder aux ressources
+                  <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                    <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </div>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 11, color: '#27ae60', textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Gratuit · pour commencer simplement</div>
-                  <h3 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 20, color: '#090943' }}>Ressources</h3>
-                </div>
+                </Link>
               </div>
-              {/* <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, fontStyle: 'italic', color: '#5a6070', marginBottom: 12 }}>
-                Pour commencer simplement
-              </p> */}
-              <p style={{ color: '#5a6070', lineHeight: 1.7, fontSize: 15, marginBottom: 24, flexGrow: 1 }}>
-                Retrouvez des explications et des contenus clairs et accessibles pour mieux accompagner votre enfant au quotidien.<br />
-                Profitez gratuitement de ressources utiles et concrètes : guides, fiches pédagogiques, routines, conseils et outils pratiques pour vous accompagner au quotidien.
-              </p>
-              <Link
-                href="/ressources"
-                className="mef-btn mef-btn-outline"
-                style={{ alignSelf: 'flex-start', color: '#27ae60', borderColor: '#27ae60', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 8 }}
-              >
-                Accéder aux ressources
-                <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
-                  <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
             </div>
           </div>
         </div>
@@ -315,10 +306,10 @@ export default function HomePage(): React.JSX.Element {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 16 }}>
             {[
-              { n: '01', title: 'Epanouissement', desc: "Offrir à chaque enfant extraordinaire les moyens de s’épanouir et de réussir en créant des ressources adaptées qui respectent son rythme, valorisent ses forces, encouragent sa confiance et lui donne l’élan au quotidien", color: '#0792dc' },
-              { n: '02', title: 'Accompagnement', desc: 'Accompagner les parents dans leur quotidien avec une approche bienveillante, simple et concrète, pour leur permettre d’avancer avec plus de sérénité et de confiance.', color: '#F90021' },
-              { n: '03', title: 'Apprentissage', desc: "Faire du plaisir un moteur d’apprentissage en proposant des outils pédagogiques ludiques, pratiques et adaptés aux besoins des enfants neuroatypiques.", color: '#EFD010' },
-              { n: '04', title: 'Transmission', desc: 'Proposer des formations des outils et des ressources concrètes et accessibles pour permettre aux familles et aux professionnels de mieux comprendre, d’agir concrètement et d’accompagner chaque enfant avec des solutions personnalisées', color: '#27ae60' },
+              { n: '01', title: 'Epanouissement', desc: "Offrir à chaque enfant extraordinaire les moyens de s'épanouir et de réussir en créant des ressources adaptées qui respectent son rythme, valorisent ses forces, encouragent sa confiance et lui donne l'élan au quotidien", color: '#0792dc' },
+              { n: '02', title: 'Accompagnement', desc: "Accompagner les parents dans leur quotidien avec une approche bienveillante, simple et concrète, pour leur permettre d'avancer avec plus de sérénité et de confiance.", color: '#F90021' },
+              { n: '03', title: 'Apprentissage', desc: "Faire du plaisir un moteur d'apprentissage en proposant des outils pédagogiques ludiques, pratiques et adaptés aux besoins des enfants neuroatypiques.", color: '#EFD010' },
+              { n: '04', title: 'Transmission', desc: "Proposer des formations des outils et des ressources concrètes et accessibles pour permettre aux familles et aux professionnels de mieux comprendre, d'agir concrètement et d'accompagner chaque enfant avec des solutions personnalisées", color: '#27ae60' },
             ].map((o, i) => (
               <div key={i} className="mef-card" style={{ padding: isMobile ? '24px 20px' : '36px 32px', borderTop: `4px solid ${o.color}` }}>
                 <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: isMobile ? 36 : 52, color: o.color, opacity: 0.25, lineHeight: 1, marginBottom: 4 }}>{o.n}</div>
@@ -370,20 +361,20 @@ export default function HomePage(): React.JSX.Element {
               <div className="mef-eyebrow">À propos</div>
               <h2 className="mef-h2">Qui suis-je ?</h2>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
-                Passionnée par le développement de l’enfant et les liens humains. Spécialisée en TSA et troubles du neurodéveloppement, <strong style={{ color: '#090943' }}>j’accompagne depuis plus de 15 ans</strong> les enfants et familles dans leurs parcours de vie singuliers.
+                Passionnée par le développement de l&apos;enfant et les liens humains. Spécialisée en TSA et troubles du neurodéveloppement, <strong style={{ color: '#090943' }}>j&apos;accompagne depuis plus de 15 ans</strong> les enfants et familles dans leurs parcours de vie singuliers.
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
                 Je permets aux parents de comprendre, soutenir et stimuler le développement de leur enfant grâce à des <strong style={{ color: '#090943' }}>formations clés en main, des outils simples et accessibles.</strong>
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
-                Riches des résultats obtenus à l’école l’éveil, <strong style={{ color: '#090943' }}>j’ai créé une méthode complète</strong> et ludique pour accompagner votre enfant dans toutes ses spécificités.
+                Riches des résultats obtenus à l&apos;école l&apos;éveil, <strong style={{ color: '#090943' }}>j&apos;ai créé une méthode complète</strong> et ludique pour accompagner votre enfant dans toutes ses spécificités.
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
-                La méthode <strong style={{ color: '#090943' }}>Élan quotidien</strong> est une approche d’accompagnement basée sur <strong style={{ color: '#090943' }}>15 à 20 minutes d’activités par jour</strong>, conçue pour stimuler principalement le développement du langage, de la communication et les intéractions sociales chez l’enfant.
+                La méthode <strong style={{ color: '#090943' }}>Élan quotidien</strong> est une approche d&apos;accompagnement basée sur <strong style={{ color: '#090943' }}>15 à 20 minutes d&apos;activités par jour</strong>, conçue pour stimuler principalement le développement du langage, de la communication et les intéractions sociales chez l&apos;enfant.
               </p>
               <p style={{ color: '#5a6070', lineHeight: 1.8, fontSize: 15, marginBottom: 24, fontStyle: 'italic' }}>
                 Parce que je considère que la communication est la base de la vie, apprendre à son enfant à
-                communiquer même sans les mots, c’est lui donner la chance de réussir
+                communiquer même sans les mots, c&apos;est lui donner la chance de réussir
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link href="/qui-suis-je" className="mef-btn mef-btn-blue">En savoir plus</Link>
