@@ -61,6 +61,7 @@ const takeaways = [
   { icon: '🎬', text: 'Des vidéos courtes et ludiques avec des explications claires et accessibles' },
   { icon: '♾️', text: 'Un accès illimité à tous les modules, vidéos et exercices' },
   { icon: '🏅', text: 'Une attestation de formation' },
+  { icon: '📥', text: 'Le power point détaillé de la formation à télécharger pour le consulter où que vous soyez' },
 ];
 
 const testimonials = [
