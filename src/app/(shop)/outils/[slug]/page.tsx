@@ -16,6 +16,12 @@ interface ContentCategory {
   items: string[];
 }
 
+interface PedagogieItem {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
 interface ProductData {
   title: string;
   subtitle: string;
@@ -33,6 +39,12 @@ interface ProductData {
   duoLabel?: string;
   inclus: Inclus[];
   content: ContentCategory[];
+  contentTitle?: string;
+  pourQuiItems?: Inclus[];
+  pourQuiNote?: React.ReactNode;
+  pedagogie?: { title: string; desc: string; items: PedagogieItem[] };
+  activites?: PedagogieItem[];
+  productResultats?: string[];
 }
 
 const PRODUCTS: Record<string, ProductData | undefined> = {
@@ -46,7 +58,7 @@ const PRODUCTS: Record<string, ProductData | undefined> = {
     badge: "📷 Version Photos",
     description:
       "Un outil pédagogique conçu pour aider votre enfant à nommer, reconnaître et généraliser les fruits et légumes grâce à des photographies du monde réel.",
-    img: "/uploads/visuel vignettes produit - outils pédagogiques - legumes_photo.png",
+    img: "/uploads/miniature_outils_legumes_photo.png",
     imgWidth: 800,
     imgHeight: 1067,
     isLegumes: true,
@@ -82,7 +94,7 @@ const PRODUCTS: Record<string, ProductData | undefined> = {
     badge: "🎨 Version Illustrations",
     description:
       "Un outil pédagogique qui permet à votre enfant de comprendre qu'une illustration et une photo représentent le même objet — une compétence clé pour le développement du langage.",
-    img: "/uploads/visuel vignettes produit - outils pédagogiques - legume_illustration.png",
+    img: "/uploads/miniature_outils_legume_illustration.png",
     imgWidth: 800,
     imgHeight: 1067,
     isLegumes: true,
@@ -108,6 +120,110 @@ const PRODUCTS: Record<string, ProductData | undefined> = {
     ],
   },
 
+  "bonhomme-dessin": {
+    title: "Apprendre à dessiner",
+    subtitle: "mon premier bonhomme",
+    tagline: "Dessiner un bonhomme, c'est apprendre à se comprendre.",
+    color: "#9333ea",
+    colorLight: "#f5f3ff",
+    price: "12,90 €",
+    badge: "✏️ Livret Dessin",
+    description:
+      "Un livret progressif pour apprendre à dessiner un bonhomme étape par étape — tout en développant le schéma corporel, la motricité fine et la confiance en soi.",
+    img: "/uploads/miniature_outils_bonhomme-dessin.png",
+    imgWidth: 800,
+    imgHeight: 1067,
+    isLegumes: false,
+    inclus: [
+      { icon: "📄", text: "Fiches progressives en haute définition" },
+      { icon: "🖨️", text: "Format PDF imprimable — A4" },
+      { icon: "♾️", text: "Accès illimité — imprimez autant de fois que nécessaire" },
+      { icon: "⚡", text: "Téléchargement immédiat après paiement" },
+      { icon: "✂️", text: "Activités de découpage et reconstitution incluses" },
+      { icon: "📋", text: "Guide d'utilisation et progression étape par étape" },
+    ],
+    content: [
+      {
+        label: "🧍 Les parties du corps",
+        items: ["La tête", "Le visage", "Le corps", "Les bras", "Les mains", "Les jambes", "Les pieds", "Les détails (cheveux, yeux, bouche…)"],
+      },
+      {
+        label: "✂️ Découpage et reconstitution",
+        items: ["Assembler les parties du corps", "Reconstituer un personnage complet", "Identifier les éléments manquants", "Manipuler pour mieux mémoriser"],
+      },
+      {
+        label: "👧👦 Fille et garçon",
+        items: ["Observer les différences", "Reconnaître les vêtements", "Reproduire les détails physiques", "Dessiner sa version à soi"],
+      },
+    ],
+    contentTitle: "Un livret progressif — apprendre à dessiner",
+    pourQuiItems: [
+      { icon: "🌱", text: "Votre enfant commence à dessiner mais ne sait pas encore représenter le corps humain" },
+      { icon: "🧠", text: "Vous souhaitez l'aider à mieux connaître et comprendre son corps" },
+      { icon: "🧩", text: "Votre enfant a un retard de développement, un TSA diagnostiqué ou des difficultés motrices" },
+      { icon: "💡", text: "Vous cherchez des activités de dessin progressives à faire à la maison ou en séance" },
+      { icon: "✂️", text: "Vous voulez renforcer sa motricité fine grâce au découpage et à la manipulation" },
+      { icon: "🎯", text: "Vous accompagnez un enfant dans le cadre scolaire, en rééducation ou à domicile" },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Cet outil est particulièrement adapté aux enfants <strong>dès 3 ans</strong>, avec{" "}
+        <strong>retard de développement</strong>, avec <strong>TSA</strong>, ou présentant{" "}
+        <strong>des difficultés de repérage corporel</strong> et de motricité fine.
+      </>
+    ),
+    pedagogie: {
+      title: "Pourquoi dessiner un bonhomme ?",
+      desc: "Dessiner un bonhomme, ce n'est pas seulement un exercice graphique : c'est apprendre à se connaître, à organiser l'espace, et à représenter ce que l'on ressent. Pour les enfants avec TSA ou retard de développement, c'est une étape clé pour construire le schéma corporel.",
+      items: [
+        {
+          icon: "🧍",
+          title: "Un outil de schéma corporel",
+          desc: "Représenter son corps sur papier aide l'enfant à mieux le comprendre et à en intégrer l'organisation — tête, tronc, membres, détails.",
+        },
+        {
+          icon: "✏️",
+          title: "Une progression pas à pas",
+          desc: "Chaque étape est construite sur la précédente, pour que l'enfant avance à son rythme sans se sentir dépassé ni découragé.",
+        },
+        {
+          icon: "✂️",
+          title: "Apprendre en manipulant",
+          desc: "Les activités de découpage et de reconstitution renforcent la mémorisation par le geste — l'enfant construit sa compréhension en agissant.",
+        },
+      ],
+    },
+    activites: [
+      {
+        icon: "🎨",
+        title: "Dessiner étape par étape",
+        desc: "Suivre les étapes progressives pour construire un bonhomme complet — de la tête aux pieds, avec de plus en plus de détails.",
+      },
+      {
+        icon: "✂️",
+        title: "Découper et reconstituer",
+        desc: "Assembler les parties du corps découpées pour reconstituer un personnage — apprendre en manipulant, pour mieux mémoriser.",
+      },
+      {
+        icon: "👧👦",
+        title: "Différencier fille et garçon",
+        desc: "Observer et reproduire les différences entre une fille et un garçon — vêtements, coiffure, détails physiques.",
+      },
+      {
+        icon: "🧩",
+        title: "Identifier les parties du corps",
+        desc: "Nommer, pointer et placer les différentes parties du corps — pour construire un schéma corporel solide et précis.",
+      },
+    ],
+    productResultats: [
+      "Apprendre à dessiner un bonhomme étape par étape, de façon progressive",
+      "Développer le schéma corporel et mieux connaître son corps",
+      "Améliorer la motricité fine grâce au découpage et à la manipulation",
+      "Différencier fille et garçon et enrichir la compréhension de l'identité",
+      "Gagner en confiance et en autonomie dans les activités graphiques",
+    ],
+  },
+
   animaux: {
     title: "Je découvre les animaux",
     subtitle: "en photos et en illustrations",
@@ -118,7 +234,9 @@ const PRODUCTS: Record<string, ProductData | undefined> = {
     badge: "📷🎨 Photos + Illustrations",
     description:
       "Un outil complet qui combine photos réelles et illustrations pour aider votre enfant à reconnaître et nommer les animaux, quelle que soit la représentation visuelle.",
-    img: null,
+    img: "/uploads/miniature_outils_animaux-images-photo.png",
+    imgWidth: 800,
+    imgHeight: 1067,
     isLegumes: false,
     inclus: [
       { icon: "📄", text: "40 fiches en haute définition" },
@@ -362,7 +480,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
           <div className="mef-eyebrow" style={{ textAlign: "center" }}>Cet outil est fait pour vous si…</div>
           <h2 className="mef-h2" style={{ textAlign: "center", marginBottom: 48 }}>Vous reconnaissez-vous ?</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 320px), 1fr))", gap: 16 }}>
-            {POUR_QUI.map((a, i) => (
+            {(d.pourQuiItems ?? POUR_QUI).map((a, i) => (
               <div key={i} style={{
                 display: "flex", gap: 16, alignItems: "flex-start",
                 background: "#fafbff", borderRadius: 16, padding: "20px 24px",
@@ -375,7 +493,9 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
           </div>
           <div style={{ marginTop: 28, background: `${color}10`, borderRadius: 16, padding: "20px 28px", borderLeft: `4px solid ${color}` }}>
             <p style={{ margin: 0, fontFamily: "var(--font-aleo)", fontSize: 15, color: "#090943", lineHeight: 1.7 }}>
-              👉 Cet outil est particulièrement adapté aux enfants <strong>avec retard de langage</strong>, avec <strong>TSA (diagnostiqué ou suspecté)</strong>, et à tous ceux qui ont besoin de supports visuels variés pour apprendre.
+              {d.pourQuiNote ?? (
+                <>👉 Cet outil est particulièrement adapté aux enfants <strong>avec retard de langage</strong>, avec <strong>TSA (diagnostiqué ou suspecté)</strong>, et à tous ceux qui ont besoin de supports visuels variés pour apprendre.</>
+              )}
             </p>
           </div>
         </div>
@@ -388,15 +508,19 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
           <div style={{ textAlign: "center", marginBottom: 56 }}>
             <div className="mef-eyebrow" style={{ color }}>La pédagogie derrière l&apos;outil</div>
             <h2 style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: "clamp(26px, 3.5vw, 38px)", color: "white", lineHeight: 1.2, marginBottom: 16 }}>
-              Pourquoi varier les supports visuels ?
+              {d.pedagogie?.title ?? "Pourquoi varier les supports visuels ?"}
             </h2>
             <p style={{ fontFamily: "var(--font-aleo)", fontSize: 16, color: "rgba(255,255,255,0.65)", maxWidth: 640, margin: "0 auto", lineHeight: 1.75 }}>
-              Pour un enfant avec TSA ou retard de langage, une illustration ≠ une photo. Il peut connaître le mot « pomme » devant un dessin… et ne pas reconnaître la pomme sur le marché. C&apos;est la{" "}
-              <strong style={{ color: "white" }}>généralisation</strong> — et c&apos;est une compétence qui s&apos;entraîne.
+              {d.pedagogie?.desc ?? (
+                <>
+                  Pour un enfant avec TSA ou retard de langage, une illustration ≠ une photo. Il peut connaître le mot « pomme » devant un dessin… et ne pas reconnaître la pomme sur le marché. C&apos;est la{" "}
+                  <strong style={{ color: "white" }}>généralisation</strong> — et c&apos;est une compétence qui s&apos;entraîne.
+                </>
+              )}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {POURQUOI_VARIER.map((item, i) => (
+            {(d.pedagogie?.items ?? POURQUOI_VARIER).map((item, i) => (
               <div key={i} style={{
                 background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
                 borderRadius: 20, padding: "32px 28px",
@@ -420,7 +544,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
         <div className="mef-container" style={{ maxWidth: 1000 }}>
           <div className="mef-eyebrow">Ce que contient l&apos;outil</div>
           <h2 className="mef-h2" style={{ marginBottom: 48 }}>
-            {d.isLegumes ? "24 cartes — fruits et légumes" : "40+ cartes — animaux du monde entier"}
+            {d.contentTitle ?? (d.isLegumes ? "24 cartes — fruits et légumes" : "40+ cartes — animaux du monde entier")}
           </h2>
           <div className={`grid grid-cols-1 gap-5 md:gap-8 ${d.isLegumes ? "md:grid-cols-2" : "md:grid-cols-3"}`}>
             {d.content.map((cat) => (
@@ -444,7 +568,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
               4 types d&apos;activités à faire ensemble
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {JEUX.map((j, i) => (
+              {(d.activites ?? JEUX).map((j, i) => (
                 <div key={i} style={{
                   background: "white", borderRadius: 18, padding: "24px 28px",
                   border: "1px solid #f0f0f8", boxShadow: "0 4px 24px rgba(9,9,67,0.06)",
@@ -514,7 +638,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
             <div>
               <div className="mef-eyebrow">Ce que ça va changer</div>
               <h2 className="mef-h2" style={{ marginBottom: 28 }}>Grâce à cet outil, vous pourrez…</h2>
-              {RESULTATS.map((r, i) => (
+              {(d.productResultats ?? RESULTATS).map((r, i) => (
                 <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 14 }}>
                   <span style={{
                     width: 22, height: 22, borderRadius: "50%", background: color, color: "white",

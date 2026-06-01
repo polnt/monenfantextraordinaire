@@ -8,7 +8,7 @@ const products = [
   {
     title: 'Je découvre les fruits et légumes en photos',
     subtitle: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
-    img: '/uploads/visuel vignettes produit - outils pédagogiques - legumes_photo.png',
+    img: '/uploads/miniature_outils_legumes_photo.png',
     imgPosition: 'center 30%',
     bg: '#e8f4fd',
     price: '14,90 €',
@@ -19,7 +19,7 @@ const products = [
   {
     title: 'Je découvre les fruits et légumes en illustrations',
     subtitle: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
-    img: '/uploads/visuel vignettes produit - outils pédagogiques - legume_illustration.png',
+    img: '/uploads/miniature_outils_legume_illustration.png',
     imgPosition: 'center 30%',
     bg: '#e8f5e9',
     price: '14,90 €',
@@ -30,12 +30,24 @@ const products = [
   {
     title: 'Je découvre les animaux en photos et en illustrations',
     subtitle: 'Et si votre enfant comprenait enfin que les images représentent le monde réel ?',
-    img: null,
+    img: '/uploads/miniature_outils_animaux-images-photo.png',
+    imgPosition: 'center 30%',
     bg: '#fff3e0',
     price: '19,90 €',
     href: '/outils/animaux',
     slug: 'animaux',
     color: '#ff7043',
+  },
+  {
+    title: 'Apprendre à dessiner mon premier bonhomme',
+    subtitle: 'Un livret progressif pour développer le schéma corporel et la confiance en soi.',
+    img: '/uploads/miniature_outils_bonhomme-dessin.png',
+    imgPosition: 'center 30%',
+    bg: '#f5f3ff',
+    price: '12,90 €',
+    href: '/outils/bonhomme-dessin',
+    slug: 'bonhomme-dessin',
+    color: '#9333ea',
   },
 ];
 

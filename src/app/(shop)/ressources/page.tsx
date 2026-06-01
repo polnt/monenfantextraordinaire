@@ -25,7 +25,7 @@ const resources = [
     subtitle: 'Comprendre le monde avec ses 5 sens',
     tag: 'Article · PDF gratuit',
     img: '/uploads/miniature_profil-sensoriel-autiste.png',
-    imgPosition: 'center 0%',
+    imgPosition: 'center 30%',
     pdf: '/ressources/article_profil-sensoriel-autiste.pdf',
   },
 ];
