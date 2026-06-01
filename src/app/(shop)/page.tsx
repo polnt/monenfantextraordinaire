@@ -207,7 +207,7 @@ export default function HomePage(): React.JSX.Element {
                   <img
                     src="/uploads/cta-formation.png"
                     alt="Un parent suit une formation en ligne pour mieux accompagner son enfant"
-                    style={{ width: '100%', height: 340, objectFit: 'cover', objectPosition: '62% 70%', borderRadius: 20, display: 'block', border: '4px solid rgba(255,255,255,0.22)', boxShadow: '0 16px 40px rgba(9,9,67,0.28)' }}
+                    style={{ width: '100%', height: 340, objectFit: 'cover', objectPosition: '0% 70%', borderRadius: 20, display: 'block', border: '4px solid rgba(255,255,255,0.22)', boxShadow: '0 16px 40px rgba(9,9,67,0.28)' }}
                   />
                 </div>
               )}
