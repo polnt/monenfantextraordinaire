@@ -54,7 +54,7 @@ const PRODUCTS: Record<string, ProductData | undefined> = {
     tagline: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
     color: "#0792dc",
     colorLight: "#e8f4fd",
-    price: "14,90 €",
+    price: "7,90 €",
     badge: "📷 Version Photos",
     description:
       "Un outil pédagogique conçu pour aider votre enfant à nommer, reconnaître et généraliser les fruits et légumes grâce à des photographies du monde réel.",
@@ -90,7 +90,7 @@ const PRODUCTS: Record<string, ProductData | undefined> = {
     tagline: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
     color: "#27ae60",
     colorLight: "#e8f5e9",
-    price: "14,90 €",
+    price: "7,90 €",
     badge: "🎨 Version Illustrations",
     description:
       "Un outil pédagogique qui permet à votre enfant de comprendre qu'une illustration et une photo représentent le même objet — une compétence clé pour le développement du langage.",
@@ -230,7 +230,7 @@ const PRODUCTS: Record<string, ProductData | undefined> = {
     tagline: "Et si votre enfant comprenait enfin que les images représentent le monde réel ?",
     color: "#ff7043",
     colorLight: "#fff3e0",
-    price: "19,90 €",
+    price: "14,90 €",
     badge: "📷🎨 Photos + Illustrations",
     description:
       "Un outil complet qui combine photos réelles et illustrations pour aider votre enfant à reconnaître et nommer les animaux, quelle que soit la représentation visuelle.",
@@ -740,7 +740,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
                   🎯 Pack Photos + Illustrations
                 </div>
                 <p style={{ margin: 0, fontFamily: "var(--font-aleo)", fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
-                  Les deux versions à prix réduit : 24,90 € au lieu de 29,80 €
+                  Les deux versions à prix réduit : 11,90 € au lieu de 15,80 €
                 </p>
               </div>
               <Link

@@ -5,7 +5,7 @@ const tabs = [
     id: 'general',
     label: 'Généralités',
     image: '/uploads/trouble-neuro.png',
-    imgPosition: 'center 25%',
+    imgPosition: 'center 0%',
   },
   // {
   //   id: 'developpement',
@@ -408,21 +408,41 @@ const content: Record<string, TabItem[]> = {
       ]
     },
     {
-      key: "Causes possibles",
+      key: "Causes et conséquences",
       color: '#F90021',
       text: 'white',
-      blocks: [
-        { type: "paragraph", text: "Le TDA/H peut entraîner :" },
+      sections: [
         {
-          type: "list", items:
-            [
-              "des difficultés scolaires ;",
-              "des problèmes relationnels ;",
-              "une baisse de l’estime de soi ;",
-              "de l’anxiété ou des troubles du sommeil."
-            ]
+          title: "Causes possibles",
+          blocks: [
+            { type: "paragraph", text: "Le TDA/H est lié à plusieurs facteurs :" },
+            {
+              type: "list", items:
+                [
+                  "des facteurs génétiques",
+                  "des facteurs neurobiologiques",
+                  "des facteurs environnementaux"
+                ]
+            }
+          ]
+        },
+        {
+          title: "Conséquences possibles",
+          blocks: [
+            { type: "paragraph", text: "Le TDA/H peut entraîner :" },
+            {
+              type: "list", items:
+                [
+                  "des difficultés scolaires",
+                  "des problèmes relationnels",
+                  "une baisse de l’estime de soi",
+                  "de l’anxiété ou des troubles du sommeil"
+                ]
+            }
+          ]
         }
       ]
+
     },
     {
       key: "Prise en charge",
@@ -643,7 +663,7 @@ export default function ComprendrePage(): React.JSX.Element {
       </section>
       <section style={{ background: 'white', padding: '48px 0 80px' }}>
         <div className="mef-container">
-          <TabSection tabs={tabs} content={content} accentColor="#0792dc" />
+          <TabSection tabs={tabs} content={content} accentColor="#0792dc" imageHeight={360} />
         </div>
       </section>
     </div>

@@ -10,83 +10,112 @@ const tabs = [
 const content = {
   parents: [
     {
-      key: 'Les premiers signes',
+      key: 'Les premiers doutes',
       color: '#87ceeb',
       text: '#0f3d5a',
       sections: [
         {
-          title: "Le premier rôle : détecter",
+          title: "Quand l'inquiétude s'installe",
           content:
-            "Être parent d'un enfant atypique exige une implication intense, constante et profondément humaine. Dès les premiers signes de différence, les parents sont souvent les premiers à percevoir ce qui échappe à l'entourage. Leur vigilance et leur intuition sont précieuses.",
+            "Pour de nombreux parents, tout commence par une petite inquiétude. Un enfant qui ne parle pas comme les autres, qui semble vivre dans son propre monde, qui ne joue pas comme les enfants de son âge ou qui présente des comportements inhabituels. Certains proches rassurent en disant « Chaque enfant évolue à son rythme », tandis que d'autres minimisent les préoccupations. Pourtant, au fond d'eux, beaucoup de parents sentent que quelque chose est différent. Cette période est souvent marquée par l'angoisse, l'incertitude et de nombreuses questions sur l'avenir.",
         },
         {
-          title: 'La démarche diagnostique',
+          title: "L'importance de consulter et d'obtenir un diagnostic",
           content:
-            "Initier une démarche diagnostique est souvent long et complexe, mais cruciale pour accéder aux aides adaptées. Ne pas attendre : si plusieurs signes sont présents, consulter rapidement un pédopsychiatre ou un médecin spécialisé.",
+            "Face aux premiers signes, il est essentiel de consulter des professionnels compétents. Le diagnostic n'est pas une étiquette destinée à enfermer l'enfant. Au contraire, il constitue une clé de compréhension qui permet de mieux identifier ses besoins et de mettre en place un accompagnement adapté. Un diagnostic précoce favorise la mise en œuvre d'interventions ciblées et améliore les perspectives de développement. Plus tôt les difficultés sont identifiées, plus tôt des solutions peuvent être mises en place.",
         },
       ],
     },
     {
-      key: 'Après le diagnostic',
+      key: 'Le choc du diagnostic',
       color: '#27ae60',
       text: 'white',
       sections: [
         {
-          title: "Un rôle qui s'amplifie",
+          title: 'Un tsunami émotionnel',
           content:
-            "Une fois le diagnostic posé, le rôle des parents s'amplifie. Ils deviennent des piliers du quotidien de leur enfant, ses premiers accompagnateurs dans les soins, l'éducation et la construction d'une vie sociale.",
+            "Recevoir un diagnostic bouleverse profondément une famille. Même lorsque les parents s'y attendaient, l'annonce provoque souvent un véritable séisme émotionnel. La tristesse, la colère, l'incompréhension, la peur, le soulagement, la culpabilité ou encore le sentiment d'injustice peuvent se succéder. Chaque parent réagit différemment. Il n'existe pas de bonne ou de mauvaise manière de traverser cette étape.",
         },
         {
-          title: 'Un soutien à trois niveaux',
-          content: [
-            "Affectif : maintenir un climat d'amour, de sécurité et de bienveillance",
-            "Logistique : organiser les rendez-vous médicaux, rencontrer les enseignants, adapter le domicile",
-            "Éducatif : comprendre le fonctionnement de l'enfant, ses besoins spécifiques, ses droits",
-          ],
+          title: 'La culpabilité : un poids souvent porté en silence',
+          content:
+            "Après l'annonce, de nombreux parents cherchent une explication et se demandent s'ils ont commis une erreur. Les mères sont particulièrement exposées à ce sentiment. Pourtant, les troubles du neurodéveloppement ne sont pas causés par un manque d'amour, une erreur éducative ou un défaut parental. Aucun parent n'est responsable du handicap ou des particularités de son enfant.",
         },
         {
-          title: "Se former",
+          title: 'Le déni : une étape naturelle',
           content:
-            "La formation devient indispensable : comprendre les méthodes éducatives et thérapeutiques efficaces, connaître les droits de l'enfant (MDPH, AEEH, AESH), et s'appuyer sur des professionnels de confiance.",
+            "Face à une réalité difficile à accepter, certains parents traversent une phase de déni — ils espèrent une erreur de diagnostic ou refusent de croire aux conclusions des professionnels. Cette réaction est humaine : elle constitue souvent un mécanisme de protection face à une souffrance trop importante. Avec le temps, l'information et l'accompagnement permettent généralement d'avancer progressivement.",
+        },
+        {
+          title: "Le deuil de l'enfant imaginé",
+          content:
+            "Chaque parent construit inconsciemment des rêves pour son enfant avant même sa naissance. Lorsqu'un diagnostic est posé, beaucoup doivent faire le deuil de cet enfant imaginé. Ce processus est douloureux mais nécessaire. L'acceptation ne signifie pas renoncer aux progrès ou aux espoirs. Elle signifie aimer et accompagner son enfant pour ce qu'il est, avec ses forces, ses talents, ses défis et son potentiel unique.",
         },
       ],
     },
     {
-      key: 'La disponibilité',
+      key: "L'entourage et la société",
       color: '#F90021',
       text: 'white',
       sections: [
         {
-          title: 'Être là',
+          title: 'Quand la famille ne comprend pas',
           content:
-            "Être là, dans les moments de crise comme dans les petites victoires, demande une énergie et une présence inestimables. Malgré l'épuisement, les parents cherchent sans relâche à maintenir une communication ouverte avec leur enfant.",
+            "Certains membres de la famille refusent d'accepter le diagnostic, minimisent les difficultés ou considèrent que l'enfant est simplement mal élevé. Les parents se retrouvent à devoir justifier les comportements de leur enfant et défendre continuellement leurs choix éducatifs. Cette incompréhension peut créer des tensions familiales et un sentiment profond d'isolement.",
         },
         {
-          title: 'Une communication à réinventer',
+          title: 'Le regard de la société',
           content:
-            "Cette communication, parfois non verbale, exige écoute, patience et adaptation constante. Créer des ponts entre le monde de l'enfant et celui des autres est un travail quotidien, exigeant et profondément précieux.",
+            "Les crises en public, les comportements atypiques ou les difficultés de communication attirent parfois les regards, les jugements ou les remarques déplacées. Le handicap invisible est particulièrement difficile à faire comprendre. De nombreux parents ont progressivement cessé certaines sorties ou limité leurs activités sociales par peur d'être jugés.",
+        },
+        {
+          title: 'Les croyances et les superstitions en Afrique',
+          content:
+            "Dans de nombreux pays africains, le handicap et les troubles du neurodéveloppement restent entourés de croyances traditionnelles. Certaines familles attribuent l'autisme à la sorcellerie, à un djinn ou à une malédiction familiale. Ces croyances peuvent conduire à l'isolement et à la stigmatisation. Il est essentiel de sensibiliser : l'autisme, le TDAH ou les troubles dys ne sont ni une punition ni une manifestation surnaturelle.",
+        },
+        {
+          title: 'L\'impact sur le couple et la fratrie',
+          content: [
+            "Couple : les rendez-vous médicaux, les inquiétudes permanentes et la fatigue peuvent générer stress et tensions. Les parents n'avancent pas toujours au même rythme dans l'acceptation du diagnostic.",
+            "Fratrie : les frères et sœurs peuvent éprouver jalousie ou frustration, ou au contraire un fort instinct protecteur. Il est important de leur offrir des espaces d'écoute et des moments privilégiés pour qu'ils trouvent leur propre place.",
+          ],
         },
       ],
     },
     {
-      key: "L'inclusion sociale",
+      key: "Le quotidien et l'avenir",
       color: '#EFD010',
       text: '#090943',
       sections: [
         {
-          title: 'Porte-parole et médiateur',
+          title: 'Une vie quotidienne entièrement réorganisée',
           content:
-            "Les parents jouent un rôle déterminant dans l'inclusion sociale de leur enfant. Ils œuvrent pour qu'il ne soit pas isolé, qu'il soit compris et accepté dans les écoles, les activités, les lieux de vie. Ils sont souvent ses porte-paroles, ses défenseurs, ses médiateurs.",
+            "Les journées s'organisent autour des séances de rééducation, des rendez-vous médicaux, des activités thérapeutiques et des besoins spécifiques de l'enfant. Les parents deviennent progressivement experts de leur enfant. Ils apprennent à anticiper les difficultés, à adapter leur environnement et à célébrer chaque progrès, même lorsqu'il semble minime aux yeux des autres.",
         },
         {
-          title: "S'appuyer sur un réseau",
+          title: 'Vie professionnelle et difficultés financières',
           content:
-            "Les échanges avec les professionnels, les proches et d'autres parents d'enfants atypiques deviennent des occasions de partager, d'apprendre et de se sentir moins seuls.",
+            "Certains parents réduisent leur temps de travail, refusent des promotions ou interrompent leur carrière. La prise en charge spécialisée représente souvent un coût important : consultations, thérapies, matériel pédagogique. Dans de nombreux pays africains, l'absence de couverture adaptée oblige les familles à assumer seules la majorité des dépenses.",
         },
         {
-          title: 'Conclusion',
+          title: "L'épuisement des aidants",
           content:
-            "Les parents sont un véritable socle pour l'enfant atypique. Leur présence, leur engagement et leur amour lui permettent de grandir dans la dignité, la confiance et la reconnaissance de sa singularité.",
+            "Les nuits difficiles, les inquiétudes constantes, les démarches administratives et la vigilance permanente peuvent conduire à un épuisement physique et émotionnel important. Prendre soin de soi n'est pas un acte égoïste. C'est une nécessité. Un parent qui va bien est davantage en capacité d'accompagner son enfant dans la durée.",
+        },
+        {
+          title: "L'importance des groupes de soutien",
+          content:
+            "Les associations, groupes de parole et réseaux de parents permettent de partager ses expériences, ses difficultés mais aussi ses réussites. Ils offrent un espace où chacun peut être compris sans jugement. Rencontrer d'autres familles aide souvent à rompre l'isolement, à trouver des solutions concrètes et à retrouver de l'espoir.",
+        },
+        {
+          title: 'Les parents : acteurs essentiels de la prise en charge',
+          content:
+            "Les professionnels jouent un rôle important, mais les parents demeurent les principaux acteurs du développement de leur enfant. Les apprentissages réalisés lors des séances doivent souvent être poursuivis à la maison. La répétition, la patience, l'encouragement et la cohérence entre les différents environnements favorisent les progrès de l'enfant.",
+        },
+        {
+          title: 'Un parcours difficile, mais rempli d\'espoir',
+          content:
+            "Être parent d'un enfant extraordinaire est un chemin exigeant, parfois épuisant, souvent bouleversant. Mais c'est également un parcours riche d'enseignements, de rencontres et de victoires. Chaque enfant possède ses propres talents, sa propre personnalité et sa propre trajectoire. Avec de l'amour, de la patience, un accompagnement adapté et une société plus inclusive, il peut développer son potentiel et trouver pleinement sa place dans le monde.",
         },
       ],
     },

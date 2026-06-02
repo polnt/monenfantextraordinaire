@@ -33,6 +33,7 @@ interface TabSectionProps {
   tabs: Tab[];
   content: Record<string, TabItem[]>;
   accentColor?: string;
+  imageHeight?: number;
 }
 
 function renderBlocks(blocks: ContentBlock[], accentColor: string): React.JSX.Element {
@@ -201,6 +202,7 @@ export default function TabSection({
   tabs,
   content,
   accentColor = '#0792dc',
+  imageHeight = 240,
 }: TabSectionProps): React.JSX.Element {
   const [tab, setTab] = useState(tabs[0]?.id ?? '');
   const [activeIdx, setActiveIdx] = useState(0);
@@ -287,7 +289,7 @@ export default function TabSection({
           <div
             style={{
               width: '100%',
-              height: 240,
+              height: imageHeight,
               overflow: 'hidden',
               borderRadius: '0 0 20px 20px',
               marginBottom: 32,
@@ -299,8 +301,8 @@ export default function TabSection({
               alt=""
               style={{
                 width: '100%',
-                height: '240px',
-                objectFit: 'cover',
+                height: imageHeight,
+                objectFit: 'contain',
                 objectPosition: tabImgPosition,
                 display: 'block',
               }}
@@ -431,7 +433,7 @@ export default function TabSection({
         <div
           style={{
             width: '100%',
-            height: 180,
+            height: Math.round(imageHeight * 0.75),
             overflow: 'hidden',
             borderRadius: '0 0 16px 16px',
             marginBottom: 24,

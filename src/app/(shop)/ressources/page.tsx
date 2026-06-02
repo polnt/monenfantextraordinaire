@@ -58,12 +58,17 @@ export default function RessourcesPage(): React.JSX.Element {
           }}>
             {resources.map((resource) => (
               <div key={resource.pdf} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ position: 'relative', height: isMobile ? 200 : 260, overflow: 'hidden' }}>
+                <div style={{ position: 'relative', height: isMobile ? 200 : 260, overflow: 'hidden', backgroundColor: '#F5E6C8' }}>
                   <Image
                     src={resource.img}
                     alt={resource.title}
                     fill
-                    style={{ objectFit: 'cover', objectPosition: resource.imgPosition ?? 'center center' }}
+                    style={{
+                      objectFit: 'contain',
+                      backgroundColor: 'transparent',
+                      objectPosition: resource.imgPosition ?? 'center center',
+                      filter: 'drop-shadow(-10px 16px 16px rgba(0,0,0,0.75))'
+                    }}
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </div>
