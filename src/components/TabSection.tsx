@@ -20,6 +20,8 @@ export interface TabItem {
   color: string;
   text: string;
   sections?: SubSection[];
+  image?: string;
+  imgPosition?: string;
 }
 
 interface Tab {
@@ -77,6 +79,7 @@ function SubAccordion({
   accentColor: string;
 }): React.JSX.Element {
   const [open, setOpen] = useState<number | null>(0);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       {sections.map((s, i) => (
@@ -241,6 +244,15 @@ export default function TabSection({
   const currentTab = tabs.find((t) => t.id === tab);
   const tabImage = currentTab?.image;
   const tabImgPosition = currentTab?.imgPosition ?? 'center 30%';
+  // Desktop: active item drives the banner; mobile: the open accordion item does
+  const currentItem = isDesktop
+    ? active
+    : (openMobile !== null ? items[openMobile] : items[0]);
+  // Active item image takes priority over tab image; falls back to tab image if no item image
+  const bannerImage = currentItem?.image ?? tabImage;
+  const bannerImgPosition = currentItem?.image
+    ? (currentItem.imgPosition ?? 'center 30%')
+    : tabImgPosition;
 
   const TabsBar = () => (
     <div
@@ -249,7 +261,7 @@ export default function TabSection({
         display: 'flex',
         gap: 4,
         borderBottom: '2px solid #f3f4f6',
-        marginBottom: tabImage ? 0 : 32,
+        marginBottom: bannerImage ? 0 : 32,
         overflowX: 'auto',
         overflowY: 'hidden',
       }}
@@ -285,7 +297,7 @@ export default function TabSection({
     return (
       <>
         {TabsBar()}
-        {tabImage && (
+        {bannerImage && (
           <div
             style={{
               width: '100%',
@@ -297,13 +309,13 @@ export default function TabSection({
             }}
           >
             <img
-              src={tabImage}
+              src={bannerImage}
               alt=""
               style={{
                 width: '100%',
                 height: imageHeight,
                 objectFit: 'contain',
-                objectPosition: tabImgPosition,
+                objectPosition: bannerImgPosition,
                 display: 'block',
               }}
             />
@@ -429,7 +441,7 @@ export default function TabSection({
   return (
     <>
       {TabsBar()}
-      {tabImage && (
+      {bannerImage && (
         <div
           style={{
             width: '100%',
@@ -440,13 +452,13 @@ export default function TabSection({
           }}
         >
           <img
-            src={tabImage}
+            src={bannerImage}
             alt=""
             style={{
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'center 30%',
+              objectPosition: bannerImgPosition,
               display: 'block',
             }}
           />

@@ -1,10 +1,30 @@
 import TabSection from '@/components/TabSection';
 
 const tabs = [
-  { id: 'parents', label: 'Les parents' },
-  { id: 'professionnels', label: 'Les professionnels' },
-  { id: 'methodes', label: 'Les méthodes' },
-  { id: 'outils', label: 'Les outils de communication' },
+  {
+    id: 'parents',
+    label: 'Les parents',
+    image: '/uploads/parents.png',
+    imgPosition: 'center 0%'
+  },
+  {
+    id: 'professionnels',
+    label: 'Les professionnels',
+    image: '/uploads/pros.png',
+    imgPosition: 'center 0%'
+  },
+  {
+    id: 'methodes',
+    label: 'Les méthodes',
+    image: '/uploads/methodes.png',
+    imgPosition: 'center 0%'
+  },
+  {
+    id: 'outils',
+    label: 'Les outils de communication',
+    image: '/uploads/outils-com.png',
+    imgPosition: 'center 0%'
+  },
 ];
 
 const content = {
@@ -122,22 +142,30 @@ const content = {
   ],
   professionnels: [
     {
-      key: 'Pédopsychiatre', color: '#ff7043', text: 'white',
+      key: 'Pédopsychiatre',
+      color: '#ff7043',
+      text: 'white',
+      image: '/uploads/pedopsy.png',
+      imgPosition: 'center 0%',
       sections: [
         { title: 'Son rôle', content: "Médecin spécialisé dans les troubles psychiques, neurodéveloppementaux et émotionnels chez les enfants et adolescents. Acteur central du diagnostic et de la coordination des soins." },
-        { title: 'Quand consulter ?', content: [
-          "Poser un diagnostic de TSA ou de troubles associés (TDAH, anxiété, retard de développement)",
-          "Difficultés comportementales, de régulation émotionnelle ou troubles du sommeil",
-          "Évaluer la nécessité de traitements médicamenteux",
-          "Accompagner la famille face à des situations de crise",
-        ]},
-        { title: 'Rôle dans le parcours de soin', content: [
-          "Évaluation clinique approfondie",
-          "Coordination des bilans (psychologique, orthophonique, psychomoteur, neuropsychologique)",
-          "Élaboration d'un projet de soins personnalisé",
-          "Orientation vers des structures adaptées (IME, CAMSP, SESSAD)",
-          "Suivi médical régulier et ajustement des besoins",
-        ]},
+        {
+          title: 'Quand consulter ?', content: [
+            "Poser un diagnostic de TSA ou de troubles associés (TDAH, anxiété, retard de développement)",
+            "Difficultés comportementales, de régulation émotionnelle ou troubles du sommeil",
+            "Évaluer la nécessité de traitements médicamenteux",
+            "Accompagner la famille face à des situations de crise",
+          ]
+        },
+        {
+          title: 'Rôle dans le parcours de soin', content: [
+            "Évaluation clinique approfondie",
+            "Coordination des bilans (psychologique, orthophonique, psychomoteur, neuropsychologique)",
+            "Élaboration d'un projet de soins personnalisé",
+            "Orientation vers des structures adaptées (IME, CAMSP, SESSAD)",
+            "Suivi médical régulier et ajustement des besoins",
+          ]
+        },
         { title: 'Médication (si nécessaire)', content: "Peut réduire l'anxiété, améliorer le sommeil, diminuer les comportements auto/hétéro-agressifs et améliorer la concentration. Toujours envisagée avec prudence, en complément d'un suivi global." },
         { title: 'Où consulter ?', content: "CMP, hôpital de jour, service de pédopsychiatrie, cabinet privé, structures médico-sociales. Au Sénégal : Hôpital pour enfant Diamniadio et Hôpital Albert Royer." },
       ],
@@ -146,40 +174,53 @@ const content = {
       key: 'Psychologue', color: '#F90021', text: 'white',
       sections: [
         { title: 'Son rôle', content: "Aide l'enfant à mieux comprendre et réguler ses émotions, à développer des compétences sociales, et à renforcer son estime de soi dans un cadre sécurisant." },
-        { title: 'Ce qu\'il propose', content: [
-          "Bilan psychologique",
-          "Suivi individuel : émotions, angoisse, compétences sociales",
-          "Jeux thérapeutiques adaptés (jeu symbolique, dessin, histoires sociales)",
-          "Groupes d'habiletés sociales",
-          "Guidance parentale",
-        ]},
+        {
+          title: 'Ce qu\'il propose', content: [
+            "Bilan psychologique",
+            "Suivi individuel : émotions, angoisse, compétences sociales",
+            "Jeux thérapeutiques adaptés (jeu symbolique, dessin, histoires sociales)",
+            "Groupes d'habiletés sociales",
+            "Guidance parentale",
+          ]
+        },
         { title: 'Où consulter ?', content: "Cabinet libéral, CMP, IME, écoles ou structures spécialisées, téléconsultation." },
       ],
     },
     {
-      key: 'Orthophoniste', color: '#87ceeb', text: '#0f3d5a',
+      key: 'Orthophoniste',
+      color: '#87ceeb',
+      text: '#0f3d5a',
+      image: '/uploads/orthophoniste.png',
+      imgPosition: 'center 0%',
       sections: [
         { title: 'Son rôle', content: "Aide l'enfant non seulement à parler, mais à entrer en relation avec les autres, à se faire comprendre et à comprendre son environnement." },
-        { title: 'Ce qu\'il propose', content: [
-          "Bilan orthophonique complet",
-          "Travail sur le langage oral (vocabulaire, syntaxe, prononciation)",
-          "Développement de la communication non verbale (gestes, regard, tours de parole)",
-          "Outils de communication alternative : PECS, pictogrammes, Makaton, tablette",
-          "Histoires sociales et scénarios pour comprendre les situations sociales",
-        ]},
+        {
+          title: 'Ce qu\'il propose', content: [
+            "Bilan orthophonique complet",
+            "Travail sur le langage oral (vocabulaire, syntaxe, prononciation)",
+            "Développement de la communication non verbale (gestes, regard, tours de parole)",
+            "Outils de communication alternative : PECS, pictogrammes, Makaton, tablette",
+            "Histoires sociales et scénarios pour comprendre les situations sociales",
+          ]
+        },
         { title: 'Où consulter ?', content: "Cabinet libéral, CMP, IME, téléorthophonie. Sur prescription médicale." },
       ],
     },
     {
-      key: 'Psychomotricien', color: '#27ae60', text: 'white',
+      key: 'Psychomotricien', 
+      color: '#27ae60', text: 'white',
+      image: '/uploads/psychomot.png',
+      imgPosition: 'center 0%',
       sections: [
         { title: 'Son rôle', content: "Aide l'enfant à se développer harmonieusement en tenant compte de ses spécificités sensorielles, motrices et affectives." },
-        { title: 'Ce qu\'il propose', content: [
-          "Jeux moteurs pour l'équilibre, la coordination et la précision des gestes",
-          "Activités sensorielles pour mieux gérer les sensations (bruit, lumière, toucher)",
-          "Techniques de relaxation pour réduire l'agitation et l'anxiété",
-          "Médiations corporelles (danse, mouvement, expression corporelle)",
-        ]},
+        {
+          title: 'Ce qu\'il propose', content: [
+            "Jeux moteurs pour l'équilibre, la coordination et la précision des gestes",
+            "Activités sensorielles pour mieux gérer les sensations (bruit, lumière, toucher)",
+            "Techniques de relaxation pour réduire l'agitation et l'anxiété",
+            "Médiations corporelles (danse, mouvement, expression corporelle)",
+          ]
+        },
         { title: 'Où consulter ?', content: "Cabinet libéral, CMP, IME, école spécialisée, hôpital. Sur prescription médicale." },
       ],
     },
@@ -187,13 +228,15 @@ const content = {
       key: 'Ergothérapeute', color: '#EFD010', text: '#090943',
       sections: [
         { title: 'Son rôle', content: "Favorise l'autonomie, le confort et la confiance de l'enfant dans ses activités quotidiennes." },
-        { title: 'Ce qu\'il propose', content: [
-          "Évaluation fonctionnelle de l'enfant et de son environnement",
-          "Rééducation motrice et sensorielle",
-          "Adaptations concrètes pour les gestes du quotidien (ustensiles adaptés, routines visuelles)",
-          "Profil sensoriel personnalisé",
-          "Conseils aux parents et à l'école",
-        ]},
+        {
+          title: 'Ce qu\'il propose', content: [
+            "Évaluation fonctionnelle de l'enfant et de son environnement",
+            "Rééducation motrice et sensorielle",
+            "Adaptations concrètes pour les gestes du quotidien (ustensiles adaptés, routines visuelles)",
+            "Profil sensoriel personnalisé",
+            "Conseils aux parents et à l'école",
+          ]
+        },
         { title: 'Où consulter ?', content: "Cabinet libéral, IME, CAMSP, SESSAD. Parfois à domicile ou en milieu scolaire." },
       ],
     },
@@ -201,20 +244,24 @@ const content = {
       key: 'Diététicien', color: '#9b59b6', text: 'white',
       sections: [
         { title: 'Son rôle', content: "Aide à reconstruire une relation sereine et équilibrée à l'alimentation, en respectant les spécificités sensorielles et comportementales de l'enfant." },
-        { title: 'Problèmes fréquents', content: [
-          "Sélectivités alimentaires (refus de certaines textures, couleurs, odeurs)",
-          "Troubles sensoriels influençant l'acceptation des aliments",
-          "Difficultés à reconnaître les signaux de faim ou de satiété",
-          "Risque de carences nutritionnelles",
-          "Troubles digestifs, constipation, allergies alimentaires",
-        ]},
-        { title: 'Ce qu\'il propose', content: [
-          "Évaluation personnalisée des habitudes alimentaires",
-          "Menus équilibrés et progressifs adaptés à l'enfant",
-          "Stratégies de désensibilisation alimentaire douces et respectueuses",
-          "Outils ludiques pour explorer les aliments autrement",
-          "Soutien aux parents pour dédramatiser les repas",
-        ]},
+        {
+          title: 'Problèmes fréquents', content: [
+            "Sélectivités alimentaires (refus de certaines textures, couleurs, odeurs)",
+            "Troubles sensoriels influençant l'acceptation des aliments",
+            "Difficultés à reconnaître les signaux de faim ou de satiété",
+            "Risque de carences nutritionnelles",
+            "Troubles digestifs, constipation, allergies alimentaires",
+          ]
+        },
+        {
+          title: 'Ce qu\'il propose', content: [
+            "Évaluation personnalisée des habitudes alimentaires",
+            "Menus équilibrés et progressifs adaptés à l'enfant",
+            "Stratégies de désensibilisation alimentaire douces et respectueuses",
+            "Outils ludiques pour explorer les aliments autrement",
+            "Soutien aux parents pour dédramatiser les repas",
+          ]
+        },
         { title: 'Où consulter ?', content: "Cabinet libéral, IME, CAMSP, SESSAD, visioconférence." },
       ],
     },
@@ -497,7 +544,7 @@ export default function AiderPage(): React.JSX.Element {
       </section>
       <section style={{ background: 'white', padding: '48px 0 80px' }}>
         <div className="mef-container">
-          <TabSection tabs={tabs} content={content} accentColor="#F90021" />
+          <TabSection tabs={tabs} content={content} accentColor="#F90021" imageHeight={360} />
         </div>
       </section>
     </div>
