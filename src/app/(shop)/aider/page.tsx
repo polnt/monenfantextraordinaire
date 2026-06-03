@@ -142,6 +142,22 @@ const content = {
   ],
   professionnels: [
     {
+      key: 'Psychologue', color: '#F90021', text: 'white',
+      sections: [
+        { title: 'Son rôle', content: "Aide l'enfant à mieux comprendre et réguler ses émotions, à développer des compétences sociales, et à renforcer son estime de soi dans un cadre sécurisant." },
+        {
+          title: 'Ce qu\'il propose', content: [
+            "Bilan psychologique",
+            "Suivi individuel : émotions, angoisse, compétences sociales",
+            "Jeux thérapeutiques adaptés (jeu symbolique, dessin, histoires sociales)",
+            "Groupes d'habiletés sociales",
+            "Guidance parentale",
+          ]
+        },
+        { title: 'Où consulter ?', content: "Cabinet libéral, CMP, IME, écoles ou structures spécialisées, téléconsultation." },
+      ],
+    },
+    {
       key: 'Pédopsychiatre',
       color: '#ff7043',
       text: 'white',
@@ -171,22 +187,6 @@ const content = {
       ],
     },
     {
-      key: 'Psychologue', color: '#F90021', text: 'white',
-      sections: [
-        { title: 'Son rôle', content: "Aide l'enfant à mieux comprendre et réguler ses émotions, à développer des compétences sociales, et à renforcer son estime de soi dans un cadre sécurisant." },
-        {
-          title: 'Ce qu\'il propose', content: [
-            "Bilan psychologique",
-            "Suivi individuel : émotions, angoisse, compétences sociales",
-            "Jeux thérapeutiques adaptés (jeu symbolique, dessin, histoires sociales)",
-            "Groupes d'habiletés sociales",
-            "Guidance parentale",
-          ]
-        },
-        { title: 'Où consulter ?', content: "Cabinet libéral, CMP, IME, écoles ou structures spécialisées, téléconsultation." },
-      ],
-    },
-    {
       key: 'Orthophoniste',
       color: '#87ceeb',
       text: '#0f3d5a',
@@ -207,7 +207,7 @@ const content = {
       ],
     },
     {
-      key: 'Psychomotricien', 
+      key: 'Psychomotricien',
       color: '#27ae60', text: 'white',
       image: '/uploads/psychomot.png',
       imgPosition: 'center 0%',
