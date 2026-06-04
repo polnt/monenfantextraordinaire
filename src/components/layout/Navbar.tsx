@@ -335,7 +335,7 @@ export default function Navbar(): React.JSX.Element {
             className="mef-btn mef-btn-blue"
             style={{ marginLeft: 10, padding: "9px 18px", fontSize: 13 }}
           >
-            Accéder à Moodle
+            Mon espace formation
           </a>
         </div>
 

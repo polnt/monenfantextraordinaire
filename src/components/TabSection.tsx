@@ -302,21 +302,21 @@ export default function TabSection({
             style={{
               width: '100%',
               height: imageHeight,
-              overflow: 'hidden',
-              borderRadius: '0 0 20px 20px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 16,
               marginBottom: 32,
-              position: 'relative',
             }}
           >
             <img
               src={bannerImage}
               alt=""
               style={{
-                width: '100%',
-                height: imageHeight,
-                objectFit: 'contain',
-                objectPosition: bannerImgPosition,
+                maxWidth: '100%',
+                maxHeight: imageHeight,
                 display: 'block',
+                borderRadius: 20,
               }}
             />
           </div>
@@ -447,7 +447,8 @@ export default function TabSection({
             width: '100%',
             height: Math.round(imageHeight * 0.75),
             overflow: 'hidden',
-            borderRadius: '0 0 16px 16px',
+            borderRadius: 20,
+            marginTop: 12,
             marginBottom: 24,
           }}
         >
@@ -460,6 +461,7 @@ export default function TabSection({
               objectFit: 'cover',
               objectPosition: bannerImgPosition,
               display: 'block',
+              borderRadius: 20,
             }}
           />
         </div>

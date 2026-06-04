@@ -7,12 +7,6 @@ const tabs = [
     image: '/uploads/trouble-neuro.png',
     imgPosition: 'center 0%',
   },
-  // {
-  //   id: 'developpement',
-  //   label: 'Troubles du développement',
-  //   image: '/uploads/trouble-developpement.jpg',
-  //   imgPosition: 'center 30%',
-  // },
   {
     id: 'autisme',
     label: "L'autisme de A à Z",
@@ -22,19 +16,19 @@ const tabs = [
   {
     id: 'attention',
     label: "Trouble de l’attention (TDA/H)",
-    image: "/uploads/tda.png",
+    image: "/uploads/tda_desktop.png",
     imgPosition: 'center 10%',
   },
   {
     id: 'dys',
     label: "Troubles dys",
-    image: "/uploads/trouble de l'attention.jpg",
+    image: "/uploads/dys_mobile.png",
     imgPosition: 'center 30%',
   },
   {
     id: 'autres',
     label: "Autres troubles",
-    image: "/uploads/trouble de l'attention.jpg",
+    image: "/uploads/autres.png",
     imgPosition: 'center 30%',
   },
 ];

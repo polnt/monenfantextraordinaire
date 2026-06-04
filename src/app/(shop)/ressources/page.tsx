@@ -14,7 +14,7 @@ const resources = [
   },
   {
     title: 'Différence entre retard et troubles du langage',
-    subtitle: '',
+    subtitle: 'Comprendre, distinguer et repérer les types de difficultés dans l\'acquisition du langage pour adopter un accompagnement adapté',
     tag: 'Article · PDF gratuit',
     img: '/uploads/miniature_retards-troubles-langage.png',
     imgPosition: 'center 0%',
