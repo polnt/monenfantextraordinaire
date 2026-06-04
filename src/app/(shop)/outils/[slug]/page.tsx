@@ -224,6 +224,120 @@ const PRODUCTS: Record<string, ProductData | undefined> = {
     ],
   },
 
+  "cahier-coloriage": {
+    title: "Cahier de coloriage éducatif et inclusif",
+    subtitle: "avec modèle",
+    tagline: "Parce que chaque enfant mérite de grandir, d'apprendre et de s'épanouir à son propre rythme.",
+    color: "#f59e0b",
+    colorLight: "#fffbeb",
+    price: "9,90 €",
+    badge: "🖍️ Cahier de coloriage",
+    description:
+      "Un cahier de coloriage spécialement conçu pour les enfants à besoins spécifiques. Des illustrations simples d'animaux, des modèles en couleur à reproduire, et des activités adaptées au rythme de chaque enfant.",
+    img: "/uploads/miniature_outils_animaux-coloriage.png",
+    imgWidth: 800,
+    imgHeight: 1067,
+    isLegumes: false,
+    inclus: [
+      { icon: "🎨", text: "Cahier de coloriage en haute définition" },
+      { icon: "🖼️", text: "Modèles en couleur pour guider et motiver l'enfant" },
+      { icon: "🖨️", text: "Format PDF imprimable — A4" },
+      { icon: "♾️", text: "Accès illimité — imprimez autant de fois que nécessaire" },
+      { icon: "⚡", text: "Téléchargement immédiat après paiement" },
+      { icon: "📋", text: "Guide d'utilisation et idées d'activités inclus" },
+    ],
+    content: [
+      {
+        label: "🖍️ Coloriages d'animaux",
+        items: [
+          "Illustrations simples aux contours bien définis",
+          "Modèle en couleur pour chaque page",
+          "Animaux familiers et attractifs",
+          "Présentation épurée, peu chargée visuellement",
+          "Dessins adaptés aux particularités sensorielles et cognitives",
+        ],
+      },
+      {
+        label: "📚 Compétences travaillées",
+        items: [
+          "Motricité fine et coordination œil-main",
+          "Concentration et attention",
+          "Vocabulaire et communication",
+          "Prérequis à l'écriture",
+          "Autonomie et confiance en soi",
+        ],
+      },
+    ],
+    contentTitle: "Un cahier complet — coloriage et apprentissage",
+    pourQuiItems: [
+      { icon: "🧩", text: "Votre enfant présente un TSA, un TDA/H ou une trisomie 21" },
+      { icon: "✍️", text: "Votre enfant a une dysgraphie ou des difficultés motrices" },
+      { icon: "💬", text: "Votre enfant a des difficultés de langage ou de communication" },
+      { icon: "🌱", text: "Vous cherchez des activités adaptées, structurées et rassurantes" },
+      { icon: "🎯", text: "Vous travaillez en IME, ULIS, en séance d'orthophonie ou en psychomotricité" },
+      { icon: "🏠", text: "Vous souhaitez des activités simples à faire à la maison ou en accompagnement" },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Ce cahier est particulièrement adapté aux enfants <strong>dès 3 ans</strong> présentant un{" "}
+        <strong>TSA</strong>, un <strong>TDA/H</strong>, une <strong>trisomie 21</strong>, une{" "}
+        <strong>dysgraphie</strong> ou tout besoin d&apos;un cadre rassurant, structuré et prévisible.
+      </>
+    ),
+    pedagogie: {
+      title: "Pourquoi le coloriage pour les enfants à besoins spécifiques ?",
+      desc: "Le coloriage n'est pas qu'une activité créative : pour les enfants à besoins spécifiques, c'est un outil thérapeutique puissant. Il développe la motricité fine, l'attention et la concentration, tout en offrant un cadre rassurant et prévisible.",
+      items: [
+        {
+          icon: "🤲",
+          title: "Un outil de motricité fine",
+          desc: "Tenir le crayon, colorier dans les contours, respecter les limites — chaque geste renforce les capacités motrices nécessaires à l'écriture et au développement graphomoteur.",
+        },
+        {
+          icon: "🧘",
+          title: "Un espace de calme et d'apaisement",
+          desc: "Le coloriage offre à l'enfant un moment de pause agréable et sécurisant. Il réduit le stress, l'agitation et favorise le retour au calme dans un cadre structuré.",
+        },
+        {
+          icon: "🎯",
+          title: "Observer et reproduire",
+          desc: "Le modèle en couleur guide l'enfant sans le contraindre — il observe, choisit, reproduit à son rythme, développant son autonomie et sa confiance en soi.",
+        },
+      ],
+    },
+    activites: [
+      {
+        icon: "🔍",
+        title: "Observation et reproduction",
+        desc: "L'enfant observe un modèle en couleur puis tente de le reproduire à sa façon — une activité structurée qui valorise l'initiative et renforce l'estime de soi.",
+      },
+      {
+        icon: "🖍️",
+        title: "Coloriage guidé",
+        desc: "Des illustrations adaptées pour travailler la précision du geste, la coordination œil-main et le contrôle du crayon.",
+      },
+      {
+        icon: "💬",
+        title: "Découverte du vocabulaire",
+        desc: "Les dessins servent de support pour nommer, décrire et échanger autour des animaux représentés — stimulant le langage et la communication.",
+      },
+      {
+        icon: "🌿",
+        title: "Moment de détente et d'apaisement",
+        desc: "Le coloriage favorise le retour au calme et offre un temps de pause agréable et sécurisant pour l'enfant.",
+      },
+    ],
+    productResultats: [
+      "Développer la motricité fine et la coordination œil-main",
+      "Renforcer les capacités motrices nécessaires à l'écriture",
+      "Améliorer l'attention, la concentration et la persévérance",
+      "Stimuler le langage, le vocabulaire et les capacités de communication",
+      "Renforcer la confiance en soi grâce à des réussites adaptées",
+      "Mieux gérer les émotions dans un cadre rassurant et prévisible",
+      "Réduire le stress et l'agitation grâce à une activité apaisante",
+    ],
+  },
+
   animaux: {
     title: "Je découvre les animaux",
     subtitle: "en photos et en illustrations",

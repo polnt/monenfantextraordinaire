@@ -49,6 +49,17 @@ const products = [
     slug: 'bonhomme-dessin',
     color: '#9333ea',
   },
+  {
+    title: 'Cahier de coloriage éducatif et inclusif',
+    subtitle: 'Des illustrations simples avec modèles en couleur, adaptées au rythme de chaque enfant.',
+    img: '/uploads/miniature_outils_animaux-coloriage.png',
+    imgPosition: 'center 30%',
+    bg: '#fffbeb',
+    price: '9,90 €',
+    href: '/outils/cahier-coloriage',
+    slug: 'cahier-coloriage',
+    color: '#f59e0b',
+  },
 ];
 
 export default function OutilsPage(): React.JSX.Element {

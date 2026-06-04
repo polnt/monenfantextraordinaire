@@ -31,6 +31,27 @@ async function main(): Promise<void> {
     create: { id: ebookProduct.id, fileUrl: null },
   });
 
+  // Cahier de coloriage
+  const coloringProduct = await db.product.upsert({
+    where: { slug: "cahier-coloriage" },
+    update: {},
+    create: {
+      slug: "cahier-coloriage",
+      name: "Cahier de coloriage éducatif et inclusif",
+      description: "Un cahier de coloriage avec modèles en couleur, adapté aux enfants à besoins spécifiques.",
+      price: 9.90,
+      currency: "EUR",
+      type: ProductType.EBOOK,
+      active: true,
+      ebook: { create: { fileUrl: null } },
+    },
+  });
+  await db.ebook.upsert({
+    where: { id: coloringProduct.id },
+    update: {},
+    create: { id: coloringProduct.id, fileUrl: null },
+  });
+
   // Training product
   const trainingProduct = await db.product.upsert({
     where: { slug: "test-formation" },
@@ -54,6 +75,7 @@ async function main(): Promise<void> {
 
   console.log("Seed OK:");
   console.log(`  [EBOOK]    id=${ebookProduct.id}    price=${ebookProduct.price} EUR`);
+  console.log(`  [EBOOK]    id=${coloringProduct.id} price=${coloringProduct.price} EUR  (cahier-coloriage)`);
   console.log(`  [TRAINING] id=${trainingProduct.id} price=${trainingProduct.price} EUR`);
 }
 
