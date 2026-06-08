@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useIsMobile } from '@/hooks/useIsMobile';
@@ -254,7 +255,7 @@ export default function FormationDetailPage(): React.JSX.Element {
               <p style={{ fontFamily: 'var(--font-aleo)', fontSize: 16, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, marginBottom: 28 }}>
                 Vous n&apos;allez pas juste &ldquo;apprendre&rdquo;. Vous allez <strong style={{ color: 'white' }}>faire</strong>. Grâce au Cahier des Parents, vous suivez un parcours progressif d&apos;exercices, pensé pour accompagner votre enfant des premiers signaux jusqu&apos;aux premiers mots.
               </p>
-              {['Des exercices simples', 'Adaptés à chaque enfant', 'Intégrés dans votre quotidien'].map((t) => (
+              {['Des exercices simples', 'Adaptés à chaque enfant', 'Intégrés dans votre quotidien', 'Une véritable bibliothèque de jeux'].map((t) => (
                 <div key={t} style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 14 }}>
                   <span style={{ width: 22, height: 22, borderRadius: '50%', background: color, color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, flexShrink: 0 }}>✓</span>
                   <p style={{ margin: 0, fontFamily: 'var(--font-aleo)', fontSize: 16, color: 'rgba(255,255,255,0.8)' }}>{t}</p>
@@ -263,16 +264,13 @@ export default function FormationDetailPage(): React.JSX.Element {
             </div>
             <div>
               <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 24, padding: '40px 36px', textAlign: 'center' }}>
-                <div style={{ fontSize: 64, marginBottom: 20 }}>📘</div>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+                  <Image src="/uploads/cahier-parents.png" alt="Le Cahier des Parents" width={220} height={220} style={{ borderRadius: 12, objectFit: 'contain' }} />
+                </div>
                 <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: 'white', marginBottom: 12 }}>20 minutes par jour suffisent</div>
                 <p style={{ margin: 0, fontFamily: 'var(--font-aleo)', fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
                   pour créer des opportunités d&apos;interaction et construire, pas à pas, les bases solides du langage de votre enfant.
                 </p>
-                <div style={{ marginTop: 28, padding: '16px 24px', background: `${color}22`, borderRadius: 14, border: `1px solid ${color}44` }}>
-                  <p style={{ margin: 0, fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 14, color, lineHeight: 1.6 }}>
-                    🎲 + une bibliothèque de jeux conçus comme de véritables exercices de développement du langage
-                  </p>
-                </div>
               </div>
             </div>
           </div>

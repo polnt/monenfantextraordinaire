@@ -88,7 +88,7 @@ export default function OutilsPage(): React.JSX.Element {
               <div key={i} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ height: isMobile ? 200 : 260, background: p.bg, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {p.img ? (
-                    <img src={p.img} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: p.imgPosition ?? 'center center', display: 'block' }} />
+                    <img src={p.img} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: p.imgPosition ?? 'center center', display: 'block', filter: 'drop-shadow(-10px 16px 16px rgba(0,0,0,0.75))' }} />
                   ) : (
                     <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
                       <div style={{ position: 'absolute', inset: 0, backgroundImage: 'repeating-linear-gradient(-45deg,transparent,transparent 12px,rgba(0,0,0,0.025) 12px,rgba(0,0,0,0.025) 13px)' }} />
