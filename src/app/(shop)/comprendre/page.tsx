@@ -81,6 +81,14 @@ const content: Record<string, TabItem[]> = {
       key: 'Un petit schéma pour mieux comprendre',
       color: '#EFD010',
       text: 'black',
+      blocks: [
+        {
+          type: 'image',
+          src: '/uploads/schema.png',
+          alt: 'Schéma explicatif',
+          caption: 'Classification des troubles du neurodéveloppement'
+        }
+      ]
     },
     {
       key: 'Important',

@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 
 export type ContentBlock =
   | { type: 'paragraph'; text: string }
-  | { type: 'list'; items: string[] };
+  | { type: 'list'; items: string[] }
+  | { type: 'image'; src: string; alt?: string; caption?: string; width?: number | string; align?: 'left' | 'center' | 'right' };
 
 export interface SubSection {
   title: string;
@@ -46,6 +47,24 @@ function renderBlocks(blocks: ContentBlock[], accentColor: string): React.JSX.El
           <p key={i} style={{ margin: 0, fontSize: 13, color: '#5a6070', lineHeight: 1.7 }}>
             {block.text}
           </p>
+        ) : block.type === 'image' ? (
+          <figure key={i} style={{ margin: 0, textAlign: block.align ?? 'center' }}>
+            <img
+              src={block.src}
+              alt={block.alt ?? ''}
+              style={{
+                maxWidth: '66%',
+                width: block.width ?? 'auto',
+                borderRadius: 12,
+                display: 'inline-block',
+              }}
+            />
+            {block.caption && (
+              <figcaption style={{ fontSize: 11, color: '#9ca3af', marginTop: 6 }}>
+                {block.caption}
+              </figcaption>
+            )}
+          </figure>
         ) : (
           <ul key={i} style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
             {block.items.map((line, li) => (
