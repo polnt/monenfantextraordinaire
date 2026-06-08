@@ -12,6 +12,12 @@ const formationColors: Record<string, string> = {
   'communication-alternative-pecs-makaton': '#F90021',
 };
 
+const formationImages: Record<string, string> = {
+  'accompagner-mon-enfant-autiste': '/visuel-formation.png',
+  'maitriser-la-methode-aba': '/visuel-formation.png',
+  'communication-alternative-pecs-makaton': '/visuel-formation.png',
+};
+
 const audience = [
   { icon: '🔇', text: "Votre enfant ne parle pas encore… ou très peu" },
   { icon: '😔', text: "Vous vous sentez parfois perdu·e, démuni·e, ou impuissant·e face à ses silences" },
@@ -160,6 +166,7 @@ export default function FormationDetailPage(): React.JSX.Element {
   const { slug } = useParams<{ slug: string }>();
   const isMobile = useIsMobile();
   const color = formationColors[slug] ?? '#0792dc';
+  const img = formationImages[slug] ?? null;
   const { addAndCheckout, loading } = useAddToCart();
 
   const scrollTo = (id: string): void => {
@@ -185,38 +192,60 @@ export default function FormationDetailPage(): React.JSX.Element {
             <path d="M0,0 C480,48 960,48 1440,0 L1440,48 L0,48Z" fill="white" />
           </svg>
         </div>
-        <div className="mef-container" style={{ position: 'relative', zIndex: 1, maxWidth: 860, textAlign: 'center' }}>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 10, marginBottom: 24, flexWrap: 'wrap' }}>
-            <span style={{ ...pill, background: `${color}22`, color }}>📚 Formation en ligne</span>
-            <span style={{ ...pill, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}>4 modules · Accès à vie</span>
-          </div>
-          <h1 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: isMobile ? 34 : 52, color: 'white', lineHeight: 1.15, marginBottom: 16 }}>
-            Mon enfant ne parle pas…
-          </h1>
-          <p style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: isMobile ? 18 : 24, color, marginBottom: 24, lineHeight: 1.35 }}>
-            Construisez les bases de son langage en 15 minutes par jour
-          </p>
-          <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, maxWidth: 660, margin: '0 auto 14px', fontFamily: 'var(--font-aleo)' }}>
-            Un accompagnement guidé pour faire émerger les premiers mots — une méthode issue de <strong style={{ color: 'white' }}>15 ans d&apos;expérimentation sur le terrain</strong>, auprès d&apos;enfants avec autisme et retard de langage.
-          </p>
-          <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, maxWidth: 600, margin: '0 auto 44px', fontFamily: 'var(--font-aleo)' }}>
-            Des explications claires, des vidéos courtes et ludiques, et un cahier d&apos;exercices adaptés pour agir au quotidien via le plaisir partagé avec votre enfant.
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 14, flexWrap: 'wrap' }}>
-            <button
-              className="mef-btn"
-              style={{ background: color, color: 'white', fontSize: 17, padding: '16px 36px', fontWeight: 800, boxShadow: `0 8px 32px ${color}55` }}
-              onClick={() => scrollTo('sp-pricing')}
-            >
-              Voir les formules →
-            </button>
-            <button
-              className="mef-btn mef-btn-outline"
-              style={{ borderColor: 'rgba(255,255,255,0.3)', color: 'rgba(255,255,255,0.8)', fontSize: 15, padding: '16px 28px' }}
-              onClick={() => scrollTo('sp-modules')}
-            >
-              Voir le programme
-            </button>
+        <div className="mef-container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="grid gap-10 md:gap-16 items-center" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))', maxWidth: 1100, margin: '0 auto' }}>
+
+            {/* Left — text */}
+            <div>
+              <div style={{ display: 'flex', gap: 10, marginBottom: 24, flexWrap: 'wrap' }}>
+                <span style={{ ...pill, background: `${color}22`, color }}>📚 Formation en ligne</span>
+                <span style={{ ...pill, background: 'rgba(255,255,255,0.08)', color: 'rgba(255,255,255,0.7)' }}>4 modules · Accès à vie</span>
+              </div>
+              <h1 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: isMobile ? 34 : 52, color: 'white', lineHeight: 1.15, marginBottom: 16 }}>
+                Mon enfant ne parle pas…
+              </h1>
+              <p style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: isMobile ? 18 : 24, color, marginBottom: 24, lineHeight: 1.35 }}>
+                Construisez les bases de son langage en 15 minutes par jour
+              </p>
+              <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, maxWidth: 520, marginBottom: 14, fontFamily: 'var(--font-aleo)' }}>
+                Un accompagnement guidé pour faire émerger les premiers mots — une méthode issue de <strong style={{ color: 'white' }}>15 ans d&apos;expérimentation sur le terrain</strong>, auprès d&apos;enfants avec autisme et retard de langage.
+              </p>
+              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, maxWidth: 520, marginBottom: 44, fontFamily: 'var(--font-aleo)' }}>
+                Des explications claires, des vidéos courtes et ludiques, et un cahier d&apos;exercices adaptés pour agir au quotidien via le plaisir partagé avec votre enfant.
+              </p>
+              <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+                <button
+                  className="mef-btn"
+                  style={{ background: color, color: 'white', fontSize: 17, padding: '16px 36px', fontWeight: 800, boxShadow: `0 8px 32px ${color}55` }}
+                  onClick={() => scrollTo('sp-pricing')}
+                >
+                  Voir les formules →
+                </button>
+                <button
+                  className="mef-btn mef-btn-outline"
+                  style={{ borderColor: 'rgba(255,255,255,0.3)', color: 'rgba(255,255,255,0.8)', fontSize: 15, padding: '16px 28px' }}
+                  onClick={() => scrollTo('sp-modules')}
+                >
+                  Voir le programme
+                </button>
+              </div>
+            </div>
+
+            {/* Right — formation thumbnail, desktop only */}
+            {img && (
+              <div className="hidden md:block" style={{ position: 'relative' }}>
+                <div style={{ borderRadius: 20, overflow: 'hidden', boxShadow: `0 24px 80px ${color}44, 0 4px 24px rgba(0,0,0,0.3)` }}>
+                  <Image
+                    src={img}
+                    alt="Miniature de la formation"
+                    width={1536}
+                    height={1024}
+                    style={{ width: '100%', height: 'auto', display: 'block' }}
+                  />
+                </div>
+              </div>
+            )}
+
           </div>
         </div>
       </section>

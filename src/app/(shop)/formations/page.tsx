@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
@@ -14,6 +15,7 @@ const formations = [
     price: '97 €',
     color: '#0792dc',
     popular: true,
+    disabled: false,
     img: '/visuel-formation.png',
     imgPosition: 'center top',
   },
@@ -27,6 +29,7 @@ const formations = [
     price: '67 €',
     color: '#27ae60',
     popular: false,
+    disabled: true,
     img: '/visuel-formation.png',
     imgPosition: 'center top',
   },
@@ -40,6 +43,7 @@ const formations = [
     price: '49 €',
     color: '#F90021',
     popular: false,
+    disabled: true,
     img: '/visuel-formation.png',
     imgPosition: 'center top',
   },
@@ -64,15 +68,20 @@ export default function FormationsPage(): React.JSX.Element {
 
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 24 }}>
             {formations.map((f, i) => (
-              <div key={i} className="mef-card" style={{ overflow: 'hidden' }}>
-                {f.popular && (
+              <div key={i} className="mef-card" style={{ overflow: 'hidden', opacity: f.disabled ? 0.75 : 1 }}>
+                {f.disabled && (
+                  <div style={{ background: '#090943', textAlign: 'center', padding: '10px', fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 12, color: 'white', borderBottom: '1px solid #1a1a6e' }}>
+                    🕐 BIENTÔT DISPONIBLE
+                  </div>
+                )}
+                {!f.disabled && f.popular && (
                   <div style={{ background: '#FDF482', textAlign: 'center', padding: '10px', fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 12, color: '#090943', borderBottom: '1px solid #EFD010' }}>
                     ⭐ FORMATION LA PLUS POPULAIRE
                   </div>
                 )}
                 <div style={{ position: 'relative', overflow: 'hidden' }}>
-                  <img src={f.img} alt={f.title} style={{ height: 180, width: '100%', objectFit: 'cover', objectPosition: f.imgPosition, display: 'block' }} />
-                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 6, background: f.color }} />
+                  <Image src={f.img} alt={f.title} width={600} height={180} style={{ height: 180, width: '100%', objectFit: 'cover', objectPosition: f.imgPosition, display: 'block', filter: f.disabled ? 'grayscale(40%)' : 'none' }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 6, background: f.disabled ? '#9ca3af' : f.color }} />
                 </div>
                 <div style={{ padding: isMobile ? '20px 18px' : 28 }}>
                   <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
@@ -82,15 +91,43 @@ export default function FormationsPage(): React.JSX.Element {
                   </div>
                   <h3 style={{ fontFamily: 'var(--font-nunito)', fontSize: 17, fontWeight: 700, marginBottom: 10, lineHeight: 1.35 }}>{f.title}</h3>
                   <p style={{ color: '#5a6070', fontSize: 14, lineHeight: 1.65, marginBottom: 20 }}>{f.desc}</p>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f3f4f6', paddingTop: 16 }}>
-                    <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 24, color: f.color }}>{f.price}</span>
-                    <Link
-                      href={`/formations/${f.slug}`}
-                      className="mef-btn"
-                      style={{ padding: '10px 20px', fontSize: 13, background: f.color, color: 'white' }}
-                    >
-                      S&apos;inscrire
-                    </Link>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f3f4f6', paddingTop: 16, gap: 8 }}>
+                    <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 24, color: f.disabled ? '#9ca3af' : f.color }}>{f.price}</span>
+                    <div style={{ display: 'flex', gap: 8 }}>
+                      {f.disabled ? (
+                        <>
+                          <span
+                            className="mef-btn"
+                            style={{ padding: '10px 16px', fontSize: 13, background: '#e5e7eb', color: '#9ca3af', cursor: 'not-allowed', pointerEvents: 'none' }}
+                          >
+                            Détails
+                          </span>
+                          <span
+                            className="mef-btn"
+                            style={{ padding: '10px 16px', fontSize: 13, background: '#e5e7eb', color: '#9ca3af', cursor: 'not-allowed', pointerEvents: 'none' }}
+                          >
+                            S&apos;inscrire
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <Link
+                            href={`/formations/${f.slug}`}
+                            className="mef-btn"
+                            style={{ padding: '10px 16px', fontSize: 13, background: 'transparent', color: f.color, border: `1.5px solid ${f.color}` }}
+                          >
+                            Détails
+                          </Link>
+                          <Link
+                            href={`/formations/${f.slug}`}
+                            className="mef-btn"
+                            style={{ padding: '10px 16px', fontSize: 13, background: f.color, color: 'white' }}
+                          >
+                            S&apos;inscrire
+                          </Link>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
