@@ -268,254 +268,397 @@ const content = {
   ],
   methodes: [
     {
-      key: 'Méthode ABA',
+      key: 'Généralités',
       color: '#87ceeb',
       text: '#0f3d5a',
       sections: [
         {
-          title: 'Principes',
+          title: 'Une approche personnalisée',
+          content:
+            "Chaque enfant est unique et possède ses propres besoins, capacités et centres d'intérêt. C'est pourquoi il n'existe pas une méthode unique adaptée à tous. L'accompagnement le plus efficace repose sur une approche individualisée, qui peut associer différentes méthodes, outils et stratégies afin de répondre au mieux au profil de chaque enfant.",
+        },
+        {
+          title: 'Une collaboration nécessaire',
+          content:
+            "La réussite de cet accompagnement repose également sur une collaboration étroite entre les professionnels et la famille. Les parents occupent une place centrale dans ce parcours : leur implication au quotidien, leur connaissance de leur enfant et leur participation aux apprentissages contribuent fortement aux progrès réalisés et au bien-être de l'enfant.",
+        },
+        {
+          title: 'À retenir',
+          content:
+            "Une intervention précoce, adaptée, régulière et bienveillante permet de soutenir efficacement le développement de l'enfant, de renforcer ses compétences et de favoriser son inclusion et son autonomie au quotidien.",
+        },
+      ],
+    },
+    {
+      key: 'ABA',
+      color: '#27ae60',
+      text: 'white',
+      sections: [
+        {
+          title: 'Idée générale',
+          content:
+            "L'ABA est une méthode éducative basée sur l'observation des comportements et l'utilisation du renforcement positif pour favoriser les apprentissages et développer les compétences de l'enfant.",
+        },
+        {
+          title: 'Principe de la méthode',
           content: [
-            "Renforcement positif : récompenser les comportements appropriés pour les encourager à se reproduire",
-            "Analyse des comportements : observer et comprendre leurs causes pour mettre en place des stratégies adaptées",
+            "Analyse des comportements afin de comprendre leurs causes",
+            "Renforcement positif pour encourager les comportements adaptés",
+            "Programme structuré avec des objectifs précis et mesurables",
+            "Accompagnement personnalisé selon les besoins et le rythme de chaque enfant",
           ],
         },
         {
           title: 'Objectifs',
           content: [
-            "Fixer des objectifs clairs et mesurables (parole, compétences sociales, tâches quotidiennes)",
-            "Programmes personnalisés et structurés avec suivi des progrès",
+            "Développer la communication et le langage",
+            "Favoriser les compétences sociales",
+            "Renforcer l'autonomie dans la vie quotidienne",
+            "Réduire les comportements qui limitent les apprentissages",
           ],
         },
         {
-          title: 'Qui l\'enseigne ?',
-          content:
-            "Psychologues spécialisés, thérapeutes comportementalistes, éducateurs spécialisés, consultants ABA (certifications BCBA, RBT).",
+          title: 'Qui enseigne ?',
+          content: [
+            "Psychologues spécialisés en autisme",
+            "Thérapeutes comportementalistes",
+            "Éducateurs spécialisés",
+            "Consultants ABA",
+            "Techniciens spécialisés (RBT, BHVA) sous supervision d'un analyste du comportement certifié (BCBA)",
+          ],
         },
       ],
     },
     {
-      key: 'Méthode TEACCH',
-      color: '#27ae60',
+      key: 'TEACCH',
+      color: '#F90021',
       text: 'white',
       sections: [
         {
-          title: 'Principes clés',
+          title: 'Idée générale',
+          content:
+            "La méthode TEACCH aide les personnes autistes à mieux comprendre leur environnement grâce à une organisation claire du temps, de l'espace et des activités.",
+        },
+        {
+          title: 'Principe de la méthode',
           content: [
-            "Structuration de l'espace et du temps (organisation claire des lieux et activités)",
-            "Aides visuelles (pictogrammes, plannings, schémas)",
-            "Apprentissage individualisé",
-            "Autonomie et développement des compétences",
+            "Structuration visuelle de l'environnement",
+            "Utilisation de pictogrammes, plannings et supports visuels",
+            "Organisation prévisible des tâches et des routines",
+            "Adaptation aux besoins individuels de chaque personne",
           ],
         },
         {
-          title: 'Objectif final',
-          content:
-            "Favoriser l'autonomie et l'inclusion des personnes autistes en adaptant leur environnement à leurs besoins spécifiques.",
+          title: 'Objectifs',
+          content: [
+            "Développer l'autonomie",
+            "Réduire l'anxiété liée aux changements et à l'imprévu",
+            "Améliorer les compétences de communication et d'organisation",
+            "Favoriser l'inclusion dans la vie quotidienne, scolaire et sociale",
+          ],
         },
         {
-          title: 'Pour qui ?',
-          content:
-            "Personnes autistes de tous âges, particulièrement celles ayant des difficultés de communication verbale, des comportements répétitifs ou de l'anxiété.",
-        },
-        {
-          title: 'Qui l\'enseigne ?',
-          content:
-            "Psychologues, éducateurs, ergothérapeutes spécialisés. Les parents jouent également un rôle central en tant que co-thérapeutes.",
+          title: 'Qui enseigne ?',
+          content: [
+            "Psychologues",
+            "Éducateurs spécialisés",
+            "Ergothérapeutes formés à la méthode TEACCH",
+            "Les parents, qui jouent un rôle essentiel dans la mise en œuvre des stratégies au quotidien",
+          ],
         },
       ],
     },
     {
       key: 'Méthode Denver',
-      color: '#F90021',
-      text: 'white',
+      color: '#EFD010',
+      text: '#090943',
       sections: [
         {
-          title: 'Principes (ESDM)',
+          title: 'Idée générale',
+          content:
+            "La méthode Denver est une intervention précoce basée sur le jeu, les interactions positives et les situations naturelles d'apprentissage.",
+        },
+        {
+          title: 'Principe de la méthode',
           content: [
-            "Approche développementale : adaptée au stade de développement de l'enfant",
-            "Approche relationnelle : interactions chaleureuses et positives",
-            "Apprentissage par le jeu dans des contextes naturels",
+            "Apprentissage par le jeu et les activités motivantes",
+            "Développement des compétences sociales, cognitives et langagières",
+            "Participation active des parents",
+            "Utilisation du renforcement positif dans un cadre bienveillant",
           ],
         },
         {
           title: 'Objectifs',
           content: [
             "Développer la communication verbale et non verbale",
-            "Améliorer les interactions sociales",
-            "Renforcer les compétences cognitives et promouvoir l'autonomie",
+            "Favoriser les interactions sociales",
+            "Renforcer les capacités cognitives",
+            "Encourager l'autonomie",
+            "Profiter de la plasticité cérébrale grâce à une intervention précoce",
           ],
         },
         {
-          title: 'Comment ?',
-          content:
-            "Environ 20 heures par semaine d'intervention structurée, réparties entre professionnels et activités à domicile. Les parents sont formés pour appliquer les principes au quotidien.",
-        },
-        {
-          title: 'Avantages',
+          title: 'Qui enseigne ?',
           content: [
-            "Intervention précoce (maximise la plasticité cérébrale)",
-            "Approche globale (social, émotionnel, langagier, moteur)",
-            "Approche ludique et motivante, soutenue par des preuves scientifiques",
+            "Éducateurs spécialisés",
+            "Psychologues",
+            "Orthophonistes",
+            "Psychomotriciens",
+            "Médecins spécialisés",
+            "Parents formés à la méthode pour poursuivre les apprentissages à la maison",
           ],
         },
       ],
     },
     {
       key: 'Accompagnement individualisé',
-      color: '#EFD010',
-      text: '#090943',
+      color: '#9b59b6',
+      text: 'white',
       sections: [
+        {
+          title: 'Idée générale',
+          content:
+            "Chaque enfant étant unique, l'accompagnement doit être entièrement adapté à ses besoins, ses capacités et ses objectifs de développement.",
+        },
+        {
+          title: 'Principe de la méthode',
+          content: [
+            "Évaluation personnalisée des besoins",
+            "Mise en place d'objectifs adaptés",
+            "Collaboration entre la famille et les professionnels",
+            "Accompagnement dans les différents lieux de vie (maison, école, loisirs)",
+          ],
+        },
         {
           title: 'Objectifs',
           content: [
-            "Développer la communication verbale et non verbale",
-            "Améliorer les interactions sociales et favoriser l'autonomie (habillage, repas, hygiène)",
-            "Réduire les comportements problématiques",
-            "Soutenir les apprentissages scolaires et extrascolaires",
+            "Développer la communication",
+            "Améliorer les interactions sociales",
+            "Favoriser l'autonomie au quotidien",
+            "Soutenir les apprentissages scolaires",
             "Développer les habiletés sociales et la gestion des émotions",
+            "Accompagner et soutenir les familles",
           ],
         },
         {
-          title: 'Professionnels impliqués',
+          title: 'Qui enseigne ?',
           content: [
-            "Psychologue spécialisé",
-            "Orthophoniste",
-            "Psychomotricien",
-            "AVS / AESH",
+            "Psychologues spécialisés en autisme",
+            "Orthophonistes",
+            "Psychomotriciens",
+            "Éducateurs spécialisés",
+            "AESH / accompagnants scolaires",
+            "Parents et proches accompagnés par les professionnels",
+          ],
+        },
+      ],
+    },
+    {
+      key: 'Méthode Élan Quotidien',
+      color: '#ff7043',
+      text: 'white',
+      sections: [
+        {
+          title: 'Idée générale',
+          content:
+            "La méthode Élan Quotidien est une approche d'accompagnement basée sur de courtes séances de 15 à 20 minutes par jour, conçue pour favoriser les apprentissages de l'enfant dans un cadre ludique, structuré et facilement intégrable au quotidien. Développée et expérimentée à l'École L'Éveil de Dakar, elle est également accessible via des espaces de formation en ligne pour les familles et les professionnels.",
+        },
+        {
+          title: 'Principe de la méthode',
+          content: [
+            "Activités courtes, régulières et adaptées au rythme de l'enfant",
+            "Apprentissage par le jeu, l'expérimentation et les interactions du quotidien",
+            "Progression pas à pas pour favoriser les réussites et maintenir la motivation",
+            "Participation active des parents et des accompagnants",
+            "Supports simples et facilement réutilisables à la maison ou en milieu éducatif",
+            "Développement simultané de plusieurs compétences à travers des activités variées",
           ],
         },
         {
-          title: 'Soutien familial',
+          title: 'Objectifs',
           content: [
-            "Guidance parentale",
-            "Aménagement du domicile",
-            "Activités adaptées (équithérapie, musicothérapie, art-thérapie)",
+            "Développer le langage non verbal et verbal",
+            "Améliorer la compréhension et les capacités d'écoute",
+            "Favoriser l'expression orale, la communication et enrichir le vocabulaire",
+            "Renforcer l'attention et la concentration",
+            "Développer le graphisme et les prérequis à l'écriture",
+            "Stimuler la psychomotricité fine et la coordination",
+            "Encourager le développement moteur grâce à des activités sportives adaptées",
+            "Développer les compétences cognitives par le jeu et la résolution de petites situations du quotidien",
+            "Favoriser l'autonomie et la confiance en soi",
           ],
+        },
+        {
+          title: 'Qui enseigne ?',
+          content: [
+            "Les parents et les proches, accompagnés grâce aux formations et aux outils pédagogiques",
+            "Les éducateurs et enseignants",
+            "Les professionnels de l'accompagnement de l'enfant (éducateurs spécialisés, orthophonistes, psychomotriciens, AESH, etc.)",
+            "Toute personne souhaitant soutenir le développement de l'enfant à travers des activités simples, accessibles et structurées",
+          ],
+        },
+        {
+          title: 'Une méthode accessible au quotidien',
+          content:
+            "La méthode Élan Quotidien repose sur une idée simple : quelques minutes d'activités ciblées chaque jour peuvent contribuer à développer durablement les compétences de l'enfant. Grâce à son format court, ludique et flexible, elle s'intègre facilement dans la vie familiale, scolaire ou thérapeutique et permet de transformer les moments du quotidien en véritables opportunités d'apprentissage.",
         },
       ],
     },
   ],
   outils: [
     {
-      key: 'PECS',
+      key: 'Généralités',
       color: '#87ceeb',
       text: '#0f3d5a',
       sections: [
         {
+          title: 'Des outils adaptés à chaque enfant',
+          content:
+            "Chaque enfant communique à sa manière. Il n'existe donc pas d'outil universel : le choix dépend de ses besoins, de ses capacités, de son mode de communication et de ses objectifs. Les outils de communication permettent aux enfants ayant des difficultés à s'exprimer verbalement de mieux se faire comprendre et d'interagir avec leur entourage. Ils soutiennent le développement du langage, favorisent l'autonomie et réduisent les frustrations.",
+        },
+        {
+          title: 'Le rôle des parents et des professionnels',
+          content:
+            "Les outils de communication sont d'autant plus efficaces lorsqu'ils sont utilisés de manière cohérente dans tous les environnements de vie de l'enfant. En utilisant les mêmes supports, les mêmes signes ou les mêmes pictogrammes, parents, enseignants et professionnels permettent à l'enfant de développer progressivement ses compétences de communication, de gagner en confiance et de généraliser ses apprentissages dans différentes situations.",
+        },
+        {
+          title: 'À retenir',
+          content:
+            "Avec des outils adaptés, un accompagnement bienveillant et l'implication des parents et des professionnels, chaque enfant peut progresser dans sa communication, ses relations sociales et son autonomie.",
+        },
+      ],
+    },
+    {
+      key: 'PECS',
+      color: '#27ae60',
+      text: 'white',
+      sections: [
+        {
           title: 'Principes clés',
           content: [
-            "L'utilisateur donne une image pour demander un objet, une action ou exprimer un besoin",
-            "Progression structurée en 6 phases",
-            "Images basées sur les intérêts de l'utilisateur",
-            "Objectif : communication spontanée et autonome",
+            "Communication par échange d'images",
+            "Progression structurée en plusieurs étapes",
+            "Utilisation des centres d'intérêt de l'enfant pour favoriser la motivation",
+            "Développement d'une communication spontanée et fonctionnelle",
           ],
         },
         {
-          title: 'Les 6 phases',
+          title: 'Objectifs',
           content: [
-            "1 — Initiation à l'échange",
-            "2 — Augmentation de la spontanéité (recherche active d'un interlocuteur)",
-            "3 — Discrimination d'images (choisir parmi plusieurs images)",
-            "4 — Structure des phrases (« Je veux la voiture »)",
-            "5 — Réponses aux questions simples (« Que veux-tu ? »)",
-            "6 — Communication avancée (phrases complexes, opinions, questions)",
+            "Permettre à l'enfant d'exprimer ses besoins et ses envies",
+            "Développer l'initiative de communication",
+            "Favoriser l'apparition du langage oral lorsque cela est possible",
+            "Réduire les comportements liés à la frustration ou à l'incompréhension",
+            "Développer l'autonomie dans les interactions quotidiennes",
           ],
         },
         {
-          title: 'Avantages et limites',
+          title: 'Mise en œuvre — les 6 phases',
           content: [
-            "Accessible aux personnes non verbales, développe l'autonomie",
-            "Réduit les comportements problématiques liés à la frustration",
-            "Nécessite un accompagnement professionnel",
+            "1 — Échanger une image pour obtenir un objet désiré",
+            "2 — Chercher spontanément son interlocuteur",
+            "3 — Choisir entre plusieurs images",
+            "4 — Construire des phrases simples à l'aide d'un bandeau phrase",
+            "5 — Répondre à des questions simples",
+            "6 — Développer une communication plus complexe (commentaires, questions, opinions)",
+          ],
+        },
+        {
+          title: 'Avantages',
+          content: [
+            "Accessible aux personnes non verbales",
+            "Facilement adaptable à différents environnements",
+            "Favorise la communication fonctionnelle dès les premiers apprentissages",
+            "Réduit les frustrations et améliore la qualité de vie",
+            "Peut servir de tremplin vers le langage oral",
           ],
         },
       ],
     },
     {
       key: 'Makaton',
-      color: '#27ae60',
-      text: 'white',
-      sections: [
-        {
-          title: 'Qu\'est-ce que c\'est ?',
-          content:
-            "Combinaison de trois modes : signes (inspirés de la langue des signes nationale), symboles visuels et langage parlé. Adapté à chaque utilisateur selon ses besoins.",
-        },
-        {
-          title: 'Objectifs',
-          content: [
-            "Offrir un moyen de s'exprimer aux personnes ayant des difficultés avec le langage parlé",
-            "Faciliter l'apprentissage du langage (lien mots / significations)",
-            "Améliorer l'inclusion et les interactions sociales",
-          ],
-        },
-        {
-          title: 'Avantages',
-          content: [
-            "Accessible à tous les âges et niveaux",
-            "Facile à apprendre, flexible",
-            "Utilisable à la maison, à l'école et en institution",
-            "Ce n'est pas une langue complète — c'est un outil de soutien simplifié",
-          ],
-        },
-      ],
-    },
-    {
-      key: 'Langue des signes',
       color: '#F90021',
       text: 'white',
       sections: [
         {
-          title: 'Caractéristiques',
+          title: 'Principes clés',
           content: [
-            "Langue visio-gestuelle : mains, expressions faciales, regard, posture",
-            "Langue naturelle, propre à chaque communauté sourde (LSF, ASL, LSQ…)",
-            "Grammaire spécifique, différente des langues orales",
+            "Association du langage parlé, des signes et des symboles visuels",
+            "Introduction progressive du vocabulaire utile au quotidien",
+            "Adaptation aux besoins et aux capacités de chaque personne",
+            "Renforcement simultané de la compréhension et de l'expression",
+          ],
+        },
+        {
+          title: 'Objectifs',
+          content: [
+            "Faciliter la communication au quotidien",
+            "Soutenir le développement du langage oral",
+            "Développer les interactions sociales",
+            "Favoriser l'inclusion familiale, scolaire et sociale",
+            "Réduire les difficultés liées à l'incompréhension",
+          ],
+        },
+        {
+          title: 'Mise en œuvre',
+          content: [
+            "À la maison avec les parents",
+            "À l'école par les enseignants",
+            "En séance avec les orthophonistes, éducateurs ou thérapeutes",
           ],
         },
         {
           title: 'Avantages',
           content: [
-            "Communication riche et nuancée",
-            "Favorise l'inclusion et l'autonomie",
-            "Peut être apprise par des personnes entendantes",
-          ],
-        },
-        {
-          title: 'Différences avec le langage parlé',
-          content: [
-            "Spatialité : les signes se déroulent dans un espace tridimensionnel",
-            "Simultanéité : plusieurs informations transmises en même temps",
-            "Étroitement liée à la culture sourde",
+            "Facile à apprendre et à utiliser",
+            "Favorise l'émergence du langage oral",
+            "Réduit l'anxiété et la frustration liées aux difficultés de communication",
+            "Convient à différents âges et profils",
+            "Peut être utilisé dans tous les environnements de vie",
           ],
         },
       ],
     },
     {
-      key: 'La CAA',
+      key: 'Langue des signes (LSF)',
       color: '#EFD010',
       text: '#090943',
       sections: [
         {
-          title: "Qu'est-ce que la CAA ?",
-          content:
-            "La Communication Améliorée et Alternative (CAA) regroupe tous les outils et stratégies qui permettent à une personne ayant des difficultés d'expression de communiquer autrement que par la parole.",
-        },
-        {
-          title: 'Les outils CAA',
+          title: 'Principes clés',
           content: [
-            "Systèmes d'images et pictogrammes (PECS, Boardmaker, Symwriter…)",
-            "Signes et gestes (Makaton, langue des signes)",
-            "Appareils de génération de parole (tablettes, AAC apps)",
-            "Plannings visuels, tableaux de communication",
+            "Langue visuo-gestuelle complète",
+            "Grammaire et vocabulaire spécifiques",
+            "Utilisation des expressions du visage et du corps",
+            "Communication riche et nuancée",
           ],
         },
         {
-          title: 'Pour qui ?',
+          title: 'Objectifs',
           content: [
-            "Enfants non verbaux ou ayant des difficultés de communication",
-            "Personnes avec TSA, paralysie cérébrale, déficience intellectuelle, apraxie",
-            "Tout âge, tout niveau de fonctionnement",
+            "Offrir un véritable moyen de communication aux personnes sourdes ou ayant des besoins spécifiques de communication",
+            "Développer l'autonomie et l'accès aux échanges sociaux",
+            "Favoriser l'inclusion et la participation à la vie quotidienne",
+            "Permettre une expression plus précise des émotions, idées et besoins",
+          ],
+        },
+        {
+          title: 'Mise en œuvre',
+          content: [
+            "En cours spécialisés",
+            "Dans les établissements scolaires",
+            "En famille",
+            "Grâce à des formations, applications et supports pédagogiques",
+          ],
+        },
+        {
+          title: 'Avantages',
+          content: [
+            "Langue complète permettant des échanges riches",
+            "Favorise l'autonomie et l'inclusion",
+            "Développe les compétences de communication et les interactions sociales",
+            "Peut être utilisée par les personnes sourdes, malentendantes ou présentant certains troubles de la communication",
+            "Valorise la communication visuelle et l'expression émotionnelle",
           ],
         },
       ],
