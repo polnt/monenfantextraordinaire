@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import StatBlock from '@/components/StatBlock';
+import LeadMagnet from '@/components/LeadMagnet';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
 // font-aleo CSS variable assumed available globally (see layout.tsx)
@@ -465,6 +466,9 @@ export default function HomePage(): React.JSX.Element {
           </div>
         </div>
       </section>
+
+      {/* ── LEAD MAGNET ── */}
+      <LeadMagnet />
     </div>
   );
 }
