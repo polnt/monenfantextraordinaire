@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -174,6 +175,7 @@ export default function FormationDetailPage(): React.JSX.Element {
   const color = formationColors[slug] ?? '#0792dc';
   const img = formationImages[slug] ?? null;
   const { addAndCheckout, loading } = useAddToCart();
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const scrollTo = (id: string): void => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -188,6 +190,41 @@ export default function FormationDetailPage(): React.JSX.Element {
 
   return (
     <div style={{ paddingTop: 72 }}>
+
+      {/* LIGHTBOX */}
+      {lightboxOpen && (
+        <div
+          onClick={() => setLightboxOpen(false)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 9999,
+            background: 'rgba(0,0,0,0.85)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: 24,
+          }}
+        >
+          <button
+            onClick={() => setLightboxOpen(false)}
+            aria-label="Fermer"
+            style={{
+              position: 'fixed', top: 20, right: 24,
+              background: 'rgba(255,255,255,0.15)', border: 'none',
+              borderRadius: '50%', width: 44, height: 44,
+              color: 'white', fontSize: 22, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              lineHeight: 1,
+            }}
+          >✕</button>
+          <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: '90vw', maxHeight: '90vh' }}>
+            <Image
+              src="/uploads/cahier-parents-2.png"
+              alt="Le Cahier des Parents"
+              width={900}
+              height={900}
+              style={{ maxWidth: '90vw', maxHeight: '90vh', width: 'auto', height: 'auto', borderRadius: 16, objectFit: 'contain', display: 'block' }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* HERO */}
       <section style={{ background: '#090943', padding: '80px 0 100px', position: 'relative', overflow: 'hidden' }}>
@@ -300,7 +337,13 @@ export default function FormationDetailPage(): React.JSX.Element {
             <div>
               <div style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 24, padding: '40px 36px', textAlign: 'center' }}>
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
-                  <Image src="/uploads/cahier-parents.png" alt="Le Cahier des Parents" width={220} height={220} style={{ borderRadius: 12, objectFit: 'contain' }} />
+                  <button
+                    onClick={() => setLightboxOpen(true)}
+                    style={{ background: 'none', border: 'none', padding: 0, cursor: 'zoom-in', borderRadius: 12 }}
+                    aria-label="Agrandir le Cahier des Parents"
+                  >
+                    <Image src="/uploads/cahier-parents-2.png" alt="Le Cahier des Parents" width={220} height={220} style={{ borderRadius: 12, objectFit: 'contain', display: 'block' }} />
+                  </button>
                 </div>
                 <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: 'white', marginBottom: 12 }}>15 minutes par jour suffisent</div>
                 <p style={{ margin: 0, fontFamily: 'var(--font-aleo)', fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
