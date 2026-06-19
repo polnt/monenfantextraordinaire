@@ -173,7 +173,7 @@ export default function LeSitePage(): React.JSX.Element {
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/qui-suis-je" className="mef-btn mef-btn-blue">Qui suis-je ?</Link>
-            <Link href="/contact" className="mef-btn mef-btn-outline">Me contacter</Link>
+            <Link href="/reseaux" className="mef-btn mef-btn-outline">Me contacter</Link>
           </div>
         </div>
       </section>

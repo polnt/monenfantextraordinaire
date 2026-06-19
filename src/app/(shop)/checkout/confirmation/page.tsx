@@ -29,7 +29,7 @@ function ConfirmationContent(): React.JSX.Element {
         )}
         <p style={{ fontFamily: "var(--font-aleo)", fontSize: 14, color: "#9ca3af", lineHeight: 1.65, marginBottom: 40 }}>
           Si vous n&apos;avez rien reçu dans 10 minutes, vérifiez vos spams ou{" "}
-          <Link href="/contact" style={{ color: "var(--blue)", textDecoration: "underline" }}>
+          <Link href="/reseaux" style={{ color: "var(--blue)", textDecoration: "underline" }}>
             contactez-nous
           </Link>.
         </p>

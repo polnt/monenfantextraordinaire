@@ -94,7 +94,7 @@ export default function QuiSuisJePage(): React.JSX.Element {
                 Passionnée depuis toujours par le développement de l&apos;enfant et les liens humains, je suis spécialisée dans les troubles du spectre de l&apos;autisme (TSA) et les troubles du neurodéveloppement. J&apos;accompagne depuis plus de <strong style={{ color: '#090943' }}>15 ans</strong> des enfants, des adolescents et leurs familles dans leurs parcours de vie souvent complexes et singuliers.
               </p>
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-                <Link href="/contact" className="mef-btn mef-btn-blue">Me contacter</Link>
+                <Link href="/reseaux" className="mef-btn mef-btn-blue">Me contacter</Link>
                 <Link href="/formations" className="mef-btn mef-btn-outline">Voir mes formations</Link>
               </div>
             </div>
@@ -237,7 +237,7 @@ export default function QuiSuisJePage(): React.JSX.Element {
             Que vous soyez parent, éducateur ou professionnel, je serais ravie d&apos;échanger avec vous.
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/contact" className="mef-btn mef-btn-blue">Me contacter</Link>
+            <Link href="/reseaux" className="mef-btn mef-btn-blue">Me contacter</Link>
             <Link href="/formations" className="mef-btn mef-btn-outline">Voir les formations</Link>
           </div>
         </div>

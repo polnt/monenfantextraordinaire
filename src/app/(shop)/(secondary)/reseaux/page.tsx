@@ -190,7 +190,7 @@ export default function ReseauxPage(): React.JSX.Element {
           <p style={{ fontSize: 17, color: '#5a6070', maxWidth: 480, margin: '0 auto 36px', lineHeight: 1.7 }}>
             Écrivez-moi directement, je réponds personnellement à chaque message.
           </p>
-          <Link href="/contact" className="mef-btn mef-btn-blue">Me contacter</Link>
+          <Link href="/reseaux" className="mef-btn mef-btn-blue">Me contacter</Link>
         </div>
       </section>
     </div>
