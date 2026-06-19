@@ -24,36 +24,47 @@ export default function CollaborationUnique(): React.JSX.Element {
           </p>
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: isMobile ? 36 : 52 }}>
-          <div style={{ width: '100%', maxWidth: 340, aspectRatio: '4 / 5', position: 'relative' }}>
+        <div style={{ maxWidth: 740, margin: '0 auto' }}>
+          {isMobile ? (
+            <div style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 24 }}>
+              <Image
+                src="/uploads/ludivine.png"
+                alt="Ludivine, ingénieure pédagogique"
+                width={400}
+                height={500}
+                style={{ width: '100%', height: 'auto', objectFit: 'cover', objectPosition: 'center right', display: 'block' }}
+              />
+            </div>
+          ) : (
             <Image
               src="/uploads/ludivine.png"
               alt="Ludivine, ingénieure pédagogique"
-              fill
-              style={{ objectFit: 'cover', objectPosition: 'center right' }}
+              width={290}
+              height={360}
+              style={{ float: 'right', marginLeft: 32, marginBottom: 16, objectFit: 'cover', objectPosition: 'center right', borderRadius: 16, display: 'block', position: 'relative', zIndex: 0, transform: 'translateX(-80px)' }}
             />
+          )}
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <p style={pStyle}>
+              Je travaille main dans la main avec <strong style={{ color: '#090943' }}>Ludivine, ingénieure pédagogique, qui est aussi ma fille</strong>. Ce lien particulier nourrit profondément notre manière de concevoir et de transmettre. Il apporte une écoute, une exigence et une complémentarité rares, au service d&apos;un objectif commun : rendre des connaissances expertes réellement accessibles, concrètes et utiles pour les familles.
+            </p>
+            <p style={{ ...pStyle, marginTop: 20 }}>
+              De mon côté, j&apos;apporte mon expérience de psychologue spécialisée TSA et de directrice d&apos;école, construite au fil des années sur le terrain, au plus près des enfants et de leurs parents. Ludivine, quant à elle, possède cette expertise précieuse pour transformer ces savoirs en parcours pédagogiques clairs, structurés et engageants.
+            </p>
+            <p style={{ ...pStyle, marginTop: 20 }}>
+              Elle m&apos;accompagne pour organiser, séquencer et rendre accessibles des contenus parfois complexes, sans jamais en perdre la richesse. Ensemble nous transformons mes expériences et mes outils en formations concrètes, faciles à suivre et adaptées à des quotidiens souvent bien remplis.
+            </p>
+            <p style={{ ...pStyle, marginTop: 20 }}>
+              Ainsi, chacune de nos formations sont pensées à deux et co-construites en croisant nos regards : l&apos;expertise de terrain et l&apos;ingénierie pédagogique. Nous échangeons, nous testons, nous ajustons… pour proposer des contenus à la fois solides, vivants et directement applicables.
+            </p>
+            <p style={{ ...pStyle, marginTop: 20 }}>
+              Ce travail à deux voix nous permet de créer des ressources vraiment uniques, conçues pour s&apos;intégrer dans des quotidiens souvent bien remplis, tout en restant concrètes, efficaces et faciles à s&apos;approprier.
+            </p>
+            <p style={{ ...pStyle, marginTop: 20 }}>
+              Mais au-delà des compétences, cette <strong style={{ color: '#090943' }}>collaboration mère-fille</strong> apporte une dimension particulière à notre approche : une attention sincère aux besoins des familles, une envie profonde de transmettre avec justesse, et un vrai engagement dans la qualité de ce que nous proposons.
+            </p>
           </div>
-        </div>
-
-        <div style={{ maxWidth: 740, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <p style={pStyle}>
-            Je travaille main dans la main avec <strong style={{ color: '#090943' }}>Ludivine, ingénieure pédagogique, qui est aussi ma fille</strong>. Ce lien particulier nourrit profondément notre manière de concevoir et de transmettre. Il apporte une écoute, une exigence et une complémentarité rares, au service d&apos;un objectif commun : rendre des connaissances expertes réellement accessibles, concrètes et utiles pour les familles.
-          </p>
-          <p style={pStyle}>
-            De mon côté, j&apos;apporte mon expérience de psychologue spécialisée TSA et de directrice d&apos;école, construite au fil des années sur le terrain, au plus près des enfants et de leurs parents. Ludivine, quant à elle, possède cette expertise précieuse pour transformer ces savoirs en parcours pédagogiques clairs, structurés et engageants.
-          </p>
-          <p style={pStyle}>
-            Elle m&apos;accompagne pour organiser, séquencer et rendre accessibles des contenus parfois complexes, sans jamais en perdre la richesse. Ensemble nous transformons mes expériences et mes outils en formations concrètes, faciles à suivre et adaptées à des quotidiens souvent bien remplis.
-          </p>
-          <p style={pStyle}>
-            Ainsi, chacune de nos formations sont pensées à deux et co-construites en croisant nos regards : l&apos;expertise de terrain et l&apos;ingénierie pédagogique. Nous échangeons, nous testons, nous ajustons… pour proposer des contenus à la fois solides, vivants et directement applicables.
-          </p>
-          <p style={pStyle}>
-            Ce travail à deux voix nous permet de créer des ressources vraiment uniques, conçues pour s&apos;intégrer dans des quotidiens souvent bien remplis, tout en restant concrètes, efficaces et faciles à s&apos;approprier.
-          </p>
-          <p style={pStyle}>
-            Mais au-delà des compétences, cette <strong style={{ color: '#090943' }}>collaboration mère-fille</strong> apporte une dimension particulière à notre approche : une attention sincère aux besoins des familles, une envie profonde de transmettre avec justesse, et un vrai engagement dans la qualité de ce que nous proposons.
-          </p>
+          <div style={{ clear: 'both' }} />
         </div>
 
         <div style={{ maxWidth: 740, margin: isMobile ? '28px auto 0' : '36px auto 0', background: 'white', borderRadius: 18, padding: isMobile ? '26px 26px' : '34px 40px', borderLeft: '5px solid #0792dc', boxShadow: '0 12px 32px rgba(9,9,67,0.07)' }}>

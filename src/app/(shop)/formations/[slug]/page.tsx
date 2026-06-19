@@ -107,9 +107,10 @@ interface PriceCardProps {
   slug: string;
   onBuy: (slug: string) => Promise<void>;
   loading: boolean;
+  footnote?: string;
 }
 
-function PriceCard({ plan, price, features, highlighted, color, slug, onBuy, loading }: PriceCardProps): React.JSX.Element {
+function PriceCard({ plan, price, features, highlighted, color, slug, onBuy, loading, footnote }: PriceCardProps): React.JSX.Element {
   return (
     <div style={{
       background: highlighted ? color : 'white',
@@ -158,6 +159,11 @@ function PriceCard({ plan, price, features, highlighted, color, slug, onBuy, loa
       >
         {loading ? 'Chargement…' : "S'inscrire maintenant"}
       </button>
+      {footnote && (
+        <p style={{ margin: '16px 0 0', fontFamily: 'var(--font-aleo)', fontSize: 12, lineHeight: 1.5, color: highlighted ? 'rgba(255,255,255,0.55)' : '#9ca3af', fontStyle: 'italic' }}>
+          {footnote}
+        </p>
+      )}
     </div>
   );
 }
@@ -489,11 +495,12 @@ export default function FormationDetailPage(): React.JSX.Element {
               loading={loading}
               features={[
                 'Tout ce qui est inclus dans la formule de base',
-                '3 séances individuelles avec Laurence BUGNET, psychologue spécialiste TSA (valeur 210 €)',
+                '3 séances individuelles avec Laurence BUGNET, psychologue spécialiste TSA (valeur 210 €)*',
                 '1 masterclass de groupe en direct',
                 'Accès prioritaire par e-mail ou WhatsApp',
                 'Attestation de formation',
               ]}
+              footnote="* 1 séance tous les 15 jours - Socle de 8 places par mois"
             />
           </div>
         </div>

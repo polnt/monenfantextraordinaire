@@ -119,7 +119,7 @@ export default function HomePage(): React.JSX.Element {
                     color: '#090943',
                   }}
                 >
-                  Méthode approuvée par des experts ✓
+                  Une méthode qui s&apos;adapte à votre quotidien ✓
                 </div>
               )}
             </div>

@@ -20,7 +20,7 @@ const themes: Array<{ label: string; color: string; sub?: string[] }> = [
   { label: 'Les spécificités', color: '#27ae60' },
   { label: 'Éducation et pédagogie adaptée', color: '#9c27b0' },
   { label: 'Soutenir les familles', color: '#EFD010' },
-  { label: 'Poésie et reconnexion à soi', color: '#ff7043' },
+  { label: 'Bien-être parental', color: '#ff7043' },
   { label: 'Ressources pratiques', color: '#0792dc' },
   {
     label: 'Formations et accompagnement',
