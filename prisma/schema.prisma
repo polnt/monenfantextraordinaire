@@ -70,7 +70,7 @@ enum OrderStatus {
 
 enum PaymentGateway {
   STRIPE
-  FLUTTERWAVE
+  PAYDUNIA
 }
 
 model Order {
@@ -86,7 +86,7 @@ model Order {
 
   // Payment
   gateway              PaymentGateway
-  paymentId            String?        // Stripe or Flutterwave transaction ID
+  paymentId            String?        // Stripe session ID or PayDunia invoice token
   idempotencyKey       String         @unique // Prevents duplicate webhook processing
   totalAmount          Decimal
   currency             String         @default("EUR")

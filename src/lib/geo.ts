@@ -3,8 +3,8 @@
 
 import type { PaymentGateway } from "@prisma/client";
 
-// Francophone African countries supported by Flutterwave
-const FLUTTERWAVE_COUNTRIES = new Set([
+// Francophone African countries supported by PayDunia
+const PAYDUNIA_COUNTRIES = new Set([
   "CI", // Côte d'Ivoire
   "SN", // Sénégal
   "CM", // Cameroun
@@ -22,20 +22,20 @@ const FLUTTERWAVE_COUNTRIES = new Set([
  */
 export function getPaymentGateway(countryCode: string): PaymentGateway {
   const normalized = countryCode.toUpperCase().trim();
-  return FLUTTERWAVE_COUNTRIES.has(normalized) ? "FLUTTERWAVE" : "STRIPE";
+  return PAYDUNIA_COUNTRIES.has(normalized) ? "PAYDUNIA" : "STRIPE";
 }
 
 /**
- * Returns true if the country is served by Flutterwave.
+ * Returns true if the country is served by PayDunia.
  * @param countryCode - ISO 3166-1 alpha-2 country code
  */
-export function isFlutterwaveCountry(countryCode: string): boolean {
-  return FLUTTERWAVE_COUNTRIES.has(countryCode.toUpperCase().trim());
+export function isPayduniaCountry(countryCode: string): boolean {
+  return PAYDUNIA_COUNTRIES.has(countryCode.toUpperCase().trim());
 }
 
 /**
- * Returns the full list of Flutterwave-supported country codes.
+ * Returns the full list of PayDunia-supported country codes.
  */
-export function getFlutterwaveCountries(): string[] {
-  return Array.from(FLUTTERWAVE_COUNTRIES);
+export function getPayduniaCountries(): string[] {
+  return Array.from(PAYDUNIA_COUNTRIES);
 }

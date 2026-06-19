@@ -17,7 +17,7 @@ Showcase site + e-commerce shop targeting **Europe** and **French-speaking Afric
 
 - **Next.js 14** (App Router, TypeScript)
 - **PostgreSQL + Prisma** (singleton client in `lib/db.ts`)
-- **Stripe** → European payments / **Flutterwave** → French-speaking Africa payments
+- **Stripe** → European payments / **PayDunia** → French-speaking Africa payments
 - **Resend + React Email** → transactional emails
 - **NextAuth.js** → back-office admin auth only
 - **Tailwind CSS** / **Infomaniak** hosting (Node.js)
@@ -27,10 +27,10 @@ Showcase site + e-commerce shop targeting **Europe** and **French-speaking Afric
 ## Payment gateway selection
 
 ```typescript
-const gateway = isAfricaFrancophone(userCountry) ? 'flutterwave' : 'stripe';
+const gateway = isPayduniaCountry(userCountry) ? 'paydunia' : 'stripe';
 ```
 
-Flutterwave countries: `CI, SN, CM, ML, TG, BF, BJ, GN` — everything else → Stripe.
+PayDunia countries: `CI, SN, CM, ML, TG, BF, BJ, GN` — everything else → Stripe.
 
 ---
 
@@ -47,7 +47,7 @@ webhook received → validate signature → create order in DB
 ## Security rules — MANDATORY
 
 - **Never** commit `.env.local`
-- **Always** validate Stripe and Flutterwave webhook signatures before any action
+- **Always** validate Stripe and PayDunia webhook signatures before any action
 - **Always** enforce webhook idempotency (an order must never be created twice)
 - **Never** log sensitive data
 - **Always** use environment variables for API keys

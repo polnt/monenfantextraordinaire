@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
-import { isFlutterwaveCountry } from "@/lib/geo";
+import { isPayduniaCountry } from "@/lib/geo";
 
 const COUNTRIES = [
   { code: "FR", label: "France" },
@@ -51,7 +51,7 @@ export default function CheckoutPage(): React.JSX.Element {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const isFlutterwave = isFlutterwaveCountry(form.country);
+  const isPaydunia = isPayduniaCountry(form.country);
 
   useEffect(() => {
     if (items.length === 0) {
@@ -69,7 +69,7 @@ export default function CheckoutPage(): React.JSX.Element {
     const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRx.test(form.email)) return "Adresse e-mail invalide.";
     if (!form.country) return "Le pays est requis.";
-    if (isFlutterwave && !form.phone.trim()) return "Le numéro de téléphone est requis pour ce pays.";
+    if (isPaydunia && !form.phone.trim()) return "Le numéro de téléphone est requis pour ce pays.";
     return null;
   };
 
@@ -226,7 +226,7 @@ export default function CheckoutPage(): React.JSX.Element {
               </select>
             </div>
 
-            {isFlutterwave && (
+            {isPaydunia && (
               <div style={{ marginBottom: 16 }}>
                 <label style={labelStyle}>Téléphone * <span style={{ fontWeight: 400, color: "#9ca3af" }}>(requis pour Mobile Money)</span></label>
                 <input
@@ -248,18 +248,18 @@ export default function CheckoutPage(): React.JSX.Element {
               alignItems: "center",
               gap: 10,
               padding: "12px 16px",
-              background: isFlutterwave ? "#fff8e1" : "#f0f7ff",
+              background: isPaydunia ? "#fff8e1" : "#f0f7ff",
               borderRadius: 12,
-              border: `1px solid ${isFlutterwave ? "#ffe082" : "#bfdbfe"}`,
+              border: `1px solid ${isPaydunia ? "#ffe082" : "#bfdbfe"}`,
               marginBottom: 24,
             }}>
-              <span style={{ fontSize: 18 }}>{isFlutterwave ? "📱" : "💳"}</span>
+              <span style={{ fontSize: 18 }}>{isPaydunia ? "📱" : "💳"}</span>
               <div>
                 <p style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, color: "#090943", margin: 0 }}>
-                  {isFlutterwave ? "Paiement via Flutterwave" : "Paiement sécurisé par Stripe"}
+                  {isPaydunia ? "Paiement via PayDunia" : "Paiement sécurisé par Stripe"}
                 </p>
                 <p style={{ fontFamily: "var(--font-aleo)", fontSize: 12, color: "#9ca3af", margin: "2px 0 0" }}>
-                  {isFlutterwave
+                  {isPaydunia
                     ? "Mobile Money, carte bancaire et autres moyens locaux"
                     : "Carte bancaire, Apple Pay, Google Pay"}
                 </p>

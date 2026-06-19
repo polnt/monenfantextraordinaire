@@ -8,7 +8,7 @@ function ConfirmationContent(): React.JSX.Element {
   const params = useSearchParams();
   const sessionId = params.get("session_id");
   const orderId = params.get("orderId");
-  const isFlutterwave = !sessionId && !!orderId;
+  const isPaydunia = !sessionId && !!orderId;
 
   return (
     <div style={{ paddingTop: 72, minHeight: "100vh", background: "#fafbff", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -22,7 +22,7 @@ function ConfirmationContent(): React.JSX.Element {
         <p style={{ fontFamily: "var(--font-aleo)", fontSize: 16, color: "#5a6070", lineHeight: 1.75, marginBottom: 8 }}>
           Votre paiement a bien été reçu. Vous allez recevoir un e-mail de confirmation avec vos accès dans les prochaines minutes.
         </p>
-        {isFlutterwave && (
+        {isPaydunia && (
           <p style={{ fontFamily: "var(--font-aleo)", fontSize: 14, color: "#9ca3af", marginBottom: 8 }}>
             Référence : <strong style={{ color: "#090943" }}>{orderId}</strong>
           </p>

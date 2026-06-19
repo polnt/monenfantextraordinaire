@@ -4,9 +4,9 @@ import { db } from "@/lib/db";
 import { getPaymentGateway } from "@/lib/geo";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
 import {
-  initializeFlutterwavePayment,
-  type FlutterwaveInitParams,
-} from "@/lib/flutterwave";
+  initializePayduniaPayment,
+  type PayduniaInitParams,
+} from "@/lib/paydunia";
 
 interface CheckoutItem {
   productId: string;
@@ -75,7 +75,7 @@ function generateOrderNumber(): string {
   return `ORD-${year}-${suffix}`;
 }
 
-function convertForFlutterwave(
+function convertForPaydunia(
   amount: number,
   fromCurrency: string,
   countryCode: string
@@ -211,28 +211,31 @@ export async function POST(req: Request): Promise<Response> {
 
       return NextResponse.json({ paymentUrl: session.url });
     } else {
-      const converted = convertForFlutterwave(
+      const converted = convertForPaydunia(
         totalAmount.toNumber(),
         productCurrency,
         body.customerCountry
       );
 
-      const flwParams: FlutterwaveInitParams = {
-        txRef: order.id,
+      const paydunaParams: PayduniaInitParams = {
+        orderId: order.id,
+        orderNumber: order.orderNumber,
         amount: converted.amount,
         currency: converted.currency,
         redirectUrl: `${baseUrl}/checkout/confirmation?orderId=${order.id}`,
+        cancelUrl: `${baseUrl}/checkout`,
+        callbackUrl: `${baseUrl}/api/paydunia/webhook`,
         customerEmail: body.customerEmail,
         customerName: `${body.customerFirstName} ${body.customerLastName}`,
         customerPhone: body.customerPhone,
         description: `Order ${order.orderNumber}`,
       };
 
-      const result = await initializeFlutterwavePayment(flwParams);
+      const result = await initializePayduniaPayment(paydunaParams);
 
       await db.order.update({
         where: { id: order.id },
-        data: { paymentId: order.id },
+        data: { paymentId: result.token },
       });
 
       return NextResponse.json({ paymentUrl: result.paymentLink });

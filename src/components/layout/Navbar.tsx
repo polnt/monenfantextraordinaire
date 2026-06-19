@@ -18,6 +18,7 @@ const mainLinks = [
 const dotsLinks = [
   { label: "Le site", href: "/le-site" },
   { label: "Qui suis-je ?", href: "/qui-suis-je" },
+  { label: "Réseaux", href: "/reseaux" },
   { label: "Contact", href: "/contact" },
   { label: "FAQ", href: "/faq" },
 ];
