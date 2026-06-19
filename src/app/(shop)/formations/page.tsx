@@ -7,45 +7,48 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 const formations = [
   {
     slug: 'accompagner-mon-enfant-autiste',
-    title: 'Formation complète : Accompagner mon enfant autiste',
-    modules: '8 modules',
+    title: 'Formation 1: Accompagner mon enfant autiste',
+    modules: '4 modules',
     hours: '12h',
     level: 'Débutant',
-    desc: "La formation phare pour les parents qui débutent. Comprenez l'autisme et apprenez les méthodes clés.",
-    price: '97 €',
+    desc: "La formation phare pour faire émerger les premiers mots. Construisez les bases de son langage en 15 minutes par jour.",
+    price: '119 €',
     color: '#0792dc',
     popular: true,
     disabled: false,
     img: '/visuel-formation.png',
     imgPosition: 'center top',
+    imgHeight: 280,
   },
   {
-    slug: 'maitriser-la-methode-aba',
-    title: 'Maîtriser la méthode ABA au quotidien',
-    modules: '5 modules',
-    hours: '8h',
-    level: 'Intermédiaire',
-    desc: "Appliquez les principes de l'ABA à la maison pour soutenir le développement de votre enfant.",
+    slug: 'developper-la-communication-verbale',
+    title: 'Formation 2: Développer la communication verbale',
+    modules: '4 modules',
+    hours: '14h',
+    level: 'Débutant',
+    desc: "Découvrez comment l'aider à trouver ses mots pour que ... comprenne",
     price: '67 €',
     color: '#27ae60',
     popular: false,
     disabled: true,
-    img: '/visuel-formation.png',
+    img: '/uploads/formation2.png',
     imgPosition: 'center top',
+    imgHeight: 280,
   },
   {
-    slug: 'communication-alternative-pecs-makaton',
-    title: 'Communication alternative : PECS & Makaton',
+    slug: 'comprendre-le-developpement-du-langage',
+    title: 'Formation 3: Comprendre le développement du langage',
     modules: '4 modules',
-    hours: '6h',
-    level: 'Tous niveaux',
-    desc: 'Découvrez les outils de communication alternatifs pour les enfants non-verbaux.',
+    hours: '5h',
+    level: 'Débutant',
+    desc: 'Comprendre les clés essentielles du développement du langage.',
     price: '49 €',
     color: '#F90021',
     popular: false,
     disabled: true,
-    img: '/visuel-formation.png',
+    img: '/uploads/formation3.png',
     imgPosition: 'center top',
+    imgHeight: 280,
   },
 ];
 
@@ -80,7 +83,7 @@ export default function FormationsPage(): React.JSX.Element {
                   </div>
                 )}
                 <div style={{ position: 'relative', overflow: 'hidden' }}>
-                  <Image src={f.img} alt={f.title} width={600} height={180} style={{ height: 180, width: '100%', objectFit: 'cover', objectPosition: f.imgPosition, display: 'block', filter: f.disabled ? 'grayscale(40%)' : 'none' }} />
+                  <Image src={f.img} alt={f.title} width={600} height={f.imgHeight} style={{ height: f.imgHeight, width: '100%', objectFit: 'contain', objectPosition: f.imgPosition, display: 'block', filter: f.disabled ? 'grayscale(40%)' : 'none' }} />
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 6, background: f.disabled ? '#9ca3af' : f.color }} />
                 </div>
                 <div style={{ padding: isMobile ? '20px 18px' : 28 }}>
@@ -137,7 +140,7 @@ export default function FormationsPage(): React.JSX.Element {
           <div style={{ background: '#fafbff', borderRadius: 20, padding: isMobile ? '24px 20px' : '32px 40px', marginTop: 40, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 20 : 32, textAlign: 'center' }}>
             {[
               { title: 'Accès à vie', desc: 'Une fois acheté, le contenu est disponible pour toujours.' },
-              { title: 'Satisfait ou remboursé', desc: 'Garantie 30 jours — aucune question posée.' },
+              { title: 'Satisfait ou remboursé', desc: 'Garanti 7 jours — aucune question posée.' },
               { title: 'Certificat inclus', desc: 'Un certificat de complétion remis à la fin de chaque formation.' },
             ].map((g, i) => (
               <div key={i}>

@@ -8,14 +8,14 @@ import { useAddToCart } from '@/hooks/useAddToCart';
 
 const formationColors: Record<string, string> = {
   'accompagner-mon-enfant-autiste': '#0792dc',
-  'maitriser-la-methode-aba': '#27ae60',
-  'communication-alternative-pecs-makaton': '#F90021',
+  'developper-la-communication-verbale': '#27ae60',
+  'comprendre-le-developpement-du-langage': '#F90021',
 };
 
 const formationImages: Record<string, string> = {
   'accompagner-mon-enfant-autiste': '/visuel-formation.png',
-  'maitriser-la-methode-aba': '/visuel-formation.png',
-  'communication-alternative-pecs-makaton': '/visuel-formation.png',
+  'developper-la-communication-verbale': '/visuel-formation.png',
+  'comprendre-le-developpement-du-langage': '/visuel-formation.png',
 };
 
 const audience = [
@@ -88,7 +88,7 @@ const notThis = [
 const guarantees = [
   { icon: '♾️', title: 'Accès illimité', desc: 'Tous les modules, vidéos et exercices accessibles à vie' },
   { icon: '🕐', title: 'Disponible 24h/24', desc: 'Sur mobile, tablette ou ordinateur, quand vous voulez' },
-  { icon: '✅', title: 'Satisfait ou remboursé', desc: 'Garantie 30 jours — aucune question posée' },
+  { icon: '✅', title: 'Satisfait ou remboursé', desc: 'Garanti 7 jours — aucune question posée' },
   { icon: '💳', title: 'Paiement sécurisé', desc: 'Possibilité de payer en 2 fois' },
 ];
 
@@ -296,7 +296,7 @@ export default function FormationDetailPage(): React.JSX.Element {
                 <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
                   <Image src="/uploads/cahier-parents.png" alt="Le Cahier des Parents" width={220} height={220} style={{ borderRadius: 12, objectFit: 'contain' }} />
                 </div>
-                <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: 'white', marginBottom: 12 }}>20 minutes par jour suffisent</div>
+                <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: 'white', marginBottom: 12 }}>15 minutes par jour suffisent</div>
                 <p style={{ margin: 0, fontFamily: 'var(--font-aleo)', fontSize: 15, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
                   pour créer des opportunités d&apos;interaction et construire, pas à pas, les bases solides du langage de votre enfant.
                 </p>
@@ -403,7 +403,7 @@ export default function FormationDetailPage(): React.JSX.Element {
       <section style={{ background: '#FDF482', padding: '72px 0' }}>
         <div className="mef-container" style={{ maxWidth: 900 }}>
           <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <div className="mef-eyebrow mef-eyebrow-red">Formule accompagnée — 249 €</div>
+            <div className="mef-eyebrow mef-eyebrow-red">Formule accompagnée — 269 €</div>
             <h2 className="mef-h2">Les bonus exclusifs</h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
@@ -459,12 +459,12 @@ export default function FormationDetailPage(): React.JSX.Element {
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div className="mef-eyebrow" style={{ color }}>Tarifs</div>
             <h2 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 42, color: 'white', marginBottom: 14 }}>Choisissez votre formule</h2>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, fontFamily: 'var(--font-aleo)' }}>Accès immédiat · 100% en ligne · Garantie satisfait ou remboursé 30 jours</p>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, fontFamily: 'var(--font-aleo)' }}>Accès immédiat · 100% en ligne · Garanti satisfait ou remboursé 7 jours</p>
           </div>
           <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 20, alignItems: 'stretch', maxWidth: 820, margin: '0 auto' }}>
             <PriceCard
               plan="En autonomie"
-              price="99 €"
+              price="119 €"
               highlighted={false}
               color={color}
               slug={slug}
@@ -481,7 +481,7 @@ export default function FormationDetailPage(): React.JSX.Element {
             />
             <PriceCard
               plan="Avec accompagnement personnalisé"
-              price="249 €"
+              price="269 €"
               highlighted={true}
               color={color}
               slug={`${slug}-accompagne`}
@@ -489,7 +489,7 @@ export default function FormationDetailPage(): React.JSX.Element {
               loading={loading}
               features={[
                 'Tout ce qui est inclus dans la formule de base',
-                '4 séances individuelles avec Laurence BUGNET, psychologue spécialiste TSA (valeur 280 €)',
+                '3 séances individuelles avec Laurence BUGNET, psychologue spécialiste TSA (valeur 210 €)',
                 '1 masterclass de groupe en direct',
                 'Accès prioritaire par e-mail ou WhatsApp',
                 'Attestation de formation',
