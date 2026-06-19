@@ -185,12 +185,12 @@ export default function ReseauxPage(): React.JSX.Element {
         <div style={{ position: 'absolute', left: -60, top: -60, width: 200, height: 200, borderRadius: '50%', background: '#EFD010', opacity: 0.4 }} />
         <div className="mef-container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
           <h2 style={{ fontFamily: 'var(--font-nunito)', fontSize: isMobile ? 26 : 38, fontWeight: 900, color: '#090943', marginBottom: 16 }}>
-            Une question&nbsp;?
+            Prêt(e) à aller plus loin&nbsp;?
           </h2>
           <p style={{ fontSize: 17, color: '#5a6070', maxWidth: 480, margin: '0 auto 36px', lineHeight: 1.7 }}>
-            Écrivez-moi directement, je réponds personnellement à chaque message.
+            Suivre nos réseaux, c&apos;est bien. Rejoindre nos formations, c&apos;est transformer votre quotidien avec votre enfant extraordinaire.
           </p>
-          <Link href="/reseaux" className="mef-btn mef-btn-blue">Me contacter</Link>
+          <Link href="/formations" className="mef-btn mef-btn-blue">Voir nos formations</Link>
         </div>
       </section>
     </div>
