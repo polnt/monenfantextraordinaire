@@ -3,54 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
-
-const formations = [
-  {
-    slug: 'accompagner-mon-enfant-autiste',
-    title: 'Formation 1: Accompagner mon enfant autiste',
-    modules: '4 modules',
-    hours: '12h',
-    level: 'Débutant',
-    desc: "La formation phare pour faire émerger les premiers mots. Construisez les bases de son langage en 15 minutes par jour.",
-    price: '119 €',
-    color: '#0792dc',
-    popular: true,
-    disabled: false,
-    img: '/visuel-formation.png',
-    imgPosition: 'center top',
-    imgHeight: 280,
-  },
-  {
-    slug: 'developper-la-communication-verbale',
-    title: 'Formation 2: Développer la communication verbale',
-    modules: '4 modules',
-    hours: '14h',
-    level: 'Débutant',
-    desc: "Découvrez comment l'aider à trouver ses mots pour que ... comprenne",
-    price: '67 €',
-    color: '#27ae60',
-    popular: false,
-    disabled: true,
-    img: '/uploads/formation2.png',
-    imgPosition: 'center top',
-    imgHeight: 280,
-  },
-  {
-    slug: 'comprendre-le-developpement-du-langage',
-    title: 'Formation 3: Comprendre le développement du langage',
-    modules: '4 modules',
-    hours: '5h',
-    level: 'Débutant',
-    desc: 'Comprendre les clés essentielles du développement du langage.',
-    price: '49 €',
-    color: '#F90021',
-    popular: false,
-    disabled: true,
-    img: '/uploads/formation3.png',
-    imgPosition: 'center top',
-    imgHeight: 280,
-  },
-];
+import { FORMATIONS } from '@/lib/catalog';
 
 export default function FormationsPage(): React.JSX.Element {
   const isMobile = useIsMobile();
@@ -70,7 +23,7 @@ export default function FormationsPage(): React.JSX.Element {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 24 }}>
-            {formations.map((f, i) => (
+            {FORMATIONS.map((f, i) => (
               <div key={i} className="mef-card" style={{ overflow: 'hidden', opacity: f.disabled ? 0.75 : 1 }}>
                 {f.disabled && (
                   <div style={{ background: '#090943', textAlign: 'center', padding: '10px', fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 12, color: 'white', borderBottom: '1px solid #1a1a6e' }}>

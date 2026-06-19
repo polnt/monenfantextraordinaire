@@ -6,18 +6,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAddToCart } from '@/hooks/useAddToCart';
-
-const formationColors: Record<string, string> = {
-  'accompagner-mon-enfant-autiste': '#0792dc',
-  'developper-la-communication-verbale': '#27ae60',
-  'comprendre-le-developpement-du-langage': '#F90021',
-};
-
-const formationImages: Record<string, string> = {
-  'accompagner-mon-enfant-autiste': '/visuel-formation.png',
-  'developper-la-communication-verbale': '/visuel-formation.png',
-  'comprendre-le-developpement-du-langage': '/visuel-formation.png',
-};
+import { FORMATIONS } from '@/lib/catalog';
 
 const audience = [
   { icon: '🔇', text: "Votre enfant ne parle pas encore… ou très peu" },
@@ -172,8 +161,9 @@ function PriceCard({ plan, price, features, highlighted, color, slug, onBuy, loa
 export default function FormationDetailPage(): React.JSX.Element {
   const { slug } = useParams<{ slug: string }>();
   const isMobile = useIsMobile();
-  const color = formationColors[slug] ?? '#0792dc';
-  const img = formationImages[slug] ?? null;
+  const formation = FORMATIONS.find(f => f.slug === slug);
+  const color = formation?.color ?? '#0792dc';
+  const img = formation?.img ?? null;
   const { addAndCheckout, loading } = useAddToCart();
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
@@ -513,7 +503,7 @@ export default function FormationDetailPage(): React.JSX.Element {
           <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 20, alignItems: 'stretch', maxWidth: 820, margin: '0 auto' }}>
             <PriceCard
               plan="En autonomie"
-              price="119 €"
+              price={formation?.price ?? '119 €'}
               highlighted={false}
               color={color}
               slug={slug}

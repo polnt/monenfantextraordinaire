@@ -3,64 +3,19 @@
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAddToCart } from '@/hooks/useAddToCart';
+import { OUTILS } from '@/lib/catalog';
 
-const products = [
-  {
-    title: 'Je découvre les fruits et légumes en photos',
-    subtitle: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
-    img: '/uploads/miniature_outils_legumes_photo.png',
-    imgPosition: 'center 30%',
-    bg: '#e8f4fd',
-    price: '7,90 €',
-    href: '/outils/legumes-photos',
-    slug: 'legumes-photos',
-    color: '#0792dc',
-  },
-  {
-    title: 'Je découvre les fruits et légumes en illustrations',
-    subtitle: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
-    img: '/uploads/miniature_outils_legume_illustration.png',
-    imgPosition: 'center 30%',
-    bg: '#e8f5e9',
-    price: '7,90 €',
-    href: '/outils/legumes-illustrations',
-    slug: 'legumes-illustrations',
-    color: '#27ae60',
-  },
-  {
-    title: 'Je découvre les animaux en photos et en illustrations',
-    subtitle: 'Et si votre enfant comprenait enfin que les images représentent le monde réel ?',
-    img: '/uploads/miniature_outils_animaux-images-photo.png',
-    imgPosition: 'center 30%',
-    bg: '#fff3e0',
-    price: '14,90 €',
-    href: '/outils/animaux',
-    slug: 'animaux',
-    color: '#ff7043',
-  },
-  {
-    title: 'Apprendre à dessiner mon premier bonhomme',
-    subtitle: 'Un livret progressif pour développer le schéma corporel et la confiance en soi.',
-    img: '/uploads/miniature_outils_bonhomme-dessin.png',
-    imgPosition: 'center 30%',
-    bg: '#f5f3ff',
-    price: '12,90 €',
-    href: '/outils/bonhomme-dessin',
-    slug: 'bonhomme-dessin',
-    color: '#9333ea',
-  },
-  {
-    title: 'Cahier de coloriage éducatif et inclusif',
-    subtitle: 'Des illustrations simples avec modèles en couleur, adaptées au rythme de chaque enfant.',
-    img: '/uploads/miniature_outils_animaux-coloriage.png',
-    imgPosition: 'center 30%',
-    bg: '#fffbeb',
-    price: '9,90 €',
-    href: '/outils/cahier-coloriage',
-    slug: 'cahier-coloriage',
-    color: '#f59e0b',
-  },
-];
+const products = OUTILS.map((p) => ({
+  title: p.listingTitle,
+  subtitle: p.listingSubtitle,
+  img: p.img,
+  imgPosition: p.imgPosition,
+  bg: p.colorLight,
+  price: p.price,
+  href: `/outils/${p.slug}`,
+  slug: p.slug,
+  color: p.color,
+}));
 
 export default function OutilsPage(): React.JSX.Element {
   const isMobile = useIsMobile();

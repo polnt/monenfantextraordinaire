@@ -2,33 +2,7 @@
 
 import Image from 'next/image';
 import { useIsMobile } from '@/hooks/useIsMobile';
-
-const resources = [
-  {
-    title: "Le développement du langage chez l'enfant",
-    subtitle: 'Comprendre les grandes étapes de la naissance à 6 ans',
-    tag: 'Article · PDF gratuit',
-    img: '/uploads/miniature_developpement-langage.png',
-    imgPosition: 'center 0%',
-    pdf: '/ressources/article_developpement-langage.pdf',
-  },
-  {
-    title: 'Différence entre retard et troubles du langage',
-    subtitle: 'Comprendre, distinguer et repérer les types de difficultés dans l\'acquisition du langage pour adopter un accompagnement adapté',
-    tag: 'Article · PDF gratuit',
-    img: '/uploads/miniature_retards-troubles-langage.png',
-    imgPosition: 'center 0%',
-    pdf: '/ressources/article_retards-troubles-langage.pdf',
-  },
-  {
-    title: 'La sensorialité',
-    subtitle: 'Comprendre le monde avec ses 5 sens',
-    tag: 'Article · PDF gratuit',
-    img: '/uploads/miniature_profil-sensoriel-autiste.png',
-    imgPosition: 'center 30%',
-    pdf: '/ressources/article_profil-sensoriel-autiste.pdf',
-  },
-];
+import { RESSOURCES } from '@/lib/catalog';
 
 export default function RessourcesPage(): React.JSX.Element {
   const isMobile = useIsMobile();
@@ -56,7 +30,7 @@ export default function RessourcesPage(): React.JSX.Element {
             gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
             gap: 24,
           }}>
-            {resources.map((resource) => (
+            {RESSOURCES.map((resource) => (
               <div key={resource.pdf} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ position: 'relative', height: isMobile ? 200 : 260, overflow: 'hidden', backgroundColor: '#F5E6C8' }}>
                   <Image
