@@ -335,7 +335,7 @@ export default function HomePage(): React.JSX.Element {
             {!isMobile && (
               <div style={{ position: 'relative' }}>
                 <img
-                  src="/uploads/pasted-1777296342775-0.png"
+                  src="/uploads/laurence.png"
                   alt="Portrait professionnel de la formatrice"
                   style={{ width: '100%', height: 440, objectFit: 'cover', objectPosition: 'center top', borderRadius: 28, display: 'block' }}
                 />

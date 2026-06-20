@@ -41,7 +41,7 @@ export default function CollaborationUnique(): React.JSX.Element {
               alt="Ludivine, ingénieure pédagogique"
               width={290}
               height={360}
-              style={{ float: 'right', marginLeft: 32, marginBottom: 16, objectFit: 'cover', objectPosition: 'center right', borderRadius: 16, display: 'block', position: 'relative', zIndex: 0, transform: 'translateX(-80px)' }}
+              style={{ float: 'right', marginLeft: 32, marginBottom: 16, objectFit: 'cover', objectPosition: 'center right', borderRadius: 16, display: 'block'}}
             />
           )}
           <div style={{ position: 'relative', zIndex: 1 }}>

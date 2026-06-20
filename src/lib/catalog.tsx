@@ -43,7 +43,7 @@ export interface Formation {
 export const FORMATIONS: Formation[] = [
   {
     slug: 'accompagner-mon-enfant-autiste',
-    title: 'Formation 1: Accompagner mon enfant autiste',
+    title: 'Formation 1: Accompagner l\'émergence des premiers mots',
     modules: '4 modules',
     hours: '12h',
     level: 'Débutant',

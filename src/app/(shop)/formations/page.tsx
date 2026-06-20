@@ -48,7 +48,9 @@ export default function FormationsPage(): React.JSX.Element {
                   <h3 style={{ fontFamily: 'var(--font-nunito)', fontSize: 17, fontWeight: 700, marginBottom: 10, lineHeight: 1.35 }}>{f.title}</h3>
                   <p style={{ color: '#5a6070', fontSize: 14, lineHeight: 1.65, marginBottom: 20 }}>{f.desc}</p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f3f4f6', paddingTop: 16, gap: 8 }}>
-                    <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 24, color: f.disabled ? '#9ca3af' : f.color }}>{f.price}</span>
+                    {!f.disabled && (
+                      <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 24, color: f.color }}>{f.price}</span>
+                    )}
                     <div style={{ display: 'flex', gap: 8 }}>
                       {f.disabled ? (
                         <>
