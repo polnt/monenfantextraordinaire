@@ -473,37 +473,63 @@ export const OUTILS: OutilProduct[] = [
 // ─────────────────────────────────────────────────
 
 export interface Ressource {
+  slug: string;
   title: string;
   subtitle: string;
   tag: string;
   img: string;
   imgPosition: string;
-  pdf: string;
+  fileKey: string;
 }
 
 export const RESSOURCES: Ressource[] = [
   {
+    slug: 'article_developpement-langage',
     title: "Le développement du langage chez l'enfant",
     subtitle: 'Comprendre les grandes étapes de la naissance à 6 ans',
     tag: 'Article · PDF gratuit',
     img: '/uploads/miniature_developpement-langage.png',
     imgPosition: 'center 0%',
-    pdf: '/ressources/article_developpement-langage.pdf',
+    fileKey: 'ressources/article_developpement-langage.pdf',
   },
   {
+    slug: 'article_retards-troubles-langage',
     title: 'Différence entre retard et troubles du langage',
     subtitle: "Comprendre, distinguer et repérer les types de difficultés dans l'acquisition du langage pour adopter un accompagnement adapté",
     tag: 'Article · PDF gratuit',
     img: '/uploads/miniature_retards-troubles-langage.png',
     imgPosition: 'center 0%',
-    pdf: '/ressources/article_retards-troubles-langage.pdf',
+    fileKey: 'ressources/article_retards-troubles-langage.pdf',
   },
   {
+    slug: 'article_profil-sensoriel-autiste',
     title: 'La sensorialité',
     subtitle: 'Comprendre le monde avec ses 5 sens',
     tag: 'Article · PDF gratuit',
     img: '/uploads/miniature_profil-sensoriel-autiste.png',
     imgPosition: 'center 30%',
-    pdf: '/ressources/article_profil-sensoriel-autiste.pdf',
+    fileKey: 'ressources/article_profil-sensoriel-autiste.pdf',
+  },
+];
+
+// ─────────────────────────────────────────────────
+// Bonus
+// ─────────────────────────────────────────────────
+
+export interface Bonus {
+  title: string;
+  tag: string;
+  img: string;
+  imgPosition: string;
+  fileKey: string;
+}
+
+export const BONUS: Bonus[] = [
+  {
+    title: 'Mini-astuces pour développer le langage',
+    tag: 'Bonus - PDF gratuit',
+    img: '/uploads/bonus-mini-astuces.png',
+    imgPosition: 'center 30%',
+    fileKey: 'bonus/bonus-developper-langage.pdf',
   },
 ];

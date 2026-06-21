@@ -6,6 +6,7 @@ import {
 } from "@/lib/paydunia";
 import { db } from "@/lib/db";
 import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
+import { sendProductEmail } from "@/lib/sendProductEmail";
 import { getOrCreateUser, enrolUserToCourse } from "@/lib/moodle/client";
 import { ProductType } from "@prisma/client";
 
@@ -114,13 +115,27 @@ export async function POST(req: Request): Promise<Response> {
           err
         );
       }
+    } else if (item.product.type === ProductType.EBOOK) {
+      try {
+        await sendProductEmail({
+          productId: item.productId,
+          productName: item.productName,
+          email: order.customerEmail,
+          customerName,
+          orderId: order.id,
+          orderNumber: order.orderNumber,
+        });
+      } catch (err) {
+        console.error(`Failed to send product email for order item ${item.id}:`, err);
+      }
     }
   }
 
-  // Include TRAINING items without a moodleCourseId in the regular confirmation email
+  // Exclude items already handled individually (TRAINING with Moodle, EBOOK with download link)
   const itemsForConfirmation = order.items.filter(
     (item) =>
-      item.product.type !== ProductType.TRAINING || !item.product.training?.moodleCourseId
+      item.product.type !== ProductType.EBOOK &&
+      (item.product.type !== ProductType.TRAINING || !item.product.training?.moodleCourseId)
   );
 
   if (itemsForConfirmation.length > 0) {

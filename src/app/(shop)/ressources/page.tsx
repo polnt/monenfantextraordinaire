@@ -31,7 +31,7 @@ export default function RessourcesPage(): React.JSX.Element {
             gap: 24,
           }}>
             {RESSOURCES.map((resource) => (
-              <div key={resource.pdf} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+              <div key={resource.slug} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ position: 'relative', height: isMobile ? 200 : 260, overflow: 'hidden', backgroundColor: '#F5E6C8' }}>
                   <Image
                     src={resource.img}
@@ -58,7 +58,7 @@ export default function RessourcesPage(): React.JSX.Element {
                     <p style={{ color: '#5a6070', fontSize: 14, lineHeight: 1.55, marginBottom: 0 }}>{resource.subtitle}</p>
                   )}
                   <a
-                    href={resource.pdf}
+                    href={`/api/ressources/${resource.slug}/download`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mef-btn mef-btn-outline"

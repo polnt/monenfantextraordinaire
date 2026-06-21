@@ -32,9 +32,10 @@ model Product {
   images      String[]
   active      Boolean     @default(true)
 
-  training    Training?
-  ebook       Ebook?
-  orderItems  OrderItem[]
+  training        Training?
+  ebook           Ebook?
+  orderItems      OrderItem[]
+  downloadTokens  DownloadToken[]
 
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -56,7 +57,24 @@ model Training {
 model Ebook {
   id      String  @id
   product Product @relation(fields: [id], references: [id])
-  fileUrl String? // PDF download URL
+  fileKey String? // R2 object key, e.g. "bonus/guide-autisme.pdf"
+}
+
+// ─── Download token ───────────────────────────────────────────────────────────
+
+model DownloadToken {
+  id            String   @id @default(cuid())
+  token         String   @unique
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id])
+  orderId       String?  // null for free products
+  email         String
+  expiresAt     DateTime
+  maxDownloads  Int      @default(5)
+  downloadCount Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  @@index([orderId])
 }
 
 // ─── Order ────────────────────────────────────────────────────────────────────
