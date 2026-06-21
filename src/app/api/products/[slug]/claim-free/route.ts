@@ -11,10 +11,9 @@ export async function POST(
   const { slug } = await params;
 
   let email: string;
-  let customerName: string;
 
   try {
-    const body = (await req.json()) as { email?: unknown; customerName?: unknown };
+    const body = (await req.json()) as { email?: unknown };
 
     if (typeof body.email !== "string" || !body.email.includes("@")) {
       return NextResponse.json(
@@ -24,10 +23,6 @@ export async function POST(
     }
 
     email = body.email.trim().toLowerCase();
-    customerName =
-      typeof body.customerName === "string" && body.customerName.trim()
-        ? body.customerName.trim()
-        : "là";
   } catch {
     return NextResponse.json(
       { error: "Corps de requête invalide." },
@@ -58,7 +53,6 @@ export async function POST(
       productId: product.id,
       productName: product.name,
       email,
-      customerName,
       orderId: null,
       directUrl,
     });

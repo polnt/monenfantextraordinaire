@@ -8,16 +8,35 @@ export default function LeadMagnet(): React.JSX.Element {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const [err, setErr] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [apiErr, setApiErr] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-    if (!valid) {
+    const trimmed = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       setErr(true);
       return;
     }
     setErr(false);
-    setSent(true);
+    setApiErr(false);
+    setLoading(true);
+    try {
+      const res = await fetch('/api/lead-magnet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: trimmed }),
+      });
+      if (res.ok) {
+        setSent(true);
+      } else {
+        setApiErr(true);
+      }
+    } catch {
+      setApiErr(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,7 +65,7 @@ export default function LeadMagnet(): React.JSX.Element {
             }}
           >
             <div>
-              <div className="mef-eyebrow" style={{ color: '#27ae60' }}>Bonus gratuit offert</div>
+              <div className="mef-eyebrow" style={{ color: '#27ae60' }}>Bonus offert</div>
               <h2
                 style={{
                   fontFamily: 'var(--font-nunito)',
@@ -138,18 +157,26 @@ export default function LeadMagnet(): React.JSX.Element {
                     />
                     <button
                       type="submit"
+                      disabled={loading}
                       className="mef-btn"
-                      style={{ background: '#27ae60', color: 'white', whiteSpace: 'nowrap', justifyContent: 'center' }}
+                      style={{ background: '#27ae60', color: 'white', whiteSpace: 'nowrap', justifyContent: 'center', opacity: loading ? 0.7 : 1 }}
                     >
-                      Recevoir le bonus
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ marginLeft: 6 }}>
-                        <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
+                      {loading ? 'Envoi…' : 'Recevoir le bonus'}
+                      {!loading && (
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ marginLeft: 6 }}>
+                          <path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
                     </button>
                   </div>
                   {err && (
                     <p style={{ color: '#F90021', fontSize: 13, marginTop: 10, marginLeft: 4 }}>
                       Merci de saisir une adresse e-mail valide.
+                    </p>
+                  )}
+                  {apiErr && (
+                    <p style={{ color: '#F90021', fontSize: 13, marginTop: 10, marginLeft: 4 }}>
+                      Une erreur est survenue. Veuillez réessayer.
                     </p>
                   )}
                   <p style={{ fontSize: 12.5, color: '#9ca3af', marginTop: 12, marginLeft: 4 }}>

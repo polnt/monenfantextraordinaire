@@ -121,7 +121,6 @@ export async function POST(req: Request): Promise<Response> {
           productId: item.productId,
           productName: item.productName,
           email: order.customerEmail,
-          customerName,
           orderId: order.id,
           orderNumber: order.orderNumber,
         });

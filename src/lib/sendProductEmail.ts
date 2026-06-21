@@ -19,7 +19,6 @@ export interface SendProductEmailParams {
   productId: string;
   productName: string;
   email: string;
-  customerName: string;
   orderId: string | null;
   orderNumber?: string;
   /** Pass a direct public URL to skip download-token creation (free/public products). */
@@ -29,7 +28,7 @@ export interface SendProductEmailParams {
 export async function sendProductEmail(
   params: SendProductEmailParams
 ): Promise<void> {
-  const { productId, productName, email, customerName, orderId, orderNumber, directUrl } =
+  const { productId, productName, email, orderId, orderNumber, directUrl } =
     params;
 
   let downloadUrl: string;
@@ -83,7 +82,7 @@ export async function sendProductEmail(
       : `Votre fichier "${productName}" est prêt`,
     html: `
       <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:24px">
-        <p>Bonjour ${escapeHtml(customerName)},</p>
+        <p>Bonjour</p>
         <p>
           ${isFree
             ? `Voici votre bonus gratuit&nbsp;:`

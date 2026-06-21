@@ -530,6 +530,6 @@ export const BONUS: Bonus[] = [
     tag: 'Bonus - PDF gratuit',
     img: '/uploads/bonus-mini-astuces.png',
     imgPosition: 'center 30%',
-    fileKey: 'bonus/bonus-developper-langage.pdf',
+    fileKey: 'bonus/bonus_developper-langage.pdf',
   },
 ];
