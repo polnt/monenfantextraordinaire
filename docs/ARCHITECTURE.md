@@ -42,7 +42,7 @@ monenfantextraordinaire/
 │   │       └── faq/page.tsx
 │   └── api/
 │       ├── stripe/webhook/route.ts
-│       ├── flutterwave/webhook/route.ts
+│       ├── paydunia/webhook/route.ts
 │       ├── checkout/route.ts
 │       └── orders/route.ts
 ├── components/
@@ -53,7 +53,7 @@ monenfantextraordinaire/
 │   └── checkout/
 ├── lib/
 │   ├── stripe.ts
-│   ├── flutterwave.ts
+│   ├── paydunia.ts
 │   ├── db.ts                           # Prisma client (singleton)
 │   ├── email.ts                        # Resend + Moodle link logic
 │   └── geo.ts                          # Country detection → correct gateway

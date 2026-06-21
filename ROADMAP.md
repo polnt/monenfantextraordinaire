@@ -21,11 +21,11 @@
 ## 2. Paiements & Webhooks
 
 - ✅ Intégration Stripe (Europe)
-- ✅ Intégration Flutterwave (Afrique francophone : CI, SN, CM, ML, TG, BF, BJ, GN)
+- ✅ Intégration PayDunia (Afrique francophone : CI, SN, CM, ML, TG, BF, BJ, GN)
 - ✅ Sélection automatique de gateway selon le pays (`lib/geo.ts`)
 - ✅ API checkout (`/api/checkout`) : validation, création commande, idempotence
 - ✅ Webhook Stripe (`/api/stripe/webhook`) : validation signature, transition PENDING→PAID
-- ✅ Webhook Flutterwave (`/api/flutterwave/webhook`) : validation signature + vérification transaction
+- ✅ Webhook PayDunia (`/api/paydunia/webhook`) : validation signature + vérification transaction
 - ✅ Conversion devise EUR ↔ XOF/XAF à la frontière de paiement
 
 ---
@@ -45,7 +45,7 @@
 - ✅ Client REST Moodle (`lib/moodle/client.ts`) — token via `MOODLE_TOKEN`
 - ✅ `getOrCreateUser` : recherche par email (`core_user_get_users`) + création si absent (`core_user_create_users`, `createpassword=1`)
 - ✅ `enrolUserToCourse` : inscription manuelle au cours (`enrol_manual_enrol_users`, rôle étudiant)
-- ✅ Webhooks Stripe + Flutterwave : enrôlement automatique post-achat, formations uniquement
+- ✅ Webhooks Stripe + PayDunia : enrôlement automatique post-achat, formations uniquement
 - ⬜ Back-office : association produit ↔ `moodleCourseId`
 
 ---
@@ -65,8 +65,8 @@
 
 - ✅ État du panier côté client (Context API + localStorage)
 - ✅ Composant panier (ajout/suppression/quantité) — mini-cart navbar (dropdown desktop, panel mobile)
-- ✅ Page checkout (`/checkout`) : récapitulatif + formulaire client (prénom, nom, email, pays, téléphone si Flutterwave)
-- ✅ Sélection visuelle du moyen de paiement (Stripe / Flutterwave) selon le pays détecté
+- ✅ Page checkout (`/checkout`) : récapitulatif + formulaire client (prénom, nom, email, pays, téléphone si PayDunia)
+- ✅ Sélection visuelle du moyen de paiement (Stripe / PayDunia) selon le pays détecté
 - ✅ Validation côté client avant appel API
 - ✅ Page confirmation de commande (`/checkout/confirmation`) : résumé post-paiement
 - ✅ API `GET /api/products/[slug]` pour résoudre slug → ID produit DB
@@ -124,7 +124,7 @@
 - ⬜ Tests unitaires sur les helpers (`geo.ts`, `email.ts`, `escapeHtml.ts`)
 - ⬜ Tests d'intégration : flux checkout → webhook → email
 - ⬜ Tests e2e du tunnel d'achat (Playwright ou Cypress)
-- ⬜ Fixtures Stripe/Flutterwave pour CI
+- ⬜ Fixtures Stripe/PayDunia pour CI
 
 ---
 
