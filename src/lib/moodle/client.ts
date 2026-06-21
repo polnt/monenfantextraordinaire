@@ -135,11 +135,11 @@ export async function getOrCreateUser(
  */
 export async function enrolUserToCourse(
   userId: number,
-  courseId: string
+  courseId: number
 ): Promise<void> {
   await callMoodleApi<null>("enrol_manual_enrol_users", {
     "enrolments[0][roleid]": "5",
     "enrolments[0][userid]": String(userId),
-    "enrolments[0][courseid]": courseId,
+    "enrolments[0][courseid]": String(courseId),
   });
 }

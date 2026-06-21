@@ -38,6 +38,7 @@ export interface Formation {
   img: string;
   imgPosition: string;
   imgHeight: number;
+  moodleCourseId?: number;
 }
 
 export const FORMATIONS: Formation[] = [
@@ -55,6 +56,7 @@ export const FORMATIONS: Formation[] = [
     img: '/visuel-formation.png',
     imgPosition: 'center top',
     imgHeight: 280,
+    moodleCourseId: 4,
   },
   {
     slug: 'developper-la-communication-verbale',

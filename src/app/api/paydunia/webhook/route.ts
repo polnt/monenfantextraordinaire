@@ -91,13 +91,27 @@ export async function POST(req: Request): Promise<Response> {
       item.product.training?.moodleCourseId
     ) {
       try {
-        const moodleUserId = await getOrCreateUser(
-          order.customerEmail,
-          order.customerFirstName,
-          order.customerLastName
-        );
-        await enrolUserToCourse(moodleUserId, item.product.training.moodleCourseId);
-        const moodleLink = `${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/course/view.php?id=${item.product.training.moodleCourseId}`;
+        const moodleCourseId = item.product.training.moodleCourseId;
+        let moodleUserId: number;
+        try {
+          moodleUserId = await getOrCreateUser(
+            order.customerEmail,
+            order.customerFirstName,
+            order.customerLastName
+          );
+        } catch (err) {
+          console.error(`[Moodle] getOrCreateUser failed for order item ${item.id}:`, err);
+          throw err;
+        }
+
+        try {
+          await enrolUserToCourse(moodleUserId, moodleCourseId);
+        } catch (err) {
+          console.error(`[Moodle] enrolUserToCourse failed (userId=${moodleUserId}, courseId=${moodleCourseId}) for order item ${item.id}:`, err);
+          throw err;
+        }
+
+        const moodleLink = `${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/course/view.php?id=${moodleCourseId}`;
         await sendMoodleAccessEmail({
           to: order.customerEmail,
           customerName,
@@ -110,10 +124,7 @@ export async function POST(req: Request): Promise<Response> {
           data: { moodleLinkSent: true, moodleLinkSentAt: new Date() },
         });
       } catch (err) {
-        console.error(
-          `Moodle enrolment failed for order item ${item.id}:`,
-          err
-        );
+        console.error(`[Moodle] Full enrolment flow failed for order item ${item.id}:`, err);
       }
     } else if (item.product.type === ProductType.EBOOK) {
       try {

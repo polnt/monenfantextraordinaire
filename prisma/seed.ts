@@ -10,14 +10,23 @@ const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const db = new PrismaClient({ adapter });
 
 // Mirrored from src/lib/catalog.tsx — keep in sync manually
+type FormationSeed = {
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  active: boolean;
+  moodleCourseId?: number;
+};
 
-const FORMATIONS = [
+const FORMATIONS: FormationSeed[] = [
   {
     slug: 'accompagner-mon-enfant-autiste',
     name: "Formation 1: Accompagner l'émergence des premiers mots",
     description: "La formation phare pour faire émerger les premiers mots. Construisez les bases de son langage en 15 minutes par jour.",
     price: 119,
     active: true,
+    moodleCourseId: 4,
   },
   {
     slug: 'developper-la-communication-verbale',
@@ -100,13 +109,16 @@ const BONUS = [
 ] as const;
 
 async function main(): Promise<void> {
-  // Remove legacy test-only products (no real orders reference these)
-  await db.product.deleteMany({ where: { slug: { in: ['test-ebook', 'test-formation'] } } });
-
   for (const p of FORMATIONS) {
     const product = await db.product.upsert({
       where: { slug: p.slug },
-      update: { name: p.name, description: p.description, price: p.price, active: p.active },
+      update: {
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        active: p.active,
+        training: { update: { moodleCourseId: p.moodleCourseId ?? null } },
+      },
       create: {
         slug: p.slug,
         name: p.name,
@@ -116,7 +128,7 @@ async function main(): Promise<void> {
         type: ProductType.TRAINING,
         accessType: AccessType.PAID,
         active: p.active,
-        training: { create: { moodleCourseId: null } },
+        training: { create: { moodleCourseId: p.moodleCourseId ?? null } },
       },
     });
     console.log(`  [FORMATION] slug=${product.slug}  price=${product.price} EUR  active=${product.active}`);
