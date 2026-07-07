@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
@@ -100,9 +101,11 @@ export default function QuiSuisJePage(): React.JSX.Element {
               </div>
             </div>
             <div style={{ position: 'relative' }}>
-              <img
+              <Image
                 src={`${R2_IMAGES_BASE}/laurence.png`}
                 alt="Laurence Bugnet"
+                width={600}
+                height={480}
                 style={{ width: '100%', height: isMobile ? 280 : 480, objectFit: 'cover', objectPosition: 'center top', borderRadius: isMobile ? 16 : 28, display: 'block' }}
               />
               {!isMobile && (

@@ -47,7 +47,7 @@ export default function ContactPage(): React.JSX.Element {
     return e;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent): void => {
     e.preventDefault();
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
@@ -71,10 +71,10 @@ export default function ContactPage(): React.JSX.Element {
   const labelStyle: React.CSSProperties = { display: 'block', fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 13, color: '#090943', marginBottom: 8 };
   const errorStyle: React.CSSProperties = { color: '#F90021', fontSize: 12, fontFamily: 'var(--font-nunito)', marginTop: 6, display: 'block' };
 
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
     e.target.style.borderColor = '#0792dc';
   };
-  const handleBlur = (field: keyof FormErrors) => (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleBlur = (field: keyof FormErrors) => (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
     e.target.style.borderColor = errors[field] ? '#F90021' : '#e5e7eb';
   };
 

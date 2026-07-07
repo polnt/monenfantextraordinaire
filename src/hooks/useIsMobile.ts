@@ -9,7 +9,7 @@ export function useIsMobile(breakpoint = 768): boolean {
     setIsMobile(mq.matches);
     const h = (e: MediaQueryListEvent): void => setIsMobile(e.matches);
     mq.addEventListener('change', h);
-    return () => mq.removeEventListener('change', h);
+    return (): void => mq.removeEventListener('change', h);
   }, [breakpoint]);
   return isMobile;
 }

@@ -33,7 +33,7 @@ export default function StatBlock({ target, suffix, label, prefix }: StatBlockPr
       { threshold: 0.5 }
     );
     if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
+    return (): void => obs.disconnect();
   }, [target]);
 
   const fmt = (n: number): string =>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 export type ContentBlock =
   | { type: 'paragraph'; text: string }
@@ -49,12 +50,15 @@ function renderBlocks(blocks: ContentBlock[], accentColor: string): React.JSX.El
           </p>
         ) : block.type === 'image' ? (
           <figure key={i} style={{ margin: 0, textAlign: block.align ?? 'center' }}>
-            <img
+            <Image
               src={block.src}
               alt={block.alt ?? ''}
+              width={typeof block.width === 'number' ? block.width : 800}
+              height={600}
               style={{
                 maxWidth: '66%',
                 width: block.width ?? 'auto',
+                height: 'auto',
                 borderRadius: 12,
                 display: 'inline-block',
               }}
@@ -233,7 +237,7 @@ export default function TabSection({
   const tabsBarRef = useRef<HTMLDivElement>(null);
   const tabButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  const handleTabClick = (tabId: string, idx: number) => {
+  const handleTabClick = (tabId: string, idx: number): void => {
     setTab(tabId);
     const container = tabsBarRef.current;
     const clickedBtn = tabButtonRefs.current[idx];
@@ -248,9 +252,9 @@ export default function TabSection({
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
     const mq = window.matchMedia('(min-width: 768px)');
-    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    const handler = (e: MediaQueryListEvent): void => setIsDesktop(e.matches);
     mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    return (): void => mq.removeEventListener('change', handler);
   }, []);
 
   useEffect(() => {
@@ -273,7 +277,7 @@ export default function TabSection({
     ? (currentItem.imgPosition ?? 'center 30%')
     : tabImgPosition;
 
-  const TabsBar = () => (
+  const TabsBar = (): React.JSX.Element => (
     <div
       ref={tabsBarRef}
       style={{
@@ -328,12 +332,15 @@ export default function TabSection({
               marginBottom: 32,
             }}
           >
-            <img
+            <Image
               src={bannerImage}
               alt=""
+              width={1200}
+              height={imageHeight}
               style={{
                 maxWidth: '100%',
                 maxHeight: imageHeight,
+                height: 'auto',
                 display: 'block',
                 borderRadius: 20,
               }}
@@ -471,9 +478,11 @@ export default function TabSection({
             marginBottom: 24,
           }}
         >
-          <img
+          <Image
             src={bannerImage}
             alt=""
+            width={1200}
+            height={Math.round(imageHeight * 0.75)}
             style={{
               width: '100%',
               height: '100%',

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { R2_IMAGES_BASE } from '@/lib/images';
@@ -207,9 +208,11 @@ export default function LeadMagnet(): React.JSX.Element {
               >
                 Offert
               </div>
-              <img
+              <Image
                 src={`${R2_IMAGES_BASE}/bonus-mini-astuces.png`}
                 alt="Guide Mini astuces pour développer le langage — bonus gratuit"
+                width={380}
+                height={480}
                 style={{
                   width: '100%',
                   maxWidth: isMobile ? 320 : 380,
