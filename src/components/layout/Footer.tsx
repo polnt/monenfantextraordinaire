@@ -65,7 +65,7 @@ const SOCIALS: Social[] = [
   { kind: 'instagram', label: 'Instagram', color: '#c13584', href: 'https://www.instagram.com/monenfantextraordinaire/' },
   { kind: 'facebook',  label: 'Facebook',  color: '#1877f2', href: 'https://www.facebook.com/profile.php?id=61556536320114' },
   { kind: 'tiktok',    label: 'TikTok',    color: '#010101', href: 'https://www.tiktok.com/@monenfantextra' },
-  { kind: 'youtube',   label: 'YouTube',   color: '#F90021', href: null },
+  { kind: 'youtube',   label: 'YouTube',   color: '#F90021', href: 'https://www.youtube.com/channel/UCZ0pPxfidRLNgSfSu_5DEyg' },
   { kind: 'linkedin',  label: 'LinkedIn',  color: '#0a66c2', href: 'https://www.linkedin.com/in/laurence-bugnet-806b6642/' },
 ];
 

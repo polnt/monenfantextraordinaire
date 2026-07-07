@@ -231,18 +231,21 @@ export default function ContactPage(): React.JSX.Element {
                 <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 14, color: 'rgba(255,255,255,0.6)', marginBottom: 14, textTransform: 'uppercase', letterSpacing: 1 }}>Suivez-nous</div>
                 <div style={{ display: 'flex', gap: 10 }}>
                   {[
-                    { label: 'YouTube', color: '#F90021' },
-                    { label: 'Instagram', color: '#c13584' },
-                    { label: 'Facebook', color: '#1877f2' },
+                    { label: 'YouTube',   color: '#F90021', href: 'https://www.youtube.com/channel/UCZ0pPxfidRLNgSfSu_5DEyg' },
+                    { label: 'Instagram', color: '#c13584', href: 'https://www.instagram.com/monenfantextraordinaire/' },
+                    { label: 'Facebook',  color: '#1877f2', href: 'https://www.facebook.com/profile.php?id=61556536320114' },
                   ].map((s, i) => (
-                    <button
+                    <a
                       key={i}
-                      style={{ background: s.color, color: 'white', border: 'none', borderRadius: 10, padding: '8px 14px', fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 12, cursor: 'pointer', transition: 'opacity 0.2s' }}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ background: s.color, color: 'white', border: 'none', borderRadius: 10, padding: '8px 14px', fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 12, cursor: 'pointer', transition: 'opacity 0.2s', textDecoration: 'none', display: 'inline-block' }}
                       onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
                       onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
                     >
                       {s.label}
-                    </button>
+                    </a>
                   ))}
                 </div>
               </div>

@@ -17,7 +17,7 @@ const brandSocials: Social[] = [
   { kind: 'instagram', name: 'Instagram', handle: '@monenfantextra', color: '#c13584', url: 'https://www.instagram.com/monenfantextra' },
   { kind: 'facebook', name: 'Facebook', handle: 'Mon Enfant Extra-Ordinaire', color: '#1877f2', url: 'https://www.facebook.com/monenfantextraordinaire' },
   { kind: 'tiktok', name: 'TikTok', handle: '@monenfantextra', color: '#010101', url: 'https://www.tiktok.com/@monenfantextra' },
-  { kind: 'youtube', name: 'YouTube', handle: 'Mon Enfant Extra-Ordinaire', color: '#F90021', url: 'https://www.youtube.com/@monenfantextraordinaire' },
+  { kind: 'youtube', name: 'YouTube', handle: 'Mon Enfant Extra-Ordinaire', color: '#F90021', url: 'https://www.youtube.com/channel/UCZ0pPxfidRLNgSfSu_5DEyg' },
   { kind: 'linkedin', name: 'LinkedIn', handle: 'Laurence Bugnet', color: '#0a66c2', url: 'https://www.linkedin.com/in/laurence-bugnet' },
 ];
 
