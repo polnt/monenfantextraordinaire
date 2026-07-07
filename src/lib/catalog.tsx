@@ -65,7 +65,7 @@ export const FORMATIONS: Formation[] = [
     modules: '4 modules',
     hours: '14h',
     level: 'Débutant',
-    desc: "Découvrez comment l'aider à trouver ses mots pour que ... comprenne",
+    desc: "Découvrez comment l'aider à trouver ses mots pour que chacun comprenne",
     price: '67 €',
     color: '#27ae60',
     popular: false,

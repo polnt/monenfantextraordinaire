@@ -517,6 +517,7 @@ export default function FormationDetailPage(): React.JSX.Element {
                 "Bibliothèque de jeux et d'exercices",
                 'Accès à vie depuis tous vos appareils',
                 'Attestation de formation',
+                'Le powerpoint de la formation à télécharger',
               ]}
             />
             <PriceCard

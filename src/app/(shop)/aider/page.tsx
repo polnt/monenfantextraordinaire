@@ -145,17 +145,19 @@ const content = {
     {
       key: 'Psychologue', color: '#F90021', text: 'white',
       sections: [
-        { title: 'Son rôle', content: "Aide l'enfant à mieux comprendre et réguler ses émotions, à développer des compétences sociales, et à renforcer son estime de soi dans un cadre sécurisant." },
+        { title: 'Son rôle', content: "Aide l'enfant à mieux comprendre et réguler ses émotions, gérer  son comportement, développer des compétences sociales, renforcer son estime de soi et mieux appréhender ses apprentissages dans un cadre sécurisant. Il accompagne et aide aussi les parents dans la prise en charge quotidienne de leur enfant." },
         {
           title: 'Ce qu\'il propose', content: [
             "Bilan psychologique",
-            "Suivi individuel : émotions, angoisse, compétences sociales",
+            "Suivi individuel : interaction sociale, communication, langage",
+            "Gestion des crises : émotions, angoisse, comportement",
             "Jeux thérapeutiques adaptés (jeu symbolique, dessin, histoires sociales)",
-            "Groupes d'habiletés sociales",
-            "Guidance parentale",
+            "Groupes d'habiletés sociales : apprendre les compétences sociales",
+            "Guidance parentale : accompagner les parents à aider leurs enfants",
+
           ]
         },
-        { title: 'Où consulter ?', content: "Cabinet libéral, CMP, IME, écoles ou structures spécialisées, téléconsultation." },
+        { title: 'Où consulter ?', content: "Cabinet libéral, CMP, IME, PMI, CAMS, écoles ou structures spécialisées, téléconsultation." },
       ],
     },
     {
@@ -682,7 +684,7 @@ export default function AiderPage(): React.JSX.Element {
         <div className="mef-container" style={{ position: 'relative', zIndex: 1 }}>
           <h1 style={{ color: 'white', fontFamily: 'var(--font-nunito)', fontSize: 48, fontWeight: 900, marginBottom: 12 }}>Aider</h1>
           <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: 17, maxWidth: 520 }}>
-            Des ressources concrètes pour tous ceux qui accompagnent un enfant neurodivers.
+            Des ressources concrètes pour tous ceux qui accompagnent un enfant neurodivergent.
           </p>
         </div>
       </section>

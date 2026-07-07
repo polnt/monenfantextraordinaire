@@ -115,7 +115,7 @@ const content: Record<string, TabItem[]> = {
         {
           title: 'Comment se manifeste-t-il ?',
           blocks: [
-            { type: "paragraph", text: "L’autisme se manifeste principalement par:. Ces manifestations ont des conséquences à différents degrés sur les sphères développementales de l'enfant, notamment le langage." },
+            { type: "paragraph", text: "L’autisme se manifeste principalement par:" },
             {
               type: "list", items: [
                 "Des difficultés dans les interactions sociales",
@@ -133,6 +133,7 @@ const content: Record<string, TabItem[]> = {
           blocks: [
             { type: "paragraph", text: "Les signes de l’autisme apparaissent généralement dès la petite enfance, souvent avant l’âge de 3 ans." },
             { type: "paragraph", text: "Chez certains enfants, le développement semble normal durant les premiers mois, puis certaines compétences diminuent ou disparaissent progressivement, notamment le langage ou les interactions sociales autour de l’âge de 2 ans." },
+            { type: "paragraph", text: "Chez d’autres enfants certaines compétences ne se développent pas comme les interactions sociales, le langage ou la communication par exemple lorsque l’on appelle l’enfant il ne répond pas à son prénom." },
             { type: "paragraph", text: "Les manifestations varient selon chaque enfant et peuvent être plus ou moins visibles." },
           ]
         },
@@ -195,7 +196,8 @@ const content: Record<string, TabItem[]> = {
                   "Des difficultés à se faire des amis ou à participer aux activités de groupe",
                   "Des troubles de l’apprentissage, de l’attention ou de l’adaptation aux changements",
                   "Des comportements répétitifs pouvant gêner la concentration",
-                  "Une hypersensibilité sensorielle (bruit, lumière, textures...)"
+                  "Une hypersensibilité sensorielle (bruit, lumière, textures...)",
+                  "Des intérêts restreints (il ne veulent que dessiner par exemple)"
                 ]
             },
             { type: "paragraph", text: "Malgré ces difficultés, certains enfants développent aussi de grandes compétences dans des domaines spécifiques." }
@@ -306,7 +308,7 @@ const content: Record<string, TabItem[]> = {
         {
           title: "Pourquoi la prise en charge précoce est-elle importante ?",
           blocks: [
-            { type: "paragraph", text: "Plus l’accompagnement commence tôt, plus les progrès peuvent être importants, notamment avant l’âge de 6 ans grâce à la plasticité du cerveau." },
+            { type: "paragraph", text: "Plus l’accompagnement commence tôt, plus les progrès peuvent être importants, notamment avant l’âge de 4 ans grâce à la plasticité du cerveau." },
             { type: "paragraph", text: "Une prise en charge précoce permet de :" },
             {
               type: "list", items: [
@@ -460,7 +462,8 @@ const content: Record<string, TabItem[]> = {
               "aide à la gestion des émotions",
               "aménagements scolaires",
               "guidance parentale",
-              "parfois un traitement médical"
+              "parfois un traitement médical",
+              "thérapie gestion du tda"
             ]
         }
       ]
@@ -498,7 +501,7 @@ const content: Record<string, TabItem[]> = {
       color: '#87ceeb',
       text: '#0f3d5a',
       blocks: [
-        { type: "paragraph", text: "Les troubles “Dys” sont des troubles du neurodéveloppement qui affectent certaines capacités d’apprentissage chez l’enfant ou l’adulte, malgré une intelligence normale et une scolarité adaptée." },
+        { type: "paragraph", text: "Les troubles “Dys” sont des troubles du neurodéveloppement qui affectent certaines capacités d’apprentissage chez l’enfant ou l’adulte, malgré une intelligence normale." },
         { type: "paragraph", text: "Ils peuvent toucher :" },
         {
           type: "list", items:

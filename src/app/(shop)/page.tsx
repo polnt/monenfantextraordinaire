@@ -180,7 +180,7 @@ export default function HomePage(): React.JSX.Element {
                 </p>
                 <p style={{ fontSize: isMobile ? 14 : 15, lineHeight: 1.7, color: 'rgba(255,255,255,0.85)', marginBottom: 28, fontStyle: 'italic' }}>
                   Commencez par notre formation complète et pratique pour{' '}
-                  <strong style={{ color: 'white', fontStyle: 'normal' }}>stimuler le langage de votre enfant en 20 minutes par jour</strong>,
+                  <strong style={{ color: 'white', fontStyle: 'normal' }}>stimuler le langage de votre enfant en 15 minutes par jour</strong>,
                   {' '}avec un accompagnement adapté à vos besoins.
                 </p>
 
@@ -363,7 +363,7 @@ export default function HomePage(): React.JSX.Element {
               <div className="mef-eyebrow">À propos</div>
               <h2 className="mef-h2">Qui suis-je ?</h2>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
-                Passionnée par le développement de l&apos;enfant et les liens humains. Spécialisée en TSA et troubles du neurodéveloppement, <strong style={{ color: '#090943' }}>j&apos;accompagne depuis plus de 15 ans</strong> les enfants et familles dans leurs parcours de vie singuliers.
+                Psychologue et passionnée par le développement de l&apos;enfant et les liens humains, diplômée d&apos;un DU en TSA et troubles du neurodéveloppement <strong style={{ color: '#090943' }}>j&apos;accompagne depuis plus de 15 ans</strong> les enfants et familles dans leurs parcours de vie singuliers.
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
                 Je permets aux parents de comprendre, soutenir et stimuler le développement de leur enfant grâce à des <strong style={{ color: '#090943' }}>formations clés en main, des outils simples et accessibles.</strong>
@@ -372,7 +372,7 @@ export default function HomePage(): React.JSX.Element {
                 Riches des résultats obtenus à l&apos;école l&apos;éveil, <strong style={{ color: '#090943' }}>j&apos;ai créé une méthode complète</strong> et ludique pour accompagner votre enfant dans toutes ses spécificités.
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.8, marginBottom: 16 }}>
-                La méthode <strong style={{ color: '#090943' }}>Élan quotidien</strong> est une approche d&apos;accompagnement basée sur <strong style={{ color: '#090943' }}>15 à 20 minutes d&apos;activités par jour</strong>, conçue pour stimuler principalement le développement du langage, de la communication et les intéractions sociales chez l&apos;enfant.
+                La méthode <strong style={{ color: '#090943' }}>Élan quotidien</strong> est une approche d&apos;accompagnement basée sur <strong style={{ color: '#090943' }}>15 à 20 minutes d&apos;activités par jour</strong>, conçue pour stimuler principalement <strong style={{ color: '#090943' }}>le développement du langage</strong>, de la communication et les intéractions sociales chez l&apos;enfant.
               </p>
               <p style={{ color: '#5a6070', lineHeight: 1.8, fontSize: 15, marginBottom: 24, fontStyle: 'italic' }}>
                 Parce que je considère que la communication est la base de la vie, apprendre à son enfant à
@@ -462,8 +462,8 @@ export default function HomePage(): React.JSX.Element {
             Rejoignez des milliers de parents et professionnels qui accompagnent leurs enfants avec confiance.
           </p>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/ressources" className="mef-btn mef-btn-blue">Accéder aux ressources gratuites</Link>
-            <Link href="/formations" className="mef-btn mef-btn-outline">Voir les formations</Link>
+            <Link href="/ressources" className="mef-btn mef-btn-outline">Accéder aux ressources gratuites</Link>
+            <Link href="/formations" className="mef-btn mef-btn-blue">Voir les formations</Link>
           </div>
         </div>
       </section>

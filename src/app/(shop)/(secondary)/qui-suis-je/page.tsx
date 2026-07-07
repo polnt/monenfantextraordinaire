@@ -9,7 +9,7 @@ import { R2_IMAGES_BASE } from '@/lib/images';
 const domaines = [
   { color: '#0792dc', bg: '#e8f4fd', title: 'Psychologue clinicienne', desc: "Spécialisée dans les TSA et les troubles du neurodéveloppement, j'accompagne enfants, adolescents et familles depuis plus de 15 ans." },
   { color: '#F90021', bg: '#ffe5e8', title: 'Formatrice', desc: "J'interviens auprès des équipes éducatives, professionnels de santé et parents avec des outils concrets et des stratégies fondées sur l'empathie." },
-  { color: '#27ae60', bg: '#e8f5e9', title: "Directrice d'école", desc: "Fondatrice de l'école L'Éveil à Dakar depuis 2016, un établissement inclusif accueillant des enfants TSA et en situation d'échec scolaire." },
+  { color: '#27ae60', bg: '#e8f5e9', title: "Directrice d'école", desc: "Fondatrice de l'école L'Éveil à Dakar depuis 2016, un établissement inclusif accueillant des enfants TSA, TDA, en difficulté d'apprentissage et en situation d'échec scolaire." },
 ];
 
 interface Section {
@@ -89,7 +89,7 @@ export default function QuiSuisJePage(): React.JSX.Element {
                 Laurence Bugnet
               </h1>
               <p style={{ fontSize: isMobile ? 15 : 18, color: '#0792dc', fontFamily: 'var(--font-nunito)', fontWeight: 700, lineHeight: 1.5, marginBottom: 24 }}>
-                Psychologue clinicienne — Formatrice en TSA, TDA &amp; gestion du stress
+                Psychologue clinicienne — diplômée et formatrice en TSA, TDA &amp; gestion du stress
               </p>
               <p style={{ fontSize: 16, color: '#5a6070', lineHeight: 1.85, marginBottom: 32 }}>
                 Passionnée depuis toujours par le développement de l&apos;enfant et les liens humains, je suis spécialisée dans les troubles du spectre de l&apos;autisme (TSA) et les troubles du neurodéveloppement. J&apos;accompagne depuis plus de <strong style={{ color: '#090943' }}>15 ans</strong> des enfants, des adolescents et leurs familles dans leurs parcours de vie souvent complexes et singuliers.
@@ -216,7 +216,7 @@ export default function QuiSuisJePage(): React.JSX.Element {
             <div style={{ background: '#fafbff', borderRadius: 20, padding: '32px 36px' }}>
               <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 13, color: '#0792dc', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 14 }}>J&apos;aime</div>
               <p style={{ color: '#5a6070', lineHeight: 1.85, fontSize: 16, margin: 0 }}>
-                La nature, la création artistique, les danses intuitives, les voyages initiatiques, et les espaces de reconnexion à soi.
+                La nature, la création artistique, le piano, la danse, les voyages et les découvertes.
               </p>
             </div>
             <div style={{ background: '#fafbff', borderRadius: 20, padding: '32px 36px' }}>

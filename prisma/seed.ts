@@ -31,7 +31,7 @@ const FORMATIONS: FormationSeed[] = [
   {
     slug: 'developper-la-communication-verbale',
     name: 'Formation 2: Développer la communication verbale',
-    description: "Découvrez comment l'aider à trouver ses mots pour que ... comprenne",
+    description: "Découvrez comment l'aider à trouver ses mots pour que chacun comprenne",
     price: 67,
     active: false, // disabled in catalog
   },
