@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import CollaborationUnique from '@/components/CollaborationUnique';
+import { R2_IMAGES_BASE } from '@/lib/images';
 
 const domaines = [
   { color: '#0792dc', bg: '#e8f4fd', title: 'Psychologue clinicienne', desc: "Spécialisée dans les TSA et les troubles du neurodéveloppement, j'accompagne enfants, adolescents et familles depuis plus de 15 ans." },
@@ -100,7 +101,7 @@ export default function QuiSuisJePage(): React.JSX.Element {
             </div>
             <div style={{ position: 'relative' }}>
               <img
-                src="/uploads/laurence.png"
+                src={`${R2_IMAGES_BASE}/laurence.png`}
                 alt="Laurence Bugnet"
                 style={{ width: '100%', height: isMobile ? 280 : 480, objectFit: 'cover', objectPosition: 'center top', borderRadius: isMobile ? 16 : 28, display: 'block' }}
               />

@@ -1,34 +1,35 @@
 import TabSection, { type TabItem } from '@/components/TabSection';
+import { R2_IMAGES_BASE } from '@/lib/images';
 
 const tabs = [
   {
     id: 'general',
     label: 'Généralités',
-    image: '/uploads/trouble-neuro.png',
+    image: `${R2_IMAGES_BASE}/trouble-neuro.png`,
     imgPosition: 'center 0%',
   },
   {
     id: 'autisme',
     label: "L'autisme de A à Z",
-    image: '/uploads/autisme-desk-bis.png',
+    image: `${R2_IMAGES_BASE}/autisme-desk-bis.png`,
     imgPosition: 'center 37%',
   },
   {
     id: 'attention',
     label: "Trouble de l’attention (TDA/H)",
-    image: "/uploads/tda_desktop.png",
+    image: `${R2_IMAGES_BASE}/tda_desktop.png`,
     imgPosition: 'center 10%',
   },
   {
     id: 'dys',
     label: "Troubles dys",
-    image: "/uploads/dys_mobile.png",
+    image: `${R2_IMAGES_BASE}/dys_mobile.png`,
     imgPosition: 'center 30%',
   },
   {
     id: 'autres',
     label: "Autres troubles",
-    image: "/uploads/autres.png",
+    image: `${R2_IMAGES_BASE}/autres.png`,
     imgPosition: 'center 30%',
   },
 ];
@@ -84,7 +85,7 @@ const content: Record<string, TabItem[]> = {
       blocks: [
         {
           type: 'image',
-          src: '/uploads/schema.png',
+          src: `${R2_IMAGES_BASE}/schema.png`,
           alt: 'Schéma explicatif',
           caption: 'Classification des troubles du neurodéveloppement'
         }

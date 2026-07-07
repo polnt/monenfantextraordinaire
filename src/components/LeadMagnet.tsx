@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { R2_IMAGES_BASE } from '@/lib/images';
 
 export default function LeadMagnet(): React.JSX.Element {
   const isMobile = useIsMobile();
@@ -207,7 +208,7 @@ export default function LeadMagnet(): React.JSX.Element {
                 Offert
               </div>
               <img
-                src="/uploads/bonus-mini-astuces.png"
+                src={`${R2_IMAGES_BASE}/bonus-mini-astuces.png`}
                 alt="Guide Mini astuces pour développer le langage — bonus gratuit"
                 style={{
                   width: '100%',

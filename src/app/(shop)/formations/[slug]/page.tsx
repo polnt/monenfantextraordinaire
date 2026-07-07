@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAddToCart } from '@/hooks/useAddToCart';
 import { FORMATIONS } from '@/lib/catalog';
+import { R2_IMAGES_BASE } from '@/lib/images';
 
 const audience = [
   { icon: '🔇', text: "Votre enfant ne parle pas encore… ou très peu" },
@@ -206,7 +207,7 @@ export default function FormationDetailPage(): React.JSX.Element {
           >✕</button>
           <div onClick={(e) => e.stopPropagation()} style={{ maxWidth: '90vw', maxHeight: '90vh' }}>
             <Image
-              src="/uploads/cahier-parents-2.png"
+              src={`${R2_IMAGES_BASE}/cahier-parents-2.png`}
               alt="Le Cahier des Parents"
               width={900}
               height={900}
@@ -332,7 +333,7 @@ export default function FormationDetailPage(): React.JSX.Element {
                     style={{ background: 'none', border: 'none', padding: 0, cursor: 'zoom-in', borderRadius: 12 }}
                     aria-label="Agrandir le Cahier des Parents"
                   >
-                    <Image src="/uploads/cahier-parents-2.png" alt="Le Cahier des Parents" width={220} height={220} style={{ borderRadius: 12, objectFit: 'contain', display: 'block' }} />
+                    <Image src={`${R2_IMAGES_BASE}/cahier-parents-2.png`} alt="Le Cahier des Parents" width={220} height={220} style={{ borderRadius: 12, objectFit: 'contain', display: 'block' }} />
                   </button>
                 </div>
                 <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: 'white', marginBottom: 12 }}>15 minutes par jour suffisent</div>

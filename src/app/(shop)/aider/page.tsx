@@ -1,28 +1,29 @@
 import TabSection from '@/components/TabSection';
+import { R2_IMAGES_BASE } from '@/lib/images';
 
 const tabs = [
   {
     id: 'parents',
     label: 'Les parents',
-    image: '/uploads/parents.png',
+    image: `${R2_IMAGES_BASE}/parents.png`,
     imgPosition: 'center 0%'
   },
   {
     id: 'professionnels',
     label: 'Les professionnels',
-    image: '/uploads/pros.png',
+    image: `${R2_IMAGES_BASE}/pros.png`,
     imgPosition: 'center 0%'
   },
   {
     id: 'methodes',
     label: 'Les méthodes',
-    image: '/uploads/methodes.png',
+    image: `${R2_IMAGES_BASE}/methodes.png`,
     imgPosition: 'center 0%'
   },
   {
     id: 'outils',
     label: 'Les outils de communication',
-    image: '/uploads/outils-com.png',
+    image: `${R2_IMAGES_BASE}/outils-com.png`,
     imgPosition: 'center 0%'
   },
 ];
@@ -161,7 +162,7 @@ const content = {
       key: 'Pédopsychiatre',
       color: '#ff7043',
       text: 'white',
-      image: '/uploads/pedopsy.png',
+      image: `${R2_IMAGES_BASE}/pedopsy.png`,
       imgPosition: 'center 0%',
       sections: [
         { title: 'Son rôle', content: "Médecin spécialisé dans les troubles psychiques, neurodéveloppementaux et émotionnels chez les enfants et adolescents. Acteur central du diagnostic et de la coordination des soins." },
@@ -190,7 +191,7 @@ const content = {
       key: 'Orthophoniste',
       color: '#87ceeb',
       text: '#0f3d5a',
-      image: '/uploads/orthophoniste.png',
+      image: `${R2_IMAGES_BASE}/orthophoniste.png`,
       imgPosition: 'center 0%',
       sections: [
         { title: 'Son rôle', content: "Aide l'enfant non seulement à parler, mais à entrer en relation avec les autres, à se faire comprendre et à comprendre son environnement." },
@@ -209,7 +210,7 @@ const content = {
     {
       key: 'Psychomotricien',
       color: '#27ae60', text: 'white',
-      image: '/uploads/psychomot.png',
+      image: `${R2_IMAGES_BASE}/psychomot.png`,
       imgPosition: 'center 0%',
       sections: [
         { title: 'Son rôle', content: "Aide l'enfant à se développer harmonieusement en tenant compte de ses spécificités sensorielles, motrices et affectives." },

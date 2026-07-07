@@ -4,6 +4,7 @@ import Link from 'next/link';
 import StatBlock from '@/components/StatBlock';
 import LeadMagnet from '@/components/LeadMagnet';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { R2_IMAGES_BASE } from '@/lib/images';
 
 // font-aleo CSS variable assumed available globally (see layout.tsx)
 
@@ -26,7 +27,7 @@ export default function HomePage(): React.JSX.Element {
       <section style={{ background: 'white', paddingTop: 72, position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'relative', width: '100%', lineHeight: 0 }}>
           <img
-            src={isMobile ? '/uploads/bandeau-mobile.png' : '/uploads/bandeau-desktop.png'}
+            src={isMobile ? `${R2_IMAGES_BASE}/bandeau-mobile.png` : `${R2_IMAGES_BASE}/bandeau-desktop.png`}
             alt="Mon enfant extra-ordinaire — Chaque enfant est unique, chaque différence mérite d'être comprise."
             style={{ width: '100%', height: isMobile ? 'auto' : '47vw', display: 'block', objectFit: 'cover', objectPosition: isMobile ? 'center center' : heroBannerImgPosition }}
           />
@@ -99,7 +100,7 @@ export default function HomePage(): React.JSX.Element {
             </div>
             <div style={{ position: 'relative' }}>
               <img
-                src="/uploads/mission.png"
+                src={`${R2_IMAGES_BASE}/mission.png`}
                 alt="Maman et enfant accompagnement"
                 style={{ width: '100%', height: isMobile ? 260 : 400, objectFit: 'cover', objectPosition: 'center', borderRadius: 20, display: 'block' }}
               />
@@ -206,7 +207,7 @@ export default function HomePage(): React.JSX.Element {
               {!isMobile && (
                 <div style={{ position: 'relative' }}>
                   <img
-                    src="/uploads/cta-formation.png"
+                    src={`${R2_IMAGES_BASE}/cta-formation.png`}
                     alt="Un parent suit une formation en ligne pour mieux accompagner son enfant"
                     style={{ width: '100%', height: 340, objectFit: 'cover', objectPosition: '0% 70%', borderRadius: 20, display: 'block', border: '4px solid rgba(255,255,255,0.22)', boxShadow: '0 16px 40px rgba(9,9,67,0.28)' }}
                   />
@@ -221,7 +222,7 @@ export default function HomePage(): React.JSX.Element {
             {/* Outils pédagogiques */}
             <div className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', borderTop: '4px solid #F90021' }}>
               <img
-                src="/uploads/cta-outils.png"
+                src={`${R2_IMAGES_BASE}/cta-outils.png`}
                 alt="Un parent et son enfant utilisent un tableau de communication par images"
                 style={{ width: '100%', height: isMobile ? 150 : 168, objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
               />
@@ -260,7 +261,7 @@ export default function HomePage(): React.JSX.Element {
             {/* Ressources */}
             <div className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', borderTop: '4px solid #27ae60' }}>
               <img
-                src="/uploads/cta-ressources.png"
+                src={`${R2_IMAGES_BASE}/cta-ressources.png`}
                 alt="Une maman consulte des articles et des ressources sur l'autisme sur son ordinateur"
                 style={{ width: '100%', height: isMobile ? 150 : 168, objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
               />
@@ -320,7 +321,7 @@ export default function HomePage(): React.JSX.Element {
             ))}
           </div>
           <img
-            src="/uploads/objectifs.png"
+            src={`${R2_IMAGES_BASE}/objectifs.png`}
             alt="Illustration de nos objectifs"
             style={{ width: isMobile ? '100%' : '50%', height: 'auto', objectFit: 'cover', borderRadius: isMobile ? 16 : 20, display: 'block', marginTop: isMobile ? 32 : 48, marginLeft: 'auto', marginRight: 'auto' }}
           />
@@ -335,7 +336,7 @@ export default function HomePage(): React.JSX.Element {
             {!isMobile && (
               <div style={{ position: 'relative' }}>
                 <img
-                  src="/uploads/laurence.png"
+                  src={`${R2_IMAGES_BASE}/laurence.png`}
                   alt="Portrait professionnel de la formatrice"
                   style={{ width: '100%', height: 440, objectFit: 'cover', objectPosition: 'center top', borderRadius: 28, display: 'block' }}
                 />
@@ -386,7 +387,7 @@ export default function HomePage(): React.JSX.Element {
             {isMobile && (
               <div style={{ position: 'relative' }}>
                 <img
-                  src="/uploads/pasted-1777296342775-0.png"
+                  src={`${R2_IMAGES_BASE}/pasted-1777296342775-0.png`}
                   alt="Portrait professionnel de la formatrice"
                   style={{ width: '100%', height: 300, objectFit: 'cover', objectPosition: 'center top', borderRadius: 20, display: 'block' }}
                 />

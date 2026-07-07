@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { R2_IMAGES_BASE } from '@/lib/images';
 
 export default function CollaborationUnique(): React.JSX.Element {
   const isMobile = useIsMobile();
@@ -28,7 +29,7 @@ export default function CollaborationUnique(): React.JSX.Element {
           {isMobile ? (
             <div style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 24 }}>
               <Image
-                src="/uploads/ludivine.png"
+                src={`${R2_IMAGES_BASE}/ludivine.png`}
                 alt="Ludivine, ingénieure pédagogique"
                 width={400}
                 height={500}
@@ -37,7 +38,7 @@ export default function CollaborationUnique(): React.JSX.Element {
             </div>
           ) : (
             <Image
-              src="/uploads/ludivine.png"
+              src={`${R2_IMAGES_BASE}/ludivine.png`}
               alt="Ludivine, ingénieure pédagogique"
               width={290}
               height={360}
