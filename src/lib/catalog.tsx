@@ -571,6 +571,63 @@ export const OUTILS: OutilProduct[] = [
 ];
 
 // ─────────────────────────────────────────────────
+// Packs (bundles of 2 outils sold together at a reduced price)
+// ─────────────────────────────────────────────────
+
+export interface Pack {
+  slug: string;
+  title: string;
+  subtitle: string;
+  tagline: string;
+  color: string;
+  color2: string;
+  price: string;
+  priceBarre: string;
+  economie: string;
+  badge: string;
+  itemSlugs: [string, string];
+}
+
+export const PACKS: Pack[] = [
+  {
+    slug: 'legumes',
+    title: 'Je découvre les fruits et légumes',
+    subtitle: 'Pack Photos + Illustrations',
+    tagline: "Les deux formats réunis pour ancrer chaque mot dans la vraie vie — et dans l'imaginaire.",
+    color: '#0792dc',
+    color2: '#27ae60',
+    price: '11,90 €',
+    priceBarre: '15,80 €',
+    economie: '3,90 €',
+    badge: '📦 Pack — 2 outils',
+    itemSlugs: ['legumes-photos', 'legumes-illustrations'],
+  },
+  {
+    slug: 'animaux',
+    title: 'Je découvre les animaux',
+    subtitle: 'Pack Complet + Coloriage',
+    tagline: "Reconnaître, nommer et colorier les animaux — pour ancrer le vocabulaire par le jeu et la manipulation.",
+    color: '#ff7043',
+    color2: '#f59e0b',
+    price: '19,90 €',
+    priceBarre: '24,80 €',
+    economie: '4,90 €',
+    badge: '📦 Pack — 2 outils',
+    itemSlugs: ['animaux', 'cahier-coloriage'],
+  },
+];
+
+export function getPackItems(pack: Pack): OutilProduct[] {
+  return pack.itemSlugs
+    .map((slug) => OUTILS.find((o) => o.slug === slug))
+    .filter((o): o is OutilProduct => o !== undefined);
+}
+
+export function findPackForOutil(outilSlug: string): Pack | undefined {
+  return PACKS.find((pack) => (pack.itemSlugs as readonly string[]).includes(outilSlug));
+}
+
+// ─────────────────────────────────────────────────
 // Ressources
 // ─────────────────────────────────────────────────
 

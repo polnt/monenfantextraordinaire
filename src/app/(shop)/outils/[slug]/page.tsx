@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { OUTILS, type OutilProduct } from "@/lib/catalog";
+import { OUTILS, findPackForOutil, type OutilProduct } from "@/lib/catalog";
 
 const TEMOIGNAGES = [
   {
@@ -54,6 +54,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
   if (!d) notFound();
 
   const { color, colorLight } = d;
+  const pack = findPackForOutil(slug);
 
   return (
     <div style={{ paddingTop: 72 }}>
@@ -406,7 +407,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
             </p>
           </div>
 
-          {d.isLegumes && d.duoSlug && (
+          {pack && (
             <div style={{
               marginTop: 24, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)",
               borderRadius: 20, padding: "28px 36px",
@@ -414,14 +415,14 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
             }}>
               <div>
                 <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 800, fontSize: 15, color: "#FDF482", marginBottom: 6 }}>
-                  🎯 Pack Photos + Illustrations
+                  🎯 {pack.subtitle}
                 </div>
                 <p style={{ margin: 0, fontFamily: "var(--font-aleo)", fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
-                  Les deux versions à prix réduit : 11,90 € au lieu de 15,80 €
+                  Les deux outils à prix réduit : {pack.price} au lieu de {pack.priceBarre}
                 </p>
               </div>
               <Link
-                href="/checkout?product=pack-legumes"
+                href={`/packs/${pack.slug}`}
                 className="mef-btn"
                 style={{ background: "#FDF482", color: "#090943", fontWeight: 800, fontSize: 14, padding: "12px 24px", whiteSpace: "nowrap" }}
               >
