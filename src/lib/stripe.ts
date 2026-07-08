@@ -7,7 +7,11 @@ if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error("Missing required environment variable: STRIPE_SECRET_KEY");
 }
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  // Pinned explicitly so behavior doesn't silently drift if the Stripe
+  // account's dashboard-configured default API version changes.
+  apiVersion: "2026-03-25.dahlia",
+});
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,6 +30,7 @@ export interface StripeCheckoutParams {
   lineItems: CheckoutLineItem[];
   successUrl: string;
   cancelUrl: string;
+  idempotencyKey: string;
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -39,32 +44,52 @@ export interface StripeCheckoutParams {
 export async function createStripeCheckoutSession(
   params: StripeCheckoutParams
 ): Promise<Stripe.Checkout.Session> {
-  const { orderId, orderNumber, customerEmail, lineItems, successUrl, cancelUrl } =
-    params;
+  const {
+    orderId,
+    orderNumber,
+    customerEmail,
+    lineItems,
+    successUrl,
+    cancelUrl,
+    idempotencyKey,
+  } = params;
 
-  return stripe.checkout.sessions.create({
-    mode: "payment",
-    customer_email: customerEmail,
-    line_items: lineItems.map((item) => ({
-      price_data: {
-        currency: item.currency.toLowerCase(),
-        unit_amount: item.unitAmountCents,
-        product_data: {
-          name: item.name,
-          ...(item.description ? { description: item.description } : {}),
+  return stripe.checkout.sessions.create(
+    {
+      mode: "payment",
+      // Restricted to card on purpose: the webhook only handles the
+      // synchronous checkout.session.completed event. Delayed methods
+      // (SEPA, bank transfers, ...) settle later via a different event
+      // and would leave orders stuck in PENDING.
+      payment_method_types: ["card"],
+      customer_email: customerEmail,
+      line_items: lineItems.map((item) => ({
+        price_data: {
+          currency: item.currency.toLowerCase(),
+          unit_amount: item.unitAmountCents,
+          product_data: {
+            name: item.name,
+            ...(item.description ? { description: item.description } : {}),
+          },
         },
-      },
-      quantity: item.quantity,
-    })),
-    metadata: { orderId, orderNumber },
-    payment_intent_data: {
-      // Duplicate metadata on PaymentIntent so it's accessible
-      // in payment_intent.succeeded webhook events
+        quantity: item.quantity,
+      })),
       metadata: { orderId, orderNumber },
+      payment_intent_data: {
+        // Duplicate metadata on PaymentIntent so it's accessible
+        // in payment_intent.succeeded webhook events
+        metadata: { orderId, orderNumber },
+      },
+      success_url: successUrl,
+      cancel_url: cancelUrl,
     },
-    success_url: successUrl,
-    cancel_url: cancelUrl,
-  });
+    {
+      // Ensures a retried request (client retry, or our own retry after a
+      // crash before the response was returned) reuses the same session
+      // instead of creating a second one the customer could also pay.
+      idempotencyKey,
+    }
+  );
 }
 
 /**

@@ -58,6 +58,20 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ received: true });
   }
 
+  // Defense in depth: confirm Stripe actually charged the amount we expected
+  // for this order before marking it PAID and delivering goods.
+  const expectedAmountCents = order.totalAmount.mul(100).round().toNumber();
+
+  if (
+    session.amount_total !== expectedAmountCents ||
+    session.currency?.toUpperCase() !== order.currency
+  ) {
+    console.error(
+      `Stripe amount mismatch for order ${order.id}: expected ${expectedAmountCents} ${order.currency}, got ${session.amount_total} ${session.currency}`
+    );
+    return NextResponse.json({ error: "Amount mismatch" }, { status: 400 });
+  }
+
   // Atomically mark order as PAID — only if it's still PENDING
   // This prevents duplicate processing if the same webhook is delivered twice
   const updated = await db.order.updateMany({

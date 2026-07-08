@@ -50,6 +50,9 @@ export default function CheckoutPage(): React.JSX.Element {
   });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Generated once per page visit and reused across retries of the same
+  // submission so the server can dedupe double-clicks / network retries.
+  const [checkoutToken] = useState(() => crypto.randomUUID());
 
   const isPaydunia = isPayduniaCountry(form.country);
 
@@ -93,6 +96,7 @@ export default function CheckoutPage(): React.JSX.Element {
           customerCountry: form.country,
           customerPhone: form.phone.trim() || undefined,
           items: items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
+          checkoutToken,
         }),
       });
 

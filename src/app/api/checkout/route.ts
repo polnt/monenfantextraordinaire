@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Prisma, type Order } from "@prisma/client";
+import { Prisma, type Order, type PaymentGateway } from "@prisma/client";
 import { db } from "@/lib/db";
 import { getPaymentGateway } from "@/lib/geo";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
@@ -21,6 +21,10 @@ interface CheckoutRequestBody {
   customerPhone?: string;
   customerCountry: string;
   items: CheckoutItem[];
+  // Generated once by the client per checkout attempt. Used as the order's
+  // idempotency key so a double-submit (double click, network retry) reuses
+  // the same order/payment session instead of creating a second one.
+  checkoutToken: string;
 }
 
 function parseCheckoutBody(value: unknown): CheckoutRequestBody | null {
@@ -30,7 +34,8 @@ function parseCheckoutBody(value: unknown): CheckoutRequestBody | null {
     !("customerFirstName" in value) ||
     !("customerLastName" in value) ||
     !("customerCountry" in value) ||
-    !("items" in value)
+    !("items" in value) ||
+    !("checkoutToken" in value)
   )
     return null;
 
@@ -40,6 +45,7 @@ function parseCheckoutBody(value: unknown): CheckoutRequestBody | null {
     customerLastName: unknown;
     customerCountry: unknown;
     items: unknown;
+    checkoutToken: unknown;
   };
 
   if (
@@ -47,6 +53,8 @@ function parseCheckoutBody(value: unknown): CheckoutRequestBody | null {
     typeof v.customerFirstName !== "string" ||
     typeof v.customerLastName !== "string" ||
     typeof v.customerCountry !== "string" ||
+    typeof v.checkoutToken !== "string" ||
+    v.checkoutToken.trim().length === 0 ||
     !Array.isArray(v.items) ||
     v.items.length === 0
   )
@@ -92,80 +100,113 @@ export async function POST(req: Request): Promise<Response> {
     );
   }
 
-  // Aggregate quantities per product to handle duplicate productIds
-  const requestedQuantityByProductId = new Map<string, number>();
-  for (const item of body.items) {
-    requestedQuantityByProductId.set(
-      item.productId,
-      (requestedQuantityByProductId.get(item.productId) ?? 0) + item.quantity
-    );
-  }
-
-  const productIds = Array.from(requestedQuantityByProductId.keys());
-  const products = await db.product.findMany({
-    where: { id: { in: productIds }, active: true },
+  // A retried submission (double click, client-side network retry) carries
+  // the same checkoutToken — reuse the existing order/items instead of
+  // creating a duplicate one.
+  const existingOrder = await db.order.findUnique({
+    where: { idempotencyKey: body.checkoutToken },
+    include: { items: true },
   });
 
-  if (products.length !== productIds.length) {
+  if (existingOrder && existingOrder.status !== "PENDING") {
     return NextResponse.json(
-      { error: "One or more products are unavailable" },
-      { status: 400 }
+      { error: "This order has already been processed." },
+      { status: 409 }
     );
   }
-
-  const productsById = new Map(products.map((product) => [product.id, product]));
-
-  const gateway = getPaymentGateway(body.customerCountry);
-  const [firstProduct] = products;
-  const productCurrency = firstProduct?.currency ?? "EUR";
-
-  const hasMixedCurrencies = products.some(
-    (product) => product.currency !== productCurrency
-  );
-
-  if (hasMixedCurrencies) {
-    return NextResponse.json(
-      { error: "All items in the cart must use the same currency" },
-      { status: 400 }
-    );
-  }
-
-  const orderItems = body.items.map((cartItem) => {
-    const product = productsById.get(cartItem.productId)!;
-    return {
-      productId: product.id,
-      productName: product.name,
-      unitPrice: product.price,
-      quantity: cartItem.quantity,
-    };
-  });
-
-  const totalAmount = orderItems.reduce(
-    (sum, item) => sum.add(item.unitPrice.mul(item.quantity)),
-    new Prisma.Decimal(0)
-  );
 
   let order: Order;
-  try {
-    order = await db.order.create({
-      data: {
-        orderNumber: generateOrderNumber(),
-        idempotencyKey: crypto.randomUUID(),
-        customerEmail: body.customerEmail,
-        customerFirstName: body.customerFirstName,
-        customerLastName: body.customerLastName,
-        customerPhone: body.customerPhone ?? null,
-        customerCountry: body.customerCountry,
-        gateway,
-        totalAmount,
-        currency: productCurrency,
-        items: { create: orderItems },
-      },
+  let orderItems: { productId: string; productName: string; unitPrice: Prisma.Decimal; quantity: number }[];
+  let gateway: PaymentGateway;
+  let productCurrency: string;
+  let totalAmount: Prisma.Decimal;
+
+  if (existingOrder) {
+    order = existingOrder;
+    orderItems = existingOrder.items.map((item) => ({
+      productId: item.productId,
+      productName: item.productName,
+      unitPrice: item.unitPrice,
+      quantity: item.quantity,
+    }));
+    gateway = existingOrder.gateway;
+    productCurrency = existingOrder.currency;
+    totalAmount = existingOrder.totalAmount;
+  } else {
+    // Aggregate quantities per product to handle duplicate productIds
+    const requestedQuantityByProductId = new Map<string, number>();
+    for (const item of body.items) {
+      requestedQuantityByProductId.set(
+        item.productId,
+        (requestedQuantityByProductId.get(item.productId) ?? 0) + item.quantity
+      );
+    }
+
+    const productIds = Array.from(requestedQuantityByProductId.keys());
+    const products = await db.product.findMany({
+      where: { id: { in: productIds }, active: true },
     });
-  } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Failed to create order";
-    return NextResponse.json({ error: message }, { status: 400 });
+
+    if (products.length !== productIds.length) {
+      return NextResponse.json(
+        { error: "One or more products are unavailable" },
+        { status: 400 }
+      );
+    }
+
+    const productsById = new Map(products.map((product) => [product.id, product]));
+
+    gateway = getPaymentGateway(body.customerCountry);
+    const [firstProduct] = products;
+    productCurrency = firstProduct?.currency ?? "EUR";
+
+    const hasMixedCurrencies = products.some(
+      (product) => product.currency !== productCurrency
+    );
+
+    if (hasMixedCurrencies) {
+      return NextResponse.json(
+        { error: "All items in the cart must use the same currency" },
+        { status: 400 }
+      );
+    }
+
+    orderItems = body.items.map((cartItem) => {
+      const product = productsById.get(cartItem.productId)!;
+      return {
+        productId: product.id,
+        productName: product.name,
+        unitPrice: product.price,
+        quantity: cartItem.quantity,
+      };
+    });
+
+    totalAmount = orderItems.reduce(
+      (sum, item) => sum.add(item.unitPrice.mul(item.quantity)),
+      new Prisma.Decimal(0)
+    );
+
+    try {
+      order = await db.order.create({
+        data: {
+          orderNumber: generateOrderNumber(),
+          idempotencyKey: body.checkoutToken,
+          customerEmail: body.customerEmail,
+          customerFirstName: body.customerFirstName,
+          customerLastName: body.customerLastName,
+          customerPhone: body.customerPhone ?? null,
+          customerCountry: body.customerCountry,
+          gateway,
+          totalAmount,
+          currency: productCurrency,
+          items: { create: orderItems },
+        },
+      });
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to create order";
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
   }
 
   const baseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
@@ -186,6 +227,7 @@ export async function POST(req: Request): Promise<Response> {
         lineItems,
         successUrl: `${baseUrl}/checkout/confirmation?session_id={CHECKOUT_SESSION_ID}`,
         cancelUrl: `${baseUrl}/checkout`,
+        idempotencyKey: body.checkoutToken,
       });
 
       if (!session.url) {
