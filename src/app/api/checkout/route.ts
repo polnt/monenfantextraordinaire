@@ -5,6 +5,7 @@ import { getPaymentGateway } from "@/lib/geo";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
 import {
   initializePayduniaPayment,
+  convertForPaydunia,
   type PayduniaInitParams,
 } from "@/lib/paydunia";
 
@@ -73,19 +74,6 @@ function generateOrderNumber(): string {
   const year = new Date().getFullYear();
   const suffix = crypto.randomUUID().slice(0, 8).toUpperCase();
   return `ORD-${year}-${suffix}`;
-}
-
-function convertForPaydunia(
-  amount: number,
-  fromCurrency: string,
-  countryCode: string
-): { amount: number; currency: string } {
-  if (fromCurrency.toUpperCase() === "EUR") {
-    // Fixed rate: 1 EUR = 655.957 XOF / XAF
-    const currency = countryCode.toUpperCase() === "CM" ? "XAF" : "XOF";
-    return { amount: Math.round(amount * 655.957), currency };
-  }
-  return { amount: Math.round(amount), currency: fromCurrency.toUpperCase() };
 }
 
 export async function POST(req: Request): Promise<Response> {

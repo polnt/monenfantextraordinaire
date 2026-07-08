@@ -3,6 +3,7 @@ import {
   verifyPayduniaWebhookSignature,
   parsePayduniaWebhook,
   verifyPayduniaTransaction,
+  convertForPaydunia,
 } from "@/lib/paydunia";
 import { db } from "@/lib/db";
 import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
@@ -71,6 +72,24 @@ export async function POST(req: Request): Promise<Response> {
 
   if (txStatus.status !== "completed") {
     return NextResponse.json({ received: true });
+  }
+
+  // Defense in depth: confirm the amount PayDunya actually charged matches
+  // what we expected for this order before marking it PAID and delivering goods.
+  const expectedConversion = convertForPaydunia(
+    order.totalAmount.toNumber(),
+    order.currency,
+    order.customerCountry
+  );
+
+  if (
+    txStatus.totalAmount !== expectedConversion.amount ||
+    txStatus.currency !== expectedConversion.currency
+  ) {
+    console.error(
+      `PayDunia amount mismatch for order ${order.id}: expected ${expectedConversion.amount} ${expectedConversion.currency}, got ${txStatus.totalAmount} ${txStatus.currency}`
+    );
+    return NextResponse.json({ error: "Amount mismatch" }, { status: 400 });
   }
 
   // Atomically transition to PAID — prevents double-processing on concurrent deliveries

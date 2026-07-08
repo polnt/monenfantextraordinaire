@@ -104,7 +104,7 @@ model Order {
 
   // Payment
   gateway              PaymentGateway
-  paymentId            String?        // Stripe session ID or PayDunia invoice token
+  paymentId            String?        @unique // Stripe session ID or PayDunia invoice token
   idempotencyKey       String         @unique // Prevents duplicate webhook processing
   totalAmount          Decimal
   currency             String         @default("EUR")
@@ -117,7 +117,6 @@ model Order {
 
   @@index([customerEmail])
   @@index([status])
-  @@index([paymentId])
 }
 
 // ─── Order item ───────────────────────────────────────────────────────────────

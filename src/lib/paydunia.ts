@@ -79,6 +79,25 @@ function buildHeaders(creds: ReturnType<typeof getCredentials>): Record<string, 
   };
 }
 
+// ─── Currency conversion ────────────────────────────────────────────────────
+
+/**
+ * Converts an order's amount/currency into the amount/currency to charge via PayDunya.
+ * XOF/XAF are pegged to EUR at a fixed treaty rate (1 EUR = 655.957 XOF/XAF).
+ * Deterministic — safe to recompute later (e.g. to verify a webhook's reported amount).
+ */
+export function convertForPaydunia(
+  amount: number,
+  fromCurrency: string,
+  countryCode: string
+): { amount: number; currency: string } {
+  if (fromCurrency.toUpperCase() === "EUR") {
+    const currency = countryCode.toUpperCase() === "CM" ? "XAF" : "XOF";
+    return { amount: Math.round(amount * 655.957), currency };
+  }
+  return { amount: Math.round(amount), currency: fromCurrency.toUpperCase() };
+}
+
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
@@ -190,7 +209,14 @@ export function verifyPayduniaWebhookSignature(hash: string | null): void {
 
   const expected = crypto.createHash("sha512").update(masterKey).digest("hex");
 
-  if (hash !== expected) {
+  const hashBuffer = Buffer.from(hash);
+  const expectedBuffer = Buffer.from(expected);
+
+  const isValid =
+    hashBuffer.length === expectedBuffer.length &&
+    crypto.timingSafeEqual(hashBuffer, expectedBuffer);
+
+  if (!isValid) {
     throw new Error("Invalid PayDunya webhook signature");
   }
 }
