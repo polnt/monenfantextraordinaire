@@ -122,13 +122,94 @@ export interface OutilProduct {
   duoLabel?: string;
   inclus: Inclus[];
   content: ContentCategory[];
-  contentTitle?: string;
-  pourQuiItems?: Inclus[];
-  pourQuiNote?: React.ReactNode;
-  pedagogie?: { title: string; desc: string; items: PedagogieItem[] };
-  activites?: PedagogieItem[];
-  productResultats?: string[];
+  contentTitle: string;
+  pourQuiItems: Inclus[];
+  pourQuiNote: React.ReactNode;
+  pedagogie: { title: string; desc: React.ReactNode; items: PedagogieItem[] };
+  activites: PedagogieItem[];
+  productResultats: string[];
 }
+
+// ─────────────────────────────────────────────────
+// Shared defaults for outils that don't need bespoke content
+// ─────────────────────────────────────────────────
+
+const DEFAULT_POUR_QUI: Inclus[] = [
+  { icon: "🌱", text: "Votre enfant apprend à nommer les choses mais reste bloqué sur une seule image" },
+  { icon: "🔗", text: "Vous souhaitez l'aider à faire le lien entre l'image et la réalité" },
+  { icon: "🧩", text: "Votre enfant a un retard de langage, un TSA diagnostiqué ou suspecté" },
+  { icon: "💡", text: "Vous cherchez des activités simples à faire à la maison ou en séance" },
+  { icon: "📚", text: "Vous voulez enrichir son vocabulaire de façon ludique et structurée" },
+  { icon: "🎯", text: "Vous accompagnez un enfant dans le cadre scolaire, en rééducation ou à domicile" },
+];
+
+const DEFAULT_POUR_QUI_NOTE: React.ReactNode = (
+  <>
+    👉 Cet outil est particulièrement adapté aux enfants <strong>avec retard de langage</strong>, avec{" "}
+    <strong>TSA (diagnostiqué ou suspecté)</strong>, et à tous ceux qui ont besoin de supports visuels variés
+    pour apprendre.
+  </>
+);
+
+const DEFAULT_PEDAGOGIE = {
+  title: "Pourquoi varier les supports visuels ?",
+  desc: (
+    <>
+      Pour un enfant avec TSA ou retard de langage, une illustration ≠ une photo. Il peut connaître le mot «
+      pomme » devant un dessin… et ne pas reconnaître la pomme sur le marché. C&apos;est la{" "}
+      <strong style={{ color: "white" }}>généralisation</strong> — et c&apos;est une compétence qui
+      s&apos;entraîne.
+    </>
+  ),
+  items: [
+    {
+      icon: "🔓",
+      title: "Il ne reste pas bloqué sur une seule image",
+      desc: "Quand un enfant voit toujours la même représentation, il peut ne pas reconnaître l'objet dans un autre contexte. Varier les supports brise ce blocage.",
+    },
+    {
+      icon: "🔗",
+      title: "Il fait des liens plus facilement",
+      desc: "Exposer votre enfant à différentes représentations du même mot renforce la solidité de son vocabulaire et accélère l'acquisition du langage.",
+    },
+    {
+      icon: "🌍",
+      title: "Il comprend mieux le monde autour de lui",
+      desc: "La généralisation est une compétence fondamentale pour les enfants avec TSA. Ces outils entraînent spécifiquement cette capacité, de façon progressive.",
+    },
+  ] as PedagogieItem[],
+};
+
+const DEFAULT_ACTIVITES: PedagogieItem[] = [
+  {
+    icon: "🎯",
+    title: "Jeux de Loto",
+    desc: "Associer les cartes aux bonnes cases — pour travailler la reconnaissance visuelle et la concentration.",
+  },
+  {
+    icon: "🔀",
+    title: "Jeux d'Association",
+    desc: "Relier la carte image à son nom ou à une autre représentation — pour consolider le vocabulaire.",
+  },
+  {
+    icon: "✂️",
+    title: "Fiches à découper",
+    desc: "Des cartes individuelles à manipuler, classer, trier — pour une expérience sensorielle et kinesthésique.",
+  },
+  {
+    icon: "📝",
+    title: "Activités de vocabulaire",
+    desc: "Nommer, catégoriser, décrire — des exercices graduels adaptés au niveau de l'enfant.",
+  },
+];
+
+const DEFAULT_RESULTATS: string[] = [
+  "Enrichir le vocabulaire de votre enfant de façon ciblée",
+  "Développer la capacité de généralisation, compétence clé pour les enfants avec TSA",
+  "Favoriser les échanges et les interactions autour de supports visuels motivants",
+  "Proposer des activités autonomes ou en séance, faciles à mettre en place",
+  "Créer des occasions naturelles de communication et d'apprentissage au quotidien",
+];
 
 export const OUTILS: OutilProduct[] = [
   {
@@ -168,6 +249,12 @@ export const OUTILS: OutilProduct[] = [
         items: ["Carotte", "Tomate", "Brocoli", "Courgette", "Poivron rouge", "Poivron jaune", "Poivron vert", "Cerise", "Champignon", "Salade", "Haricots verts", "Oignon"],
       },
     ],
+    contentTitle: "24 cartes — fruits et légumes",
+    pourQuiItems: DEFAULT_POUR_QUI,
+    pourQuiNote: DEFAULT_POUR_QUI_NOTE,
+    pedagogie: DEFAULT_PEDAGOGIE,
+    activites: DEFAULT_ACTIVITES,
+    productResultats: DEFAULT_RESULTATS,
   },
   {
     slug: 'legumes-illustrations',
@@ -206,6 +293,12 @@ export const OUTILS: OutilProduct[] = [
         items: ["Carotte", "Tomate", "Brocoli", "Courgette", "Poivron rouge", "Poivron jaune", "Poivron vert", "Cerise", "Champignon", "Salade", "Haricots verts", "Oignon"],
       },
     ],
+    contentTitle: "24 cartes — fruits et légumes",
+    pourQuiItems: DEFAULT_POUR_QUI,
+    pourQuiNote: DEFAULT_POUR_QUI_NOTE,
+    pedagogie: DEFAULT_PEDAGOGIE,
+    activites: DEFAULT_ACTIVITES,
+    productResultats: DEFAULT_RESULTATS,
   },
   {
     slug: 'animaux',
@@ -246,6 +339,12 @@ export const OUTILS: OutilProduct[] = [
         items: ["Chien", "Chat", "Poisson", "Tortue", "Hamster", "Perroquet"],
       },
     ],
+    contentTitle: "40+ cartes — animaux du monde entier",
+    pourQuiItems: DEFAULT_POUR_QUI,
+    pourQuiNote: DEFAULT_POUR_QUI_NOTE,
+    pedagogie: DEFAULT_PEDAGOGIE,
+    activites: DEFAULT_ACTIVITES,
+    productResultats: DEFAULT_RESULTATS,
   },
   {
     slug: 'bonhomme-dessin',
