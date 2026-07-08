@@ -45,7 +45,7 @@ export async function POST(
     return NextResponse.json({ error: "Produit introuvable." }, { status: 404 });
   }
 
-  const fileKey = product.ebook?.fileKey;
+  const fileKey = product.ebook?.fileKeys[0];
   const directUrl = fileKey ? getPublicUrl(fileKey) : undefined;
 
   try {

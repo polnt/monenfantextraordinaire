@@ -576,11 +576,16 @@ export const OUTILS: OutilProduct[] = [
 
 export interface Pack {
   slug: string;
+  /** DB Product.slug for cart/checkout — distinct from the route slug to avoid clashing with outil slugs (e.g. 'animaux'). */
+  productSlug: string;
   title: string;
   subtitle: string;
   tagline: string;
   color: string;
   color2: string;
+  colorLight: string;
+  img: string;
+  imgPosition: string;
   price: string;
   priceBarre: string;
   economie: string;
@@ -591,11 +596,15 @@ export interface Pack {
 export const PACKS: Pack[] = [
   {
     slug: 'legumes',
+    productSlug: 'pack-legumes',
     title: 'Je découvre les fruits et légumes',
     subtitle: 'Pack Photos + Illustrations',
     tagline: "Les deux formats réunis pour ancrer chaque mot dans la vraie vie — et dans l'imaginaire.",
     color: '#0792dc',
     color2: '#27ae60',
+    colorLight: '#e8f4fd',
+    img: `${R2_IMAGES_BASE}/miniature_outils_legumes_photo.png`,
+    imgPosition: 'center 30%',
     price: '11,90 €',
     priceBarre: '15,80 €',
     economie: '3,90 €',
@@ -604,11 +613,15 @@ export const PACKS: Pack[] = [
   },
   {
     slug: 'animaux',
+    productSlug: 'pack-animaux',
     title: 'Je découvre les animaux',
     subtitle: 'Pack Complet + Coloriage',
     tagline: "Reconnaître, nommer et colorier les animaux — pour ancrer le vocabulaire par le jeu et la manipulation.",
     color: '#ff7043',
     color2: '#f59e0b',
+    colorLight: '#fff3e0',
+    img: `${R2_IMAGES_BASE}/miniature_outils_animaux-images-photo.png`,
+    imgPosition: 'center 30%',
     price: '19,90 €',
     priceBarre: '24,80 €',
     economie: '4,90 €',

@@ -100,7 +100,7 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
 
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
                 <PackBuyButton
-                  itemSlugs={pack.itemSlugs}
+                  productSlug={pack.productSlug}
                   price={pack.price}
                   style={{ background: '#FDF482', color: '#090943', fontSize: 16, padding: '14px 32px', fontWeight: 800, boxShadow: '0 8px 32px rgba(239,208,16,0.4)' }}
                 />
@@ -261,7 +261,7 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
               ))}
             </div>
             <PackBuyButton
-              itemSlugs={pack.itemSlugs}
+              productSlug={pack.productSlug}
               price={pack.price}
               style={{ background: '#FDF482', color: '#090943', fontSize: 17, padding: '16px 48px', fontWeight: 800, width: '100%', justifyContent: 'center' }}
             />
@@ -284,7 +284,7 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
             <PackBuyButton
-              itemSlugs={pack.itemSlugs}
+              productSlug={pack.productSlug}
               price={pack.price}
               style={{ background: 'white', color, fontSize: 16, padding: '14px 36px', fontWeight: 800 }}
             />

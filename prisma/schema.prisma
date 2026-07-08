@@ -55,9 +55,9 @@ model Training {
 // ─── Ebook (extends Product) ──────────────────────────────────────────────────
 
 model Ebook {
-  id      String  @id
-  product Product @relation(fields: [id], references: [id])
-  fileKey String? // R2 object key, e.g. "bonus/guide-autisme.pdf"
+  id       String   @id
+  product  Product  @relation(fields: [id], references: [id])
+  fileKeys String[] @default([]) // R2 object keys — a pack has one per bundled item
 }
 
 // ─── Download token ───────────────────────────────────────────────────────────

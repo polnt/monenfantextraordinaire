@@ -4,19 +4,68 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAddToCart } from '@/hooks/useAddToCart';
-import { OUTILS } from '@/lib/catalog';
+import { OUTILS, PACKS, type OutilProduct, type Pack } from '@/lib/catalog';
 
-const products = OUTILS.map((p) => ({
-  title: p.listingTitle,
-  subtitle: p.listingSubtitle,
-  img: p.img,
-  imgPosition: p.imgPosition,
-  bg: p.colorLight,
-  price: p.price,
-  href: `/outils/${p.slug}`,
-  slug: p.slug,
-  color: p.color,
-}));
+interface ProductCard {
+  title: string;
+  subtitle: string;
+  img: string | null;
+  imgPosition: string;
+  bg: string;
+  price: string;
+  priceBarre: string | null;
+  badge: string | null;
+  href: string;
+  slug: string;
+  color: string;
+}
+
+function outilToCard(p: OutilProduct): ProductCard {
+  return {
+    title: p.listingTitle,
+    subtitle: p.listingSubtitle,
+    img: p.img,
+    imgPosition: p.imgPosition,
+    bg: p.colorLight,
+    price: p.price,
+    priceBarre: null,
+    badge: null,
+    href: `/outils/${p.slug}`,
+    slug: p.slug,
+    color: p.color,
+  };
+}
+
+function packToCard(p: Pack): ProductCard {
+  return {
+    title: `${p.title} — ${p.subtitle}`,
+    subtitle: p.tagline,
+    img: p.img,
+    imgPosition: p.imgPosition,
+    bg: p.colorLight,
+    price: p.price,
+    priceBarre: p.priceBarre,
+    badge: p.badge,
+    href: `/packs/${p.slug}`,
+    slug: p.productSlug,
+    color: p.color,
+  };
+}
+
+// Each pack's two outils are shown right before the pack itself
+// (1 outil per column, then the pack in the 3rd column on desktop).
+const packedSlugs = new Set(PACKS.flatMap((p) => p.itemSlugs));
+
+const products: ProductCard[] = [
+  ...PACKS.flatMap((pack) => [
+    ...pack.itemSlugs
+      .map((slug) => OUTILS.find((o) => o.slug === slug))
+      .filter((o): o is OutilProduct => o !== undefined)
+      .map(outilToCard),
+    packToCard(pack),
+  ]),
+  ...OUTILS.filter((o) => !packedSlugs.has(o.slug)).map(outilToCard),
+];
 
 export default function OutilsPage(): React.JSX.Element {
   const isMobile = useIsMobile();
@@ -42,7 +91,12 @@ export default function OutilsPage(): React.JSX.Element {
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 24 }}>
             {products.map((p, i) => (
               <div key={i} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ height: isMobile ? 200 : 260, background: p.bg, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ height: isMobile ? 200 : 260, background: p.bg, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                  {p.badge && (
+                    <span style={{ position: 'absolute', top: 12, left: 12, zIndex: 1, display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 50, padding: '5px 12px', fontSize: 12, fontFamily: 'var(--font-nunito)', fontWeight: 700, background: 'white', color: p.color, boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                      {p.badge}
+                    </span>
+                  )}
                   {p.img ? (
                     <Image src={p.img} alt={p.title} width={600} height={400} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: p.imgPosition ?? 'center center', display: 'block', filter: 'drop-shadow(-10px 16px 16px rgba(0,0,0,0.75))' }} />
                   ) : (
@@ -57,7 +111,12 @@ export default function OutilsPage(): React.JSX.Element {
                   <p style={{ color: '#5a6070', fontSize: 13, lineHeight: 1.65, flex: 1, fontStyle: 'italic' }}>{p.subtitle}</p>
                   <div style={{ marginTop: 16, borderTop: '1px solid #f3f4f6', paddingTop: 14 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                      <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: p.color }}>{p.price}</span>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                        <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: p.color }}>{p.price}</span>
+                        {p.priceBarre && (
+                          <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 13, color: '#9ca3af', textDecoration: 'line-through' }}>{p.priceBarre}</span>
+                        )}
+                      </div>
                       <Link href={p.href} style={{ fontFamily: 'var(--font-nunito)', fontSize: 13, color: 'var(--gray)', textDecoration: 'underline' }}>
                         Détails →
                       </Link>

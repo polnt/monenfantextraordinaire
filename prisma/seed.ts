@@ -44,38 +44,82 @@ const FORMATIONS: FormationSeed[] = [
   },
 ] as const;
 
-const OUTILS = [
+type OutilSeed = {
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  // R2 object keys for this outil's own file(s) — empty until the PDF is uploaded.
+  // Packs derive their fileKeys from their constituent outils, so filling this
+  // in here also equips any pack that bundles this outil.
+  fileKeys: string[];
+};
+
+const OUTILS: OutilSeed[] = [
   {
     slug: 'legumes-photos',
     name: 'Je découvre les fruits et légumes en photos',
     description: "Un outil pédagogique conçu pour aider votre enfant à nommer, reconnaître et généraliser les fruits et légumes grâce à des photographies du monde réel.",
     price: 7.90,
+    fileKeys: [],
   },
   {
     slug: 'legumes-illustrations',
     name: 'Je découvre les fruits et légumes en illustrations',
     description: "Un outil pédagogique qui permet à votre enfant de comprendre qu'une illustration et une photo représentent le même objet — une compétence clé pour le développement du langage.",
     price: 7.90,
+    fileKeys: [],
   },
   {
     slug: 'animaux',
     name: 'Je découvre les animaux en photos et en illustrations',
     description: "Un outil complet qui combine photos réelles et illustrations pour aider votre enfant à reconnaître et nommer les animaux, quelle que soit la représentation visuelle.",
     price: 14.90,
+    fileKeys: [],
   },
   {
     slug: 'bonhomme-dessin',
     name: 'Apprendre à dessiner mon premier bonhomme',
     description: "Un livret progressif pour apprendre à dessiner un bonhomme étape par étape — tout en développant le schéma corporel, la motricité fine et la confiance en soi.",
     price: 12.90,
+    fileKeys: [],
   },
   {
     slug: 'cahier-coloriage',
     name: 'Cahier de coloriage éducatif et inclusif',
     description: "Un cahier de coloriage spécialement conçu pour les enfants à besoins spécifiques. Des illustrations simples d'animaux, des modèles en couleur à reproduire, et des activités adaptées au rythme de chaque enfant.",
     price: 9.90,
+    fileKeys: [],
   },
-] as const;
+];
+
+// Bundles of 2 outils sold together at a reduced price — mirrored from PACKS in
+// src/lib/catalog.tsx. fileKeys are derived from the constituent outils above,
+// so a pack automatically picks up both files once each outil's fileKeys is set.
+type PackSeed = {
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  itemSlugs: [string, string];
+};
+
+const PACKS: PackSeed[] = [
+  {
+    slug: 'pack-legumes',
+    name: 'Je découvre les fruits et légumes — Pack Photos + Illustrations',
+    description: "Les deux formats réunis pour ancrer chaque mot dans la vraie vie — et dans l'imaginaire.",
+    price: 11.90,
+    itemSlugs: ['legumes-photos', 'legumes-illustrations'],
+  },
+  {
+    slug: 'pack-animaux',
+    name: 'Je découvre les animaux — Pack Complet + Coloriage',
+    description: "Reconnaître, nommer et colorier les animaux — pour ancrer le vocabulaire par le jeu et la manipulation.",
+    price: 19.90,
+    itemSlugs: ['animaux', 'cahier-coloriage'],
+  },
+];
 
 const RESSOURCES = [
   {
@@ -147,10 +191,37 @@ async function main(): Promise<void> {
         type: ProductType.EBOOK,
         accessType: AccessType.PAID,
         active: true,
-        ebook: { create: { fileKey: null } },
+        ebook: { create: { fileKeys: p.fileKeys } },
       },
     });
     console.log(`  [OUTIL]     slug=${product.slug}  price=${product.price} EUR`);
+  }
+
+  for (const p of PACKS) {
+    const fileKeys = p.itemSlugs.flatMap(
+      (slug) => OUTILS.find((o) => o.slug === slug)?.fileKeys ?? []
+    );
+    const product = await db.product.upsert({
+      where: { slug: p.slug },
+      update: {
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        ebook: { update: { fileKeys } },
+      },
+      create: {
+        slug: p.slug,
+        name: p.name,
+        description: p.description,
+        price: p.price,
+        currency: 'EUR',
+        type: ProductType.EBOOK,
+        accessType: AccessType.PAID,
+        active: true,
+        ebook: { create: { fileKeys } },
+      },
+    });
+    console.log(`  [PACK]      slug=${product.slug}  price=${product.price} EUR  files=${fileKeys.length}`);
   }
 
   for (const p of [...RESSOURCES, ...BONUS]) {
@@ -159,7 +230,7 @@ async function main(): Promise<void> {
       update: {
         name: p.name,
         description: p.description,
-        ebook: { update: { fileKey: p.fileKey } },
+        ebook: { update: { fileKeys: [p.fileKey] } },
       },
       create: {
         slug: p.slug,
@@ -170,7 +241,7 @@ async function main(): Promise<void> {
         type: ProductType.EBOOK,
         accessType: AccessType.FREE_DIRECT,
         active: true,
-        ebook: { create: { fileKey: p.fileKey } },
+        ebook: { create: { fileKeys: [p.fileKey] } },
       },
     });
     console.log(`  [GRATUIT]   slug=${product.slug}  fileKey=${p.fileKey}`);
