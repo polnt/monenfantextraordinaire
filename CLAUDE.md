@@ -1,222 +1,89 @@
-# CLAUDE.md — Contexte projet pour Claude Code
+# CLAUDE.md — Project context for Claude Code
 
-> Ce fichier est lu automatiquement par Claude Code (VS Code).
-> Il contient toutes les conventions, décisions et règles du projet.
-
----
-
-## 🎯 Projet
-
-Site vitrine + boutique e-commerce ciblant l'**Europe** et l'**Afrique francophone**.
-- 20 à 100 produits
-- MVP solo, priorité : rapidité + qualité + sécurité
-- Certains produits = formations → envoi d'un lien Moodle par email après achat
-- Pas d'espace client pour l'instant (achat en tant qu'invité)
+> Active rules and constraints only. Reference docs are in `docs/`.
 
 ---
 
-## 🧱 Stack technique
+## Project
+
+Showcase site + e-commerce shop targeting **Europe** and **French-speaking Africa**.
+- 20 to 100 products, solo MVP — priorities: speed + quality + security
+- Some products are courses → a Moodle link is sent by email after purchase
+- No customer account (guest checkout only)
+
+---
+
+## Tech stack
 
 - **Next.js 14** (App Router, TypeScript)
-- **PostgreSQL + Prisma** (ORM)
-- **Stripe** → paiements Europe
-- **CinetPay** → paiements Afrique francophone
-- **Resend + React Email** → emails transactionnels
-- **NextAuth.js** → authentification back-office admin uniquement
-- **Tailwind CSS** → styles
-- **Infomaniak** → hébergement (Node.js)
+- **PostgreSQL + Prisma** (singleton client in `lib/db.ts`)
+- **Stripe** → European payments / **PayDunia** → French-speaking Africa payments
+- **Resend + React Email** → transactional emails
+- **NextAuth.js** → back-office admin auth only
+- **Tailwind CSS** / **Infomaniak** hosting (Node.js)
 
 ---
 
-## 🖥️ Stratégie de rendu
-
-| Page | Mode |
-|---|---|
-| Accueil / vitrine | SSG |
-| Catalogue produits | ISR |
-| Fiche produit `[slug]` | ISR |
-| Panier / Checkout | CSR |
-| Confirmation commande | CSR |
-| Back-office admin | CSR |
-| API Routes (webhooks, checkout) | Server |
-
----
-
-## 🗂️ Structure des dossiers
-
-```
-my-shop/
-├── app/
-│   ├── (shop)/
-│   │   ├── page.tsx                # Accueil SSG
-│   │   ├── produits/
-│   │   │   ├── page.tsx            # Catalogue ISR
-│   │   │   └── [slug]/page.tsx     # Fiche produit ISR
-│   │   └── checkout/
-│   │       ├── page.tsx            # Panier + checkout CSR
-│   │       └── confirmation/page.tsx
-│   ├── api/
-│   │   ├── stripe/webhook/route.ts
-│   │   ├── cinetpay/webhook/route.ts
-│   │   ├── checkout/route.ts
-│   │   └── orders/route.ts
-│   └── admin/
-│       ├── page.tsx
-│       ├── produits/page.tsx
-│       └── commandes/page.tsx
-├── components/
-│   ├── shop/
-│   ├── checkout/
-│   └── admin/
-├── lib/
-│   ├── stripe.ts
-│   ├── cinetpay.ts
-│   ├── db.ts                       # Prisma client (singleton)
-│   ├── email.ts                    # Resend + logique lien Moodle
-│   └── geo.ts                      # Détection pays → bonne passerelle
-├── prisma/
-│   └── schema.prisma
-├── docs/
-│   └── DECISIONS.md
-└── types/
-```
-
----
-
-## 💳 Logique paiement
+## Payment gateway selection
 
 ```typescript
-// Toujours utiliser cette logique pour choisir la passerelle
-const gateway = isAfricaFrancophone(userCountry) ? 'cinetpay' : 'stripe';
+const gateway = isPayduniaCountry(userCountry) ? 'paydunia' : 'stripe';
 ```
 
-### Pays CinetPay (Afrique francophone)
-`CI, SN, CM, ML, TG, BF, BJ, GN`
-(Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée)
-
-### Tout le reste → Stripe
+PayDunia countries: `CI, SN, CM, ML, TG, BF, BJ, GN` — everything else → Stripe.
 
 ---
 
-## 🔐 Règles de sécurité — OBLIGATOIRES
-
-- **Ne jamais** committer `.env.local`
-- **Toujours** valider la signature des webhooks Stripe et CinetPay avant toute action
-- **Toujours** vérifier l'idempotence des webhooks (une commande ne doit jamais être créée deux fois)
-- **Jamais** de données sensibles dans les logs
-- **Toujours** utiliser les variables d'environnement pour les clés API
-- Les routes `/admin/*` doivent être protégées par NextAuth
-
----
-
-## 📧 Flux email post-achat
+## Post-purchase email flow
 
 ```
-webhook confirmé → valider signature → créer commande en DB
-→ si produit formation → générer lien Moodle → envoyer email Resend
-→ sinon → envoyer email confirmation simple
+webhook received → validate signature → create order in DB
+→ if product is a course → generate Moodle link → send email via Resend
+→ else → send simple order confirmation email
 ```
 
 ---
 
-## ✅ Validation obligatoire avant toute modification
+## Security rules — MANDATORY
 
-**Aucune modification de code ne doit être proposée ou validée sans avoir exécuté dans l'ordre :**
+- **Never** commit `.env.local`
+- **Always** validate Stripe and PayDunia webhook signatures before any action
+- **Always** enforce webhook idempotency (an order must never be created twice)
+- **Never** log sensitive data
+- **Always** use environment variables for API keys
+
+---
+
+## Mandatory validation before any change
 
 ```bash
-# 1. Vérification TypeScript
-npx tsc --noEmit
-
-# 2. Linter
-npm run lint
-
-# 3. Correction automatique si possible
-npm run lint -- --fix
+npx tsc --noEmit        # must pass
+npm run lint            # must pass (npm run lint -- --fix to auto-fix)
 ```
 
-### Règles strictes
-- **Si `tsc` retourne des erreurs** → corriger avant de continuer, ne jamais ignorer
-- **Si `lint` retourne des erreurs** → corriger avant de continuer
-- **Jamais de `// @ts-ignore` ou `// eslint-disable`** sans justification explicite commentée
-- **Jamais de `any`** → toujours typer explicitement
-- Ces vérifications s'appliquent à **chaque fichier modifié**, pas uniquement au fichier principal
+- Fix all `tsc` and `lint` errors before continuing — never ignore
+- No `// @ts-ignore` or `// eslint-disable` without explicit inline justification
+- No `any` — always type explicitly
+- Applies to **every modified file**
 
 ---
 
-## 🧑‍💻 Conventions de code
+## Code conventions
 
-- **TypeScript strict** : pas de `any`, typer toutes les fonctions
-- **Prisma** : toujours utiliser le client singleton dans `lib/db.ts`
-- **Composants** : un fichier par composant, nommage PascalCase
-- **API Routes** : toujours gérer les erreurs avec try/catch et retourner des codes HTTP appropriés
-- **Variables d'environnement** : préfixe `NEXT_PUBLIC_` uniquement pour ce qui doit être exposé côté client
-
----
-
-## 📦 Dépendances ESLint à installer
-
-```bash
-npm install --save-dev \
-  @typescript-eslint/eslint-plugin \
-  @typescript-eslint/parser \
-  eslint-config-next
-```
+- **Language**: all code in English (names, comments, commits)
+- **TypeScript strict**: no `any`, type all functions explicitly
+- **Prisma**: always use the singleton client in `lib/db.ts`
+- **Components**: one file per component, PascalCase naming
+- **API Routes**: always handle errors with try/catch + appropriate HTTP status codes
+- **Environment variables**: `NEXT_PUBLIC_` prefix only for client-side values
 
 ---
 
-## ⚙️ Commandes utiles
+## Reference docs
 
-```bash
-npm run dev            # Démarrer en développement
-npm run build          # Build production
-npm run validate       # tsc + lint en une seule commande (obligatoire avant commit)
-npx tsc --noEmit       # Vérification TypeScript seule
-npm run lint           # Linter ESLint seul
-npm run lint -- --fix  # Correction automatique ESLint
-npx prisma studio      # Interface visuelle base de données
-npx prisma migrate dev --name <nom>  # Créer une migration
-npx prisma generate    # Regénérer le client Prisma
-```
-
-> Ajouter ce script dans `package.json` :
-> ```json
-> "validate": "tsc --noEmit && eslint . --ext .ts,.tsx"
-> ```
-
----
-
-## 🔑 Variables d'environnement requises
-
-```env
-DATABASE_URL=
-
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
-
-CINETPAY_API_KEY=
-CINETPAY_SITE_ID=
-CINETPAY_WEBHOOK_SECRET=
-
-RESEND_API_KEY=
-
-NEXTAUTH_SECRET=
-NEXTAUTH_URL=
-
-MOODLE_BASE_URL=
-MOODLE_TOKEN=
-```
-
----
-
-## 📚 Documentation complémentaire
-
-- Décisions techniques et raisonnements : `docs/DECISIONS.md`
-
----
-
-## 🚧 Décisions en attente
-
-- [ ] Admin custom vs Sanity.io pour la gestion produits
-- [ ] Intégration Moodle : enrollment automatique via API ou lien token ?
-- [ ] Nom de domaine et configuration DNS Infomaniak
+| Topic | File |
+|---|---|
+| Architecture, rendering strategy, folder structure | `docs/ARCHITECTURE.md` |
+| Navigation structure and design notes | `docs/NAVIGATION.md` |
+| Dev setup, commands, env vars, ESLint | `docs/SETUP.md` |
+| Technical decisions and rationale | `docs/DECISIONS.md` |

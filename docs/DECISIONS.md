@@ -11,7 +11,8 @@
 - Cible géographique : **Europe** + **Afrique francophone**
 - Volume produits : **20 à 100 produits**
 - Objectif : **MVP rapide**, travail solo
-- Certains produits déclenchent l'envoi d'un **lien d'accès Moodle** par email après achat
+- Deux types de produits : **formations** (lien Moodle par email) et **ebooks** (PDF, lien de téléchargement par email)
+- Aucun produit physique — pas de gestion de stock ni d'expédition
 
 ---
 
@@ -23,7 +24,7 @@
 | Langage | **TypeScript** | |
 | Base de données | **PostgreSQL + Prisma** | ORM typé, migrations incluses |
 | Paiement Europe | **Stripe** | CB, Apple Pay, Google Pay, SEPA |
-| Paiement Afrique francophone | **CinetPay** | Orange Money, Wave, MTN, Moov, CB |
+| Paiement Afrique francophone | **PayDunia** | Mobile Money, cartes bancaires |
 | Emails transactionnels | **Resend + React Email** | Confirmation commande + lien Moodle |
 | Auth back-office | **NextAuth.js** | Accès admin uniquement, pas d'espace client |
 | Gestion produits | **Admin custom** intégré | Données en PostgreSQL, pas de CMS externe |
@@ -49,13 +50,13 @@
 
 - Détection du pays client au moment du checkout (via champ adresse ou IP)
 - **Pays européens** → passerelle **Stripe**
-- **Pays d'Afrique francophone** → passerelle **CinetPay**
+- **Pays d'Afrique francophone** → passerelle **PayDunia**
 
-### Pays CinetPay couverts
+### Pays PayDunia couverts (Afrique francophone)
 Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée
 
 ### Sécurité paiements
-- PCI-DSS géré par Stripe et CinetPay (l'app ne touche jamais les données carte)
+- PCI-DSS géré par Stripe et PayDunia (l'app ne touche jamais les données carte)
 - Validation des signatures webhook obligatoire avant confirmation de commande
 - Idempotence des webhooks (éviter double validation)
 - Clés API exclusivement en variables d'environnement
@@ -66,7 +67,8 @@ Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée
 ## 📧 Flux post-achat (Moodle)
 
 ```
-Webhook paiement confirmé (Stripe ou CinetPay)
+Webhook paiement confirmé (Stripe ou PayDunia)
+
         ↓
 Validation signature webhook
         ↓
@@ -95,7 +97,7 @@ my-shop/
 │   │       └── confirmation/page.tsx
 │   ├── api/
 │   │   ├── stripe/webhook/route.ts
-│   │   ├── cinetpay/webhook/route.ts
+│   │   ├── paydunia/webhook/route.ts
 │   │   ├── checkout/route.ts
 │   │   └── orders/route.ts
 │   └── admin/                      # Back-office protégé
@@ -108,7 +110,7 @@ my-shop/
 │   └── admin/
 ├── lib/
 │   ├── stripe.ts
-│   ├── cinetpay.ts
+│   ├── paydunia.ts                 # Client PayDunia
 │   ├── db.ts                       # Prisma client
 │   ├── email.ts                    # Resend + logique Moodle
 │   └── geo.ts                      # Détection pays → passerelle
@@ -132,10 +134,10 @@ STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 
-# CinetPay
-CINETPAY_API_KEY=
-CINETPAY_SITE_ID=
-CINETPAY_WEBHOOK_SECRET=
+# PayDunia
+PAYDUNYA_MASTER_KEY=
+PAYDUNYA_PRIVATE_KEY=
+PAYDUNYA_TOKEN=
 
 # Resend (emails)
 RESEND_API_KEY=
@@ -145,7 +147,7 @@ NEXTAUTH_SECRET=
 NEXTAUTH_URL=
 
 # Moodle
-MOODLE_BASE_URL=
+NEXT_PUBLIC_MOODLE_BASE_URL=
 MOODLE_TOKEN=
 ```
 
@@ -154,8 +156,18 @@ MOODLE_TOKEN=
 ## ⚠️ Points d'attention Infomaniak
 
 - Utiliser l'offre **Node.js** ou **Docker** (pas d'hébergement statique)
-- Les webhooks Stripe et CinetPay nécessitent une URL publique HTTPS → natif sur Infomaniak
-- Vérifier la version Node.js supportée (recommandé : 20 LTS)
+- Les webhooks Stripe et PayDunia nécessitent une URL publique HTTPS → natif sur Infomaniak
+- Version Node.js : **24** (requis par l'offre Infomaniak, confirmé en avril 2026)
+
+---
+
+## 📄 Pages outils — données statiques (MVP)
+
+Les pages `/outils/[slug]` (`legumes-photos`, `legumes-illustrations`, `animaux`) utilisent des données **statiques hardcodées** dans le fichier page.tsx, générées à build-time via `generateStaticParams`.
+
+**Pourquoi :** gain de temps pour le MVP — pas besoin de BDD ni d'admin pour les 3 premiers outils.
+
+**À faire plus tard :** remplacer les constantes `PRODUCTS` par des requêtes Prisma, et utiliser ISR (`revalidate`) pour que les mises à jour produit n'imposent pas de rebuild complet.
 
 ---
 

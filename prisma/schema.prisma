@@ -1,15 +1,152 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// prisma/schema.prisma
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+// ─── Product (base) ───────────────────────────────────────────────────────────
+
+enum ProductType {
+  TRAINING    // Training course → sends Moodle access link after purchase
+  EBOOK       // PDF ebook → sends download link after purchase
+}
+
+enum AccessType {
+  PAID         // Requires payment
+  FREE_DIRECT  // Free, delivered immediately without payment
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String
+  description String
+  price       Decimal
+  currency    String      @default("EUR")
+  type        ProductType
+  accessType  AccessType  @default(PAID)
+  images      String[]    @default([])
+  active      Boolean     @default(true)
+
+  training        Training?
+  ebook           Ebook?
+  orderItems      OrderItem[]
+  downloadTokens  DownloadToken[]
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([active])
+  @@index([type])
+}
+
+// ─── Training (extends Product) ───────────────────────────────────────────────
+
+model Training {
+  id             String   @id
+  product        Product  @relation(fields: [id], references: [id])
+  moodleCourseId Int?
+}
+
+// ─── Ebook (extends Product) ──────────────────────────────────────────────────
+
+model Ebook {
+  id       String   @id
+  product  Product  @relation(fields: [id], references: [id])
+  fileKeys String[] @default([]) // R2 object keys — a pack has one per bundled item
+}
+
+// ─── Download token ───────────────────────────────────────────────────────────
+
+model DownloadToken {
+  id            String   @id @default(cuid())
+  token         String   @unique
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id])
+  orderId       String?  // null for free products
+  email         String
+  expiresAt     DateTime
+  maxDownloads  Int      @default(5)
+  downloadCount Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  @@index([orderId])
+}
+
+// ─── Order ────────────────────────────────────────────────────────────────────
+
+enum OrderStatus {
+  PENDING     // Payment initiated but not yet confirmed
+  PAID        // Payment confirmed via webhook
+  CANCELLED   // Order has been cancelled
+  REFUNDED    // Order has been refunded
+}
+
+enum PaymentGateway {
+  STRIPE
+  PAYDUNIA
+}
+
+model Order {
+  id                   String         @id @default(cuid())
+  orderNumber          String         @unique // e.g. ORD-2024-0001
+
+  // Customer information
+  customerEmail        String
+  customerLastName     String
+  customerFirstName    String
+  customerPhone        String?
+  customerCountry      String         // ISO code e.g. FR, SN, CI
+
+  // Payment
+  gateway              PaymentGateway
+  paymentId            String?        @unique // Stripe session ID or PayDunia invoice token
+  paymentUrl           String?        // PayDunia hosted checkout link, stored so retries can be re-served without creating a new invoice
+  idempotencyKey       String         @unique // Prevents duplicate webhook processing
+  totalAmount          Decimal
+  currency             String         @default("EUR")
+
+  status               OrderStatus    @default(PENDING)
+  items                OrderItem[]
+
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+
+  @@index([customerEmail])
+  @@index([status])
+}
+
+// ─── Order item ───────────────────────────────────────────────────────────────
+
+model OrderItem {
+  id           String   @id @default(cuid())
+  order        Order    @relation(fields: [orderId], references: [id])
+  orderId      String
+  product      Product  @relation(fields: [productId], references: [id])
+  productId    String
+  quantity     Int      @default(1)
+  unitPrice    Decimal  // Price snapshot at time of purchase
+  productName  String   // Product name snapshot at time of purchase
+
+  // Moodle access (if product type = TRAINING)
+  moodleLinkSent     Boolean   @default(false)
+  moodleLinkSentAt   DateTime?
+
+  createdAt    DateTime @default(now())
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+// ─── Admin ────────────────────────────────────────────────────────────────────
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
 }
