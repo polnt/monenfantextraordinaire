@@ -54,7 +54,7 @@ export const FORMATIONS: Formation[] = [
     color: '#0792dc',
     popular: true,
     disabled: false,
-    img: '/visuel-formation.png',
+    img: `${R2_IMAGES_BASE}/visuel-formation.png`,
     imgPosition: 'center top',
     imgHeight: 280,
     moodleCourseId: 4,

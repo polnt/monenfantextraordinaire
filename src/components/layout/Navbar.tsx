@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
+import { R2_IMAGES_BASE } from "@/lib/images";
 
 const mainLinks = [
   { label: "Accueil", href: "/" },
@@ -87,7 +88,7 @@ export default function Navbar(): React.JSX.Element {
         {/* Logo */}
         <Link href="/" className="flex-shrink-0 no-underline" onClick={closeMenu}>
           <Image
-            src="/logo-full.png"
+            src={`${R2_IMAGES_BASE}/logo-full.png`}
             alt="Mon Enfant Extra-Ordinaire"
             height={44}
             width={200}
@@ -96,7 +97,7 @@ export default function Navbar(): React.JSX.Element {
             priority
           />
           <Image
-            src="/logo.png"
+            src={`${R2_IMAGES_BASE}/logo.png`}
             alt="Mon Enfant Extra-Ordinaire"
             height={44}
             width={44}
