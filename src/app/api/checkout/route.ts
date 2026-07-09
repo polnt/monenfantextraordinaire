@@ -213,6 +213,14 @@ export async function POST(req: Request): Promise<Response> {
     }
   }
 
+  // A PayDunia invoice was already created for this order on a prior attempt.
+  // PayDunya has no idempotency key on invoice creation, so re-calling it here
+  // would mint a second invoice and overwrite paymentId, orphaning the first
+  // one if the customer already opened/paid it. Re-serve the stored link instead.
+  if (existingOrder && gateway === "PAYDUNIA" && existingOrder.paymentId && existingOrder.paymentUrl) {
+    return NextResponse.json({ paymentUrl: existingOrder.paymentUrl });
+  }
+
   const baseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
   try {
@@ -269,7 +277,7 @@ export async function POST(req: Request): Promise<Response> {
 
       await db.order.update({
         where: { id: order.id },
-        data: { paymentId: result.token },
+        data: { paymentId: result.token, paymentUrl: result.paymentLink },
       });
 
       return NextResponse.json({ paymentUrl: result.paymentLink });

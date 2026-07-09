@@ -132,6 +132,16 @@ export default function LeSitePage(): React.JSX.Element {
                   className="mef-card"
                   style={{ overflow: 'hidden', cursor: hasSub ? 'pointer' : 'default' }}
                   onClick={() => hasSub && setOpenTheme(isOpen ? null : i)}
+                  role={hasSub ? 'button' : undefined}
+                  tabIndex={hasSub ? 0 : undefined}
+                  aria-expanded={hasSub ? isOpen : undefined}
+                  onKeyDown={(e) => {
+                    if (!hasSub) return;
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setOpenTheme(isOpen ? null : i);
+                    }
+                  }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 18, padding: '20px 28px', borderLeft: `4px solid ${t.color}` }}>
                     <div style={{ width: 10, height: 10, borderRadius: '50%', background: t.color, flexShrink: 0 }} />
