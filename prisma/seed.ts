@@ -148,7 +148,7 @@ const BONUS = [
     slug: 'bonus-mini-astuces',
     name: 'Mini astuces pour développer le langage',
     description: 'Astuces concrètes, rapides et efficaces pour stimuler le langage au quotidien.',
-    fileKey: 'bonus/bonus-developper-langage.pdf',
+    fileKey: 'bonus/bonus_developper-langage.pdf',
   },
 ] as const;
 

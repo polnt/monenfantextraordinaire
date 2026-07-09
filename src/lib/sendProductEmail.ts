@@ -68,7 +68,7 @@ export async function sendProductEmail(
     });
 
     const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL ?? "https://monenfantextraordinaire.com";
+      process.env.NEXTAUTH_URL ?? "https://monenfantextraordinaire.com";
     downloadUrl = `${baseUrl}/download/${token}`;
   }
   const orderRef = orderNumber ? ` (commande ${escapeHtml(orderNumber)})` : "";

@@ -209,8 +209,12 @@ export function verifyPayduniaWebhookSignature(hash: string | null): void {
 
   const expected = crypto.createHash("sha512").update(masterKey).digest("hex");
 
-  const hashBuffer = Buffer.from(hash);
-  const expectedBuffer = Buffer.from(expected);
+  if (!/^[0-9a-fA-F]+$/.test(hash)) {
+    throw new Error("Invalid PayDunya webhook signature");
+  }
+
+  const hashBuffer = Buffer.from(hash.toLowerCase(), "hex");
+  const expectedBuffer = Buffer.from(expected, "hex");
 
   const isValid =
     hashBuffer.length === expectedBuffer.length &&
