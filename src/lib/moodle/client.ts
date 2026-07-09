@@ -130,8 +130,8 @@ export async function getOrCreateUser(
 }
 
 /**
- * Manually enrols a Moodle user (by ID) into a course (by numeric course ID
- * stored as a string in our DB). Role 5 = student.
+ * Manually enrols a Moodle user (by ID) into a course (by numeric course ID).
+ * Role 5 = student.
  */
 export async function enrolUserToCourse(
   userId: number,
