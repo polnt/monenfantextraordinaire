@@ -29,7 +29,8 @@ function getBucket(): string {
 export function getPublicUrl(key: string): string {
   const endpoint = process.env.R2_ENDPOINT_PUBLIC;
   if (!endpoint) throw new Error("Missing R2_ENDPOINT_PUBLIC environment variable");
-  return `${endpoint}/${key}`;
+  const encodedKey = key.split("/").map(encodeURIComponent).join("/");
+  return `${endpoint}/${encodedKey}`;
 }
 
 // Streams an R2 object directly to the browser — never exposes the R2 endpoint URL.
@@ -41,7 +42,8 @@ export async function streamFromR2(key: string): Promise<Response> {
     throw new Error(`Empty body from R2 for key "${key}"`);
   }
 
-  const filename = key.split("/").pop() ?? "file.pdf";
+  const rawFilename = key.split("/").pop() ?? "file.pdf";
+  const filename = rawFilename.replace(/[\r\n"]/g, "");
   return new Response(Body.transformToWebStream(), {
     headers: {
       "Content-Type": ContentType ?? "application/pdf",

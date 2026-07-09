@@ -92,7 +92,7 @@ export async function sendProductEmail(
           ${isFree ? "" : "est disponible en téléchargement."}
         </p>
         <p style="margin:32px 0">
-          <a href="${downloadUrl}"
+          <a href="${escapeHtml(downloadUrl)}"
              style="display:inline-block;padding:14px 28px;background:#4f46e5;color:#fff;
                     text-decoration:none;border-radius:8px;font-weight:bold;font-size:16px">
             Télécharger mon fichier
