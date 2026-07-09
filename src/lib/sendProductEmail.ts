@@ -68,8 +68,7 @@ export async function sendProductEmail(
       });
     }
 
-    const baseUrl =
-      process.env.NEXTAUTH_URL ?? "https://monenfantextraordinaire.com";
+    const baseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
     downloadUrl = `${baseUrl}/download/${token}`;
   }
   const orderRef = orderNumber ? ` (commande ${escapeHtml(orderNumber)})` : "";
@@ -114,11 +113,11 @@ export async function sendProductEmail(
 
   if (error) {
     throw new Error(
-      `Failed to send product email for ${productId} to ${email}: ${error.message}`
+      `Failed to send product email for ${productId}${orderId ? ` (order ${orderId})` : ""}: ${error.message}`
     );
   }
 
   console.warn(
-    `[sendProductEmail] Email sent for product ${productId} to ${email}${orderId ? ` (order ${orderId})` : " (free)"}`
+    `[sendProductEmail] Email sent for product ${productId}${orderId ? ` (order ${orderId})` : " (free)"}`
   );
 }
