@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { R2_IMAGES_BASE } from '@/lib/images';
 
 type SocialKind = 'instagram' | 'facebook' | 'tiktok' | 'youtube' | 'linkedin' | 'web';
 
@@ -149,7 +150,7 @@ export default function Footer(): React.JSX.Element {
         }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 14, textDecoration: 'none' }}>
             <Image
-              src="/logo.png"
+              src={`${R2_IMAGES_BASE}/logo.png`}
               alt="Logo Mon Enfant Extra-Ordinaire"
               width={64}
               height={64}
