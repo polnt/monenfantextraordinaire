@@ -171,15 +171,17 @@ export async function POST(req: Request): Promise<Response> {
       );
     }
 
-    orderItems = body.items.map((cartItem) => {
-      const product = productsById.get(cartItem.productId)!;
-      return {
-        productId: product.id,
-        productName: product.name,
-        unitPrice: product.price,
-        quantity: cartItem.quantity,
-      };
-    });
+    orderItems = Array.from(requestedQuantityByProductId.entries()).map(
+      ([productId, quantity]) => {
+        const product = productsById.get(productId)!;
+        return {
+          productId: product.id,
+          productName: product.name,
+          unitPrice: product.price,
+          quantity,
+        };
+      }
+    );
 
     totalAmount = orderItems.reduce(
       (sum, item) => sum.add(item.unitPrice.mul(item.quantity)),

@@ -7,7 +7,7 @@ export async function GET(
 ): Promise<Response> {
   const { slug } = await params;
 
-  const product = await db.product.findUnique({
+  const product = await db.product.findFirst({
     where: { slug, active: true },
     select: { id: true, name: true, price: true, currency: true, type: true },
   });
