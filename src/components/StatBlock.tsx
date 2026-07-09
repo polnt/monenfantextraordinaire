@@ -13,6 +13,7 @@ export default function StatBlock({ target, suffix, label, prefix }: StatBlockPr
   const [val, setVal] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const done = useRef(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -23,17 +24,23 @@ export default function StatBlock({ target, suffix, label, prefix }: StatBlockPr
           const steps = 50;
           const dur = 1800;
           let i = 0;
-          const tick = setInterval(() => {
+          intervalRef.current = setInterval(() => {
             i++;
             setVal(Math.round(target * (i / steps)));
-            if (i >= steps) clearInterval(tick);
+            if (i >= steps && intervalRef.current) {
+              clearInterval(intervalRef.current);
+              intervalRef.current = null;
+            }
           }, dur / steps);
         }
       },
       { threshold: 0.5 }
     );
     if (ref.current) obs.observe(ref.current);
-    return (): void => obs.disconnect();
+    return (): void => {
+      obs.disconnect();
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, [target]);
 
   const fmt = (n: number): string =>

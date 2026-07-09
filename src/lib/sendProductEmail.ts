@@ -37,35 +37,36 @@ export async function sendProductEmail(
     // Public/free product — use the direct URL, no token needed
     downloadUrl = directUrl;
   } else {
-    // Paid product — create a time-limited download token
-    if (orderId) {
-      const existing = await db.downloadToken.findFirst({
-        where: { orderId, productId },
+    // Paid product — reuse the existing download token if one was already
+    // created for this order/product (e.g. a retry after a failed send),
+    // otherwise create a new time-limited one. Either way we still send
+    // the email below, since token creation and email delivery can fail
+    // independently.
+    const existing = orderId
+      ? await db.downloadToken.findFirst({ where: { orderId, productId } })
+      : null;
+
+    let token: string;
+    if (existing) {
+      token = existing.token;
+    } else {
+      token = randomBytes(32).toString("hex");
+      const expiresAt = new Date(
+        Date.now() + DOWNLOAD_EXPIRY_DAYS * 24 * 60 * 60 * 1000
+      );
+
+      await db.downloadToken.create({
+        data: {
+          token,
+          productId,
+          orderId,
+          email,
+          expiresAt,
+          maxDownloads: DOWNLOAD_MAX_COUNT,
+          downloadCount: 0,
+        },
       });
-      if (existing) {
-        console.warn(
-          `[sendProductEmail] Token already exists for order ${orderId}, product ${productId} — skipping`
-        );
-        return;
-      }
     }
-
-    const token = randomBytes(32).toString("hex");
-    const expiresAt = new Date(
-      Date.now() + DOWNLOAD_EXPIRY_DAYS * 24 * 60 * 60 * 1000
-    );
-
-    await db.downloadToken.create({
-      data: {
-        token,
-        productId,
-        orderId,
-        email,
-        expiresAt,
-        maxDownloads: DOWNLOAD_MAX_COUNT,
-        downloadCount: 0,
-      },
-    });
 
     const baseUrl =
       process.env.NEXTAUTH_URL ?? "https://monenfantextraordinaire.com";

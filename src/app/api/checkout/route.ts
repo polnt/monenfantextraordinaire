@@ -275,11 +275,9 @@ export async function POST(req: Request): Promise<Response> {
       return NextResponse.json({ paymentUrl: result.paymentLink });
     }
   } catch (err) {
-    await db.order.update({
-      where: { id: order.id },
-      data: { status: "CANCELLED" },
-    });
-
+    // Leave the order PENDING (not CANCELLED) so a retry with the same
+    // checkoutToken can reuse it instead of being blocked by the
+    // `status !== "PENDING"` guard above.
     console.error("Payment initiation failed:", err);
     return NextResponse.json(
       { error: "Failed to initiate payment. Please try again." },
