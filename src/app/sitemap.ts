@@ -3,6 +3,8 @@ import { FORMATIONS, OUTILS, PACKS } from '@/lib/catalog';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://monenfantextraordinaire.com';
 
+export const revalidate = 86400;
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
