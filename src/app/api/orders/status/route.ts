@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ProductType } from "@prisma/client";
+import { ProductType, PaymentGateway } from "@prisma/client";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { getOrCreateDownloadUrl } from "@/lib/downloadToken";
@@ -10,16 +10,27 @@ interface DownloadEntry {
   url: string;
 }
 
+interface ResolvedOrderId {
+  orderId: string;
+  // PayDunya redirects carry the bare orderId with no session to verify against,
+  // so lookups via orderIdParam must be restricted to PayDunya orders. Stripe
+  // orders must always be resolved through a verified session_id.
+  requireGateway: PaymentGateway | null;
+}
+
 async function resolveOrderId(
   sessionId: string | null,
   orderIdParam: string | null
-): Promise<string | null> {
-  if (orderIdParam) return orderIdParam;
+): Promise<ResolvedOrderId | null> {
+  if (orderIdParam) {
+    return { orderId: orderIdParam, requireGateway: PaymentGateway.PAYDUNIA };
+  }
 
   if (sessionId) {
     try {
       const session = await stripe.checkout.sessions.retrieve(sessionId);
-      return session.metadata?.orderId ?? null;
+      const orderId = session.metadata?.orderId;
+      return orderId ? { orderId, requireGateway: null } : null;
     } catch (err) {
       console.error("[orders/status] Failed to retrieve Stripe session:", err);
       return null;
@@ -34,9 +45,9 @@ export async function GET(req: Request): Promise<Response> {
   const sessionId = url.searchParams.get("session_id");
   const orderIdParam = url.searchParams.get("orderId");
 
-  const orderId = await resolveOrderId(sessionId, orderIdParam);
+  const resolved = await resolveOrderId(sessionId, orderIdParam);
 
-  if (!orderId) {
+  if (!resolved) {
     return NextResponse.json(
       { error: "Missing or invalid session_id/orderId." },
       { status: 400 }
@@ -44,12 +55,16 @@ export async function GET(req: Request): Promise<Response> {
   }
 
   const order = await db.order.findUnique({
-    where: { id: orderId },
+    where: { id: resolved.orderId },
     include: { items: { include: { product: true } } },
   });
 
   if (!order) {
     return NextResponse.json({ error: "Order not found." }, { status: 404 });
+  }
+
+  if (resolved.requireGateway && order.gateway !== resolved.requireGateway) {
+    return NextResponse.json({ error: "Invalid order lookup." }, { status: 403 });
   }
 
   if (order.status !== "PAID") {

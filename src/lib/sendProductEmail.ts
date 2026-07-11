@@ -38,8 +38,9 @@ export async function sendProductEmail(
     // Public/free product — use the direct URL, no token needed
     downloadUrl = directUrl;
   } else {
-    // Paid product — token creation and email delivery can fail
-    // independently, so the email is still sent below either way.
+    // Paid product — token creation must succeed before we send, since an
+    // email without a working download link isn't useful. A DB/token
+    // failure here aborts and no email is sent.
     downloadUrl = await getOrCreateDownloadUrl({ productId, orderId, email });
   }
   const orderRef = orderNumber ? ` (commande ${escapeHtml(orderNumber)})` : "";
