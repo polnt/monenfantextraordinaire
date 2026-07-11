@@ -4,7 +4,7 @@
 import crypto from "crypto";
 import type { Prisma } from "@prisma/client";
 
-const PAYDUNYA_API_URL = "https://app.paydunya.com/api/v1";
+const PAYDUNYA_API_URL = process.env.PAYDUNYA_API_URL ?? "https://app.paydunya.com/sandbox-api/v1";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
