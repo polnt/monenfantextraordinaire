@@ -41,6 +41,8 @@ npx prisma generate    # Regenerate Prisma client
 ```env
 DATABASE_URL=
 
+NEXT_PUBLIC_BASE_URL= # canonical site URL, used by sitemap.xml and robots.txt (e.g. https://monenfantextraordinaire.com)
+
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
