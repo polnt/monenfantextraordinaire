@@ -4,11 +4,12 @@ import { db } from "@/lib/db";
 import type { Currency } from "@/lib/currency";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
 import {
-  initializePayduniaPayment,
-  getPaydunaCurrency,
-  getPaydunaUnitAmount,
-  type PayduniaInitParams,
-} from "@/lib/paydunia";
+  initializePaydunyaPayment,
+  getPaydunyaCurrency,
+  getPaydunyaUnitAmount,
+  signOrderReference,
+  type PaydunyaInitParams,
+} from "@/lib/paydunya";
 
 interface CheckoutItem {
   productId: string;
@@ -22,7 +23,7 @@ interface CheckoutRequestBody {
   customerPhone?: string;
   customerCountry: string;
   // The currency the customer was browsing in (EUR/XOF). Drives the payment
-  // gateway directly: EUR -> Stripe, XOF -> PayDunia.
+  // gateway directly: EUR -> Stripe, XOF -> PayDunya.
   currency: Currency;
   items: CheckoutItem[];
   // Generated once by the client per checkout attempt. Used as the order's
@@ -163,14 +164,14 @@ export async function POST(req: Request): Promise<Response> {
 
     const productsById = new Map(products.map((product) => [product.id, product]));
 
-    gateway = body.currency === "XOF" ? "PAYDUNIA" : "STRIPE";
-    productCurrency = gateway === "PAYDUNIA" ? getPaydunaCurrency(body.customerCountry) : "EUR";
+    gateway = body.currency === "XOF" ? "PAYDUNYA" : "STRIPE";
+    productCurrency = gateway === "PAYDUNYA" ? getPaydunyaCurrency(body.customerCountry) : "EUR";
 
     orderItems = Array.from(requestedQuantityByProductId.entries()).map(
       ([productId, quantity]) => {
         const product = productsById.get(productId)!;
-        const unitPrice = gateway === "PAYDUNIA"
-          ? new Prisma.Decimal(getPaydunaUnitAmount(product))
+        const unitPrice = gateway === "PAYDUNYA"
+          ? new Prisma.Decimal(getPaydunyaUnitAmount(product))
           : product.priceEur;
         return {
           productId: product.id,
@@ -211,11 +212,11 @@ export async function POST(req: Request): Promise<Response> {
     }
   }
 
-  // A PayDunia invoice was already created for this order on a prior attempt.
+  // A PayDunya invoice was already created for this order on a prior attempt.
   // PayDunya has no idempotency key on invoice creation, so re-calling it here
   // would mint a second invoice and overwrite paymentId, orphaning the first
   // one if the customer already opened/paid it. Re-serve the stored link instead.
-  if (existingOrder && gateway === "PAYDUNIA" && existingOrder.paymentId && existingOrder.paymentUrl) {
+  if (existingOrder && gateway === "PAYDUNYA" && existingOrder.paymentId && existingOrder.paymentUrl) {
     return NextResponse.json({ paymentUrl: existingOrder.paymentUrl });
   }
 
@@ -251,21 +252,21 @@ export async function POST(req: Request): Promise<Response> {
 
       return NextResponse.json({ paymentUrl: session.url });
     } else {
-      const paydunaParams: PayduniaInitParams = {
+      const paydunyaParams: PaydunyaInitParams = {
         orderId: order.id,
         orderNumber: order.orderNumber,
         amount: totalAmount.toNumber(),
         currency: productCurrency,
-        redirectUrl: `${baseUrl}/checkout/confirmation?orderId=${order.id}`,
+        redirectUrl: `${baseUrl}/checkout/confirmation?orderId=${order.id}&sig=${signOrderReference(order.id)}`,
         cancelUrl: `${baseUrl}/checkout`,
-        callbackUrl: `${baseUrl}/api/paydunia/webhook`,
+        callbackUrl: `${baseUrl}/api/paydunya/webhook`,
         customerEmail: body.customerEmail,
         customerName: `${body.customerFirstName} ${body.customerLastName}`,
         customerPhone: body.customerPhone,
         description: `Order ${order.orderNumber}`,
       };
 
-      const result = await initializePayduniaPayment(paydunaParams);
+      const result = await initializePaydunyaPayment(paydunyaParams);
 
       await db.order.update({
         where: { id: order.id },

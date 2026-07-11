@@ -3,6 +3,7 @@ import { ProductType, PaymentGateway } from "@prisma/client";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { getOrCreateDownloadUrl } from "@/lib/downloadToken";
+import { verifyOrderReference } from "@/lib/paydunya";
 
 interface DownloadEntry {
   productId: string;
@@ -20,10 +21,14 @@ interface ResolvedOrderId {
 
 async function resolveOrderId(
   sessionId: string | null,
-  orderIdParam: string | null
+  orderIdParam: string | null,
+  signature: string | null
 ): Promise<ResolvedOrderId | null> {
   if (orderIdParam) {
-    return { orderId: orderIdParam, requireGateway: PaymentGateway.PAYDUNIA };
+    if (!signature || !verifyOrderReference(orderIdParam, signature)) {
+      return null;
+    }
+    return { orderId: orderIdParam, requireGateway: PaymentGateway.PAYDUNYA };
   }
 
   if (sessionId) {
@@ -44,8 +49,9 @@ export async function GET(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const sessionId = url.searchParams.get("session_id");
   const orderIdParam = url.searchParams.get("orderId");
+  const signature = url.searchParams.get("sig");
 
-  const resolved = await resolveOrderId(sessionId, orderIdParam);
+  const resolved = await resolveOrderId(sessionId, orderIdParam, signature);
 
   if (!resolved) {
     return NextResponse.json(

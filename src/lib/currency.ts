@@ -1,7 +1,7 @@
 // lib/currency.ts
 // Shared EUR/FCFA price formatting for display purposes across the site.
 // The customer's actual charged currency (EUR via Stripe, XOF/XAF via
-// PayDunia) is always re-derived from the DB at checkout time — this is
+// PayDunya) is always re-derived from the DB at checkout time — this is
 // purely for how prices are shown while browsing.
 
 export type Currency = "EUR" | "XOF";

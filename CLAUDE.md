@@ -17,7 +17,7 @@ Showcase site + e-commerce shop targeting **Europe** and **French-speaking Afric
 
 - **Next.js 14** (App Router, TypeScript)
 - **PostgreSQL + Prisma** (singleton client in `lib/db.ts`)
-- **Stripe** → European payments / **PayDunia** → French-speaking Africa payments
+- **Stripe** → European payments / **PayDunya** → French-speaking Africa payments
 - **Resend + React Email** → transactional emails
 - **NextAuth.js** → back-office admin auth only
 - **Tailwind CSS** / **Infomaniak** hosting (Node.js)
@@ -26,11 +26,13 @@ Showcase site + e-commerce shop targeting **Europe** and **French-speaking Afric
 
 ## Payment gateway selection
 
+Gateway is driven by the customer's chosen browsing currency (site-wide EUR/XOF toggle), not their country:
+
 ```typescript
-const gateway = isPayduniaCountry(userCountry) ? 'paydunia' : 'stripe';
+const gateway = currency === 'XOF' ? 'paydunya' : 'stripe';
 ```
 
-PayDunia countries: `CI, SN, CM, ML, TG, BF, BJ, GN` — everything else → Stripe.
+PayDunya-relevant countries (shown in the checkout country dropdown): `CI, SN, CM, ML, TG, BF, BJ, GN`. A customer from any country can pick either currency; the currency choice alone determines the gateway.
 
 ---
 
@@ -47,7 +49,7 @@ webhook received → validate signature → create order in DB
 ## Security rules — MANDATORY
 
 - **Never** commit `.env.local`
-- **Always** validate Stripe and PayDunia webhook signatures before any action
+- **Always** validate Stripe and PayDunya webhook signatures before any action
 - **Always** enforce webhook idempotency (an order must never be created twice)
 - **Never** log sensitive data
 - **Always** use environment variables for API keys

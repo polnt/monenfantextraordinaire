@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import {
-  verifyPayduniaWebhookSignature,
-  parsePayduniaWebhook,
-  verifyPayduniaTransaction,
-} from "@/lib/paydunia";
+  verifyPaydunyaWebhookSignature,
+  parsePaydunyaWebhook,
+  verifyPaydunyaTransaction,
+} from "@/lib/paydunya";
 import { db } from "@/lib/db";
 import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
 import { sendProductEmail } from "@/lib/sendProductEmail";
@@ -19,9 +19,9 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ error: "Invalid webhook body" }, { status: 400 });
   }
 
-  let payload: ReturnType<typeof parsePayduniaWebhook>;
+  let payload: ReturnType<typeof parsePaydunyaWebhook>;
   try {
-    payload = parsePayduniaWebhook(params);
+    payload = parsePaydunyaWebhook(params);
   } catch {
     return NextResponse.json(
       { error: "Invalid webhook payload" },
@@ -30,7 +30,7 @@ export async function POST(req: Request): Promise<Response> {
   }
 
   try {
-    verifyPayduniaWebhookSignature(payload.hash);
+    verifyPaydunyaWebhookSignature(payload.hash);
   } catch {
     return NextResponse.json(
       { error: "Invalid webhook signature" },
@@ -58,11 +58,11 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ received: true });
   }
 
-  let txStatus: Awaited<ReturnType<typeof verifyPayduniaTransaction>>;
+  let txStatus: Awaited<ReturnType<typeof verifyPaydunyaTransaction>>;
   try {
-    txStatus = await verifyPayduniaTransaction(invoiceToken);
+    txStatus = await verifyPaydunyaTransaction(invoiceToken);
   } catch (err) {
-    console.error("PayDunia transaction verification failed:", err);
+    console.error("PayDunya transaction verification failed:", err);
     return NextResponse.json(
       { error: "Payment verification failed" },
       { status: 500 }
@@ -82,7 +82,7 @@ export async function POST(req: Request): Promise<Response> {
     txStatus.currency !== order.currency
   ) {
     console.error(
-      `PayDunia amount mismatch for order ${order.id}: expected ${expectedAmount} ${order.currency}, got ${txStatus.totalAmount} ${txStatus.currency}`
+      `PayDunya amount mismatch for order ${order.id}: expected ${expectedAmount} ${order.currency}, got ${txStatus.totalAmount} ${txStatus.currency}`
     );
     return NextResponse.json({ error: "Amount mismatch" }, { status: 400 });
   }

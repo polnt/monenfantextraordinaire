@@ -53,8 +53,8 @@ export default function CheckoutPage(): React.JSX.Element {
   const [checkoutToken] = useState(() => crypto.randomUUID());
 
   // Gateway is tied directly to the currency the customer was browsing in,
-  // not their country: EUR -> Stripe, FCFA -> PayDunia.
-  const isPaydunia = currency === "XOF";
+  // not their country: EUR -> Stripe, FCFA -> PayDunya.
+  const isPaydunya = currency === "XOF";
 
   useEffect(() => {
     if (items.length === 0) {
@@ -72,7 +72,7 @@ export default function CheckoutPage(): React.JSX.Element {
     const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRx.test(form.email)) return "Adresse e-mail invalide.";
     if (!form.country) return "Le pays est requis.";
-    if (isPaydunia && !form.phone.trim()) return "Le numéro de téléphone est requis pour le paiement Mobile Money.";
+    if (isPaydunya && !form.phone.trim()) return "Le numéro de téléphone est requis pour le paiement Mobile Money.";
     return null;
   };
 
@@ -235,7 +235,7 @@ export default function CheckoutPage(): React.JSX.Element {
               </select>
             </div>
 
-            {isPaydunia && (
+            {isPaydunya && (
               <div style={{ marginBottom: 16 }}>
                 <label style={labelStyle}>Téléphone * <span style={{ fontWeight: 400, color: "#9ca3af" }}>(requis pour Mobile Money)</span></label>
                 <input
@@ -257,18 +257,18 @@ export default function CheckoutPage(): React.JSX.Element {
               alignItems: "center",
               gap: 10,
               padding: "12px 16px",
-              background: isPaydunia ? "#fff8e1" : "#f0f7ff",
+              background: isPaydunya ? "#fff8e1" : "#f0f7ff",
               borderRadius: 12,
-              border: `1px solid ${isPaydunia ? "#ffe082" : "#bfdbfe"}`,
+              border: `1px solid ${isPaydunya ? "#ffe082" : "#bfdbfe"}`,
               marginBottom: 24,
             }}>
-              <span style={{ fontSize: 18 }}>{isPaydunia ? "📱" : "💳"}</span>
+              <span style={{ fontSize: 18 }}>{isPaydunya ? "📱" : "💳"}</span>
               <div>
                 <p style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, color: "#090943", margin: 0 }}>
-                  {isPaydunia ? "Paiement via PayDunia" : "Paiement sécurisé par Stripe"}
+                  {isPaydunya ? "Paiement via PayDunya" : "Paiement sécurisé par Stripe"}
                 </p>
                 <p style={{ fontFamily: "var(--font-aleo)", fontSize: 12, color: "#9ca3af", margin: "2px 0 0" }}>
-                  {isPaydunia
+                  {isPaydunya
                     ? "Mobile Money, carte bancaire et autres moyens locaux"
                     : "Carte bancaire, Apple Pay, Google Pay"}
                 </p>

@@ -22,7 +22,14 @@ export async function getOrCreateDownloadUrl(
   const { productId, orderId, email } = params;
 
   const existing = orderId
-    ? await db.downloadToken.findFirst({ where: { orderId, productId } })
+    ? await db.downloadToken.findFirst({
+        where: {
+          orderId,
+          productId,
+          expiresAt: { gt: new Date() },
+          downloadCount: { lt: DOWNLOAD_MAX_COUNT },
+        },
+      })
     : null;
 
   let token: string;
