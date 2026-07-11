@@ -6,20 +6,29 @@
 
 export type Currency = "EUR" | "XOF";
 
+// CFA franc treaty peg, used as a fallback for products without a
+// merchant-set priceXof (e.g. formations that haven't been priced in FCFA
+// yet). Must match the rate used by getPaydunyaUnitAmount in lib/paydunya.ts
+// so the displayed price always matches what the customer is actually
+// charged at checkout.
+export const EUR_TO_XOF_RATE = 655.957;
+
 const eurFormatter = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
 const xofFormatter = new Intl.NumberFormat("fr-FR");
 
 /**
- * Formats a price for display. Falls back to EUR whenever the FCFA amount
- * isn't available for a given product (e.g. formations without a set price).
+ * Formats a price for display. When browsing in XOF and no merchant-set
+ * FCFA price is available, converts the EUR price via the treaty peg so the
+ * displayed amount matches what PayDunya will actually charge.
  */
 export function formatPrice(
   amountEur: number,
   amountXof: number | null | undefined,
   currency: Currency
 ): string {
-  if (currency === "XOF" && amountXof !== null && amountXof !== undefined) {
-    return `${xofFormatter.format(amountXof)} FCFA`;
+  if (currency === "XOF") {
+    const xof = amountXof ?? Math.round(amountEur * EUR_TO_XOF_RATE);
+    return `${xofFormatter.format(xof)} FCFA`;
   }
   return eurFormatter.format(amountEur);
 }

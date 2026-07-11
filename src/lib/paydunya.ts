@@ -3,6 +3,7 @@
 
 import crypto from "crypto";
 import type { Prisma } from "@prisma/client";
+import { EUR_TO_XOF_RATE } from "@/lib/currency";
 
 const PAYDUNYA_API_URL = process.env.PAYDUNYA_API_URL ?? "https://app.paydunya.com/sandbox-api/v1";
 
@@ -81,10 +82,6 @@ function buildHeaders(creds: ReturnType<typeof getCredentials>): Record<string, 
 }
 
 // ─── Currency ───────────────────────────────────────────────────────────────
-
-// CFA franc treaty peg, used only as a fallback for products without a
-// merchant-set priceXof (e.g. formations that haven't been priced in FCFA yet).
-const EUR_TO_XOF_RATE = 655.957;
 
 /**
  * Returns the PayDunya currency code for a customer's country.
@@ -255,11 +252,16 @@ export function signOrderReference(orderId: string): string {
  * Verifies a signature produced by signOrderReference for the given orderId.
  */
 export function verifyOrderReference(orderId: string, signature: string): boolean {
-  if (!/^[0-9a-fA-F]+$/.test(signature)) {
+  if (!/^[0-9a-fA-F]{64}$/.test(signature)) {
     return false;
   }
 
-  const expected = signOrderReference(orderId);
+  let expected: string;
+  try {
+    expected = signOrderReference(orderId);
+  } catch {
+    return false;
+  }
   const signatureBuffer = Buffer.from(signature.toLowerCase(), "hex");
   const expectedBuffer = Buffer.from(expected, "hex");
 

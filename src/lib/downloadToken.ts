@@ -27,14 +27,15 @@ export async function getOrCreateDownloadUrl(
           orderId,
           productId,
           expiresAt: { gt: new Date() },
-          downloadCount: { lt: DOWNLOAD_MAX_COUNT },
         },
+        orderBy: { createdAt: "desc" },
       })
     : null;
+  const reusable = existing && existing.downloadCount < existing.maxDownloads ? existing : null;
 
   let token: string;
-  if (existing) {
-    token = existing.token;
+  if (reusable) {
+    token = reusable.token;
   } else {
     token = randomBytes(32).toString("hex");
     const expiresAt = new Date(
