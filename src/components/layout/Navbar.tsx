@@ -141,6 +141,8 @@ export default function Navbar(): React.JSX.Element {
           <button
             onClick={() => setCurrency(currency === "EUR" ? "XOF" : "EUR")}
             title="Changer de devise"
+            aria-label="Changer de devise"
+            aria-pressed={currency === "XOF"}
             style={{
               background: "none",
               border: "1.5px solid #e5e7eb",
