@@ -1,11 +1,12 @@
-import { randomBytes } from "crypto";
 import { Resend } from "resend";
-import { db } from "@/lib/db";
 import { escapeHtml } from "@/lib/escapeHtml";
+import {
+  getOrCreateDownloadUrl,
+  DOWNLOAD_EXPIRY_DAYS,
+  DOWNLOAD_MAX_COUNT,
+} from "@/lib/downloadToken";
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
-const DOWNLOAD_EXPIRY_DAYS = 7;
-const DOWNLOAD_MAX_COUNT = 5;
 
 function getResendClient(): Resend {
   const apiKey = process.env.RESEND_API_KEY;
@@ -37,39 +38,9 @@ export async function sendProductEmail(
     // Public/free product — use the direct URL, no token needed
     downloadUrl = directUrl;
   } else {
-    // Paid product — reuse the existing download token if one was already
-    // created for this order/product (e.g. a retry after a failed send),
-    // otherwise create a new time-limited one. Either way we still send
-    // the email below, since token creation and email delivery can fail
-    // independently.
-    const existing = orderId
-      ? await db.downloadToken.findFirst({ where: { orderId, productId } })
-      : null;
-
-    let token: string;
-    if (existing) {
-      token = existing.token;
-    } else {
-      token = randomBytes(32).toString("hex");
-      const expiresAt = new Date(
-        Date.now() + DOWNLOAD_EXPIRY_DAYS * 24 * 60 * 60 * 1000
-      );
-
-      await db.downloadToken.create({
-        data: {
-          token,
-          productId,
-          orderId,
-          email,
-          expiresAt,
-          maxDownloads: DOWNLOAD_MAX_COUNT,
-          downloadCount: 0,
-        },
-      });
-    }
-
-    const baseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
-    downloadUrl = `${baseUrl}/download/${token}`;
+    // Paid product — token creation and email delivery can fail
+    // independently, so the email is still sent below either way.
+    downloadUrl = await getOrCreateDownloadUrl({ productId, orderId, email });
   }
   const orderRef = orderNumber ? ` (commande ${escapeHtml(orderNumber)})` : "";
   const isFree = Boolean(directUrl);
