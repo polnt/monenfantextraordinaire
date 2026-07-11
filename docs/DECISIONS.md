@@ -48,9 +48,9 @@
 
 ## 💳 Architecture paiement
 
-- Détection du pays client au moment du checkout (via champ adresse ou IP)
-- **Pays européens** → passerelle **Stripe**
-- **Pays d'Afrique francophone** → passerelle **PayDunya**
+- Choix de la devise de navigation (toggle EUR/XOF site-wide) au moment du checkout
+- **Devise EUR** → passerelle **Stripe**
+- **Devise XOF** → passerelle **PayDunya**
 
 ### Pays PayDunya couverts (Afrique francophone)
 Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée

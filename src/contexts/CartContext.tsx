@@ -7,6 +7,7 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
+import { EUR_TO_XOF_RATE } from "@/lib/currency";
 
 export interface CartItem {
   productId: string;
@@ -31,7 +32,7 @@ interface CartContextValue {
   items: CartItem[];
   totalItems: number;
   totalPriceEur: number;
-  totalPriceXof: number | null;
+  totalPriceXof: number;
   addToCart: (item: Omit<CartItem, "quantity">) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -122,9 +123,10 @@ export function CartProvider({ children }: { children: React.ReactNode }): React
 
   const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0);
   const totalPriceEur = state.items.reduce((sum, i) => sum + i.priceEur * i.quantity, 0);
-  const totalPriceXof = state.items.every((i) => i.priceXof !== null && i.priceXof !== undefined)
-    ? state.items.reduce((sum, i) => sum + (i.priceXof ?? 0) * i.quantity, 0)
-    : null;
+  const totalPriceXof = state.items.reduce(
+    (sum, i) => sum + (i.priceXof ?? Math.round(i.priceEur * EUR_TO_XOF_RATE)) * i.quantity,
+    0
+  );
 
   return (
     <CartContext.Provider

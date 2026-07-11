@@ -54,9 +54,11 @@ monenfantextraordinaire/
 ├── lib/
 │   ├── stripe.ts
 │   ├── paydunya.ts
+│   ├── currency.ts                     # EUR/XOF formatting + gateway selection
 │   ├── db.ts                           # Prisma client (singleton)
-│   ├── email.ts                        # Resend + Moodle link logic
-│   └── geo.ts                          # Country detection → correct gateway
+│   └── email.ts                        # Resend + Moodle link logic
+├── contexts/
+│   └── CurrencyContext.tsx             # Site-wide EUR/XOF browsing currency toggle
 ├── prisma/
 │   └── schema.prisma
 ├── docs/
