@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { OUTILS, findPackForOutil, type OutilProduct } from "@/lib/catalog";
+import { Price } from "@/components/shop/Price";
 
 const TEMOIGNAGES = [
   {
@@ -94,7 +95,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
               </p>
 
               <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", marginBottom: 36 }}>
-                <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 42, color: "white" }}>{d.price}</div>
+                <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 42, color: "white" }}><Price eur={d.priceEur} xof={d.priceXof} /></div>
                 <div style={{ fontFamily: "var(--font-aleo)", fontSize: 14, color: "rgba(255,255,255,0.5)" }}>Téléchargement PDF immédiat</div>
               </div>
 
@@ -383,7 +384,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
             <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 14, textTransform: "uppercase", letterSpacing: 2, color: "rgba(255,255,255,0.7)", marginBottom: 12 }}>
               {d.badge}
             </div>
-            <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 64, color: "white", lineHeight: 1, marginBottom: 6 }}>{d.price}</div>
+            <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 64, color: "white", lineHeight: 1, marginBottom: 6 }}><Price eur={d.priceEur} xof={d.priceXof} /></div>
             <div style={{ fontFamily: "var(--font-aleo)", fontSize: 14, color: "rgba(255,255,255,0.6)", marginBottom: 32 }}>
               paiement unique · accès illimité
             </div>
@@ -400,7 +401,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
               className="mef-btn"
               style={{ background: "white", color, fontSize: 17, padding: "16px 48px", fontWeight: 800, width: "100%", justifyContent: "center" }}
             >
-              🔒 Télécharger maintenant — {d.price}
+              🔒 Télécharger maintenant — <Price eur={d.priceEur} xof={d.priceXof} />
             </Link>
             <p style={{ margin: "16px 0 0", fontFamily: "var(--font-aleo)", fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
               ✅ Satisfait ou remboursé 7 jours · Paiement sécurisé
@@ -418,7 +419,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
                   🎯 {pack.subtitle}
                 </div>
                 <p style={{ margin: 0, fontFamily: "var(--font-aleo)", fontSize: 14, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
-                  Les deux outils à prix réduit : {pack.price} au lieu de {pack.priceBarre}
+                  Les deux outils à prix réduit : <Price eur={pack.priceEur} xof={pack.priceXof} /> au lieu de <Price eur={pack.priceBarreEur} xof={pack.priceBarreXof} />
                 </p>
               </div>
               <Link
@@ -449,7 +450,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
               className="mef-btn"
               style={{ background: "white", color, fontSize: 16, padding: "14px 36px", fontWeight: 800 }}
             >
-              🔒 Télécharger — {d.price}
+              🔒 Télécharger — <Price eur={d.priceEur} xof={d.priceXof} />
             </Link>
             <Link
               href="/outils"

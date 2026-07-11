@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { Prisma, type Order, type PaymentGateway } from "@prisma/client";
 import { db } from "@/lib/db";
-import { getPaymentGateway } from "@/lib/geo";
+import type { Currency } from "@/lib/currency";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
 import {
   initializePayduniaPayment,
-  convertForPaydunia,
+  getPaydunaCurrency,
+  getPaydunaUnitAmount,
   type PayduniaInitParams,
 } from "@/lib/paydunia";
 
@@ -20,6 +21,9 @@ interface CheckoutRequestBody {
   customerLastName: string;
   customerPhone?: string;
   customerCountry: string;
+  // The currency the customer was browsing in (EUR/XOF). Drives the payment
+  // gateway directly: EUR -> Stripe, XOF -> PayDunia.
+  currency: Currency;
   items: CheckoutItem[];
   // Generated once by the client per checkout attempt. Used as the order's
   // idempotency key so a double-submit (double click, network retry) reuses
@@ -34,6 +38,7 @@ function parseCheckoutBody(value: unknown): CheckoutRequestBody | null {
     !("customerFirstName" in value) ||
     !("customerLastName" in value) ||
     !("customerCountry" in value) ||
+    !("currency" in value) ||
     !("items" in value) ||
     !("checkoutToken" in value)
   )
@@ -44,6 +49,7 @@ function parseCheckoutBody(value: unknown): CheckoutRequestBody | null {
     customerFirstName: unknown;
     customerLastName: unknown;
     customerCountry: unknown;
+    currency: unknown;
     items: unknown;
     checkoutToken: unknown;
   };
@@ -53,6 +59,7 @@ function parseCheckoutBody(value: unknown): CheckoutRequestBody | null {
     typeof v.customerFirstName !== "string" ||
     typeof v.customerLastName !== "string" ||
     typeof v.customerCountry !== "string" ||
+    (v.currency !== "EUR" && v.currency !== "XOF") ||
     typeof v.checkoutToken !== "string" ||
     v.checkoutToken.trim().length === 0 ||
     !Array.isArray(v.items) ||
@@ -156,28 +163,19 @@ export async function POST(req: Request): Promise<Response> {
 
     const productsById = new Map(products.map((product) => [product.id, product]));
 
-    gateway = getPaymentGateway(body.customerCountry);
-    const [firstProduct] = products;
-    productCurrency = firstProduct?.currency ?? "EUR";
-
-    const hasMixedCurrencies = products.some(
-      (product) => product.currency !== productCurrency
-    );
-
-    if (hasMixedCurrencies) {
-      return NextResponse.json(
-        { error: "All items in the cart must use the same currency" },
-        { status: 400 }
-      );
-    }
+    gateway = body.currency === "XOF" ? "PAYDUNIA" : "STRIPE";
+    productCurrency = gateway === "PAYDUNIA" ? getPaydunaCurrency(body.customerCountry) : "EUR";
 
     orderItems = Array.from(requestedQuantityByProductId.entries()).map(
       ([productId, quantity]) => {
         const product = productsById.get(productId)!;
+        const unitPrice = gateway === "PAYDUNIA"
+          ? new Prisma.Decimal(getPaydunaUnitAmount(product))
+          : product.priceEur;
         return {
           productId: product.id,
           productName: product.name,
-          unitPrice: product.price,
+          unitPrice,
           quantity,
         };
       }
@@ -253,17 +251,11 @@ export async function POST(req: Request): Promise<Response> {
 
       return NextResponse.json({ paymentUrl: session.url });
     } else {
-      const converted = convertForPaydunia(
-        totalAmount.toNumber(),
-        productCurrency,
-        body.customerCountry
-      );
-
       const paydunaParams: PayduniaInitParams = {
         orderId: order.id,
         orderNumber: order.orderNumber,
-        amount: converted.amount,
-        currency: converted.currency,
+        amount: totalAmount.toNumber(),
+        currency: productCurrency,
         redirectUrl: `${baseUrl}/checkout/confirmation?orderId=${order.id}`,
         cancelUrl: `${baseUrl}/checkout`,
         callbackUrl: `${baseUrl}/api/paydunia/webhook`,

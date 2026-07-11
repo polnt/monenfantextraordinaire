@@ -3,7 +3,6 @@ import {
   verifyPayduniaWebhookSignature,
   parsePayduniaWebhook,
   verifyPayduniaTransaction,
-  convertForPaydunia,
 } from "@/lib/paydunia";
 import { db } from "@/lib/db";
 import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
@@ -76,18 +75,14 @@ export async function POST(req: Request): Promise<Response> {
 
   // Defense in depth: confirm the amount PayDunya actually charged matches
   // what we expected for this order before marking it PAID and delivering goods.
-  const expectedConversion = convertForPaydunia(
-    order.totalAmount.toNumber(),
-    order.currency,
-    order.customerCountry
-  );
+  const expectedAmount = order.totalAmount.toNumber();
 
   if (
-    txStatus.totalAmount !== expectedConversion.amount ||
-    txStatus.currency !== expectedConversion.currency
+    txStatus.totalAmount !== expectedAmount ||
+    txStatus.currency !== order.currency
   ) {
     console.error(
-      `PayDunia amount mismatch for order ${order.id}: expected ${expectedConversion.amount} ${expectedConversion.currency}, got ${txStatus.totalAmount} ${txStatus.currency}`
+      `PayDunia amount mismatch for order ${order.id}: expected ${expectedAmount} ${order.currency}, got ${txStatus.totalAmount} ${txStatus.currency}`
     );
     return NextResponse.json({ error: "Amount mismatch" }, { status: 400 });
   }

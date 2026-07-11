@@ -5,6 +5,7 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import { PACKS, getPackItems, type Pack } from '@/lib/catalog';
 import { PackBuyButton } from './PackBuyButton';
+import { Price } from '@/components/shop/Price';
 
 const POURQUOI = [
   {
@@ -88,12 +89,12 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
               </p>
 
               <div style={{ display: 'flex', gap: 16, alignItems: 'baseline', flexWrap: 'wrap', marginBottom: 8 }}>
-                <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 42, color: 'white' }}>{pack.price}</div>
-                <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 18, color: 'rgba(255,255,255,0.4)', textDecoration: 'line-through' }}>{pack.priceBarre}</div>
+                <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 42, color: 'white' }}><Price eur={pack.priceEur} xof={pack.priceXof} /></div>
+                <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 18, color: 'rgba(255,255,255,0.4)', textDecoration: 'line-through' }}><Price eur={pack.priceBarreEur} xof={pack.priceBarreXof} /></div>
               </div>
               <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap', marginBottom: 36 }}>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 50, padding: '5px 14px', fontSize: 13, fontFamily: 'var(--font-nunito)', fontWeight: 600, background: '#27ae6022', color: '#27ae60' }}>
-                  Économisez {pack.economie}
+                  Économisez <Price eur={pack.economieEur} xof={pack.economieXof} />
                 </span>
                 <div style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>Téléchargement PDF immédiat</div>
               </div>
@@ -101,7 +102,8 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
               <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
                 <PackBuyButton
                   productSlug={pack.productSlug}
-                  price={pack.price}
+                  priceEur={pack.priceEur}
+                  priceXof={pack.priceXof}
                   style={{ background: '#FDF482', color: '#090943', fontSize: 16, padding: '14px 32px', fontWeight: 800, boxShadow: '0 8px 32px rgba(239,208,16,0.4)' }}
                 />
                 <a
@@ -244,8 +246,8 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
               {pack.badge}
             </div>
             <div style={{ display: 'flex', gap: 16, alignItems: 'baseline', justifyContent: 'center', marginBottom: 6 }}>
-              <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 56, color: 'white', lineHeight: 1 }}>{pack.price}</div>
-              <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 22, color: 'rgba(255,255,255,0.4)', textDecoration: 'line-through' }}>{pack.priceBarre}</div>
+              <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 56, color: 'white', lineHeight: 1 }}><Price eur={pack.priceEur} xof={pack.priceXof} /></div>
+              <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 22, color: 'rgba(255,255,255,0.4)', textDecoration: 'line-through' }}><Price eur={pack.priceBarreEur} xof={pack.priceBarreXof} /></div>
             </div>
             <div style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, color: 'rgba(255,255,255,0.6)', marginBottom: 32 }}>paiement unique · accès illimité aux 2 outils</div>
             <div style={{ borderTop: '1px solid rgba(255,255,255,0.2)', paddingTop: 28, marginBottom: 32 }}>
@@ -262,7 +264,8 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
             </div>
             <PackBuyButton
               productSlug={pack.productSlug}
-              price={pack.price}
+              priceEur={pack.priceEur}
+              priceXof={pack.priceXof}
               style={{ background: '#FDF482', color: '#090943', fontSize: 17, padding: '16px 48px', fontWeight: 800, width: '100%', justifyContent: 'center' }}
             />
             <p style={{ margin: '16px 0 0', fontFamily: 'var(--font-aleo)', fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
@@ -285,7 +288,8 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
           <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap' }}>
             <PackBuyButton
               productSlug={pack.productSlug}
-              price={pack.price}
+              priceEur={pack.priceEur}
+              priceXof={pack.priceXof}
               style={{ background: 'white', color, fontSize: 16, padding: '14px 36px', fontWeight: 800 }}
             />
             <Link

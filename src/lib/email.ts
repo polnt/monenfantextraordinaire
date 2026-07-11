@@ -11,6 +11,12 @@ function getResendClient(): Resend {
   return new Resend(apiKey);
 }
 
+// XOF/XAF (CFA francs) have no minor unit — show whole amounts, unlike EUR.
+function formatAmount(amount: number, currency: string): string {
+  const isZeroDecimal = currency === "XOF" || currency === "XAF";
+  return `${amount.toFixed(isZeroDecimal ? 0 : 2)} ${escapeHtml(currency)}`;
+}
+
 export interface OrderConfirmationParams {
   to: string;
   customerName: string;
@@ -40,7 +46,7 @@ export async function sendOrderConfirmationEmail(
   const itemsList = items
     .map(
       (item) =>
-        `<li>${item.quantity}× ${escapeHtml(item.name)} — ${item.unitPrice.toFixed(2)} ${escapeHtml(currency)}</li>`
+        `<li>${item.quantity}× ${escapeHtml(item.name)} — ${formatAmount(item.unitPrice, currency)}</li>`
     )
     .join("");
 
@@ -52,7 +58,7 @@ export async function sendOrderConfirmationEmail(
       <p>Hello ${escapeHtml(customerName)},</p>
       <p>Your order <strong>${escapeHtml(orderNumber)}</strong> has been confirmed.</p>
       <ul>${itemsList}</ul>
-      <p>Total: <strong>${totalAmount.toFixed(2)} ${escapeHtml(currency)}</strong></p>
+      <p>Total: <strong>${formatAmount(totalAmount, currency)}</strong></p>
     `,
   });
 

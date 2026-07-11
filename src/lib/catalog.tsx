@@ -25,6 +25,14 @@ export interface PedagogieItem {
 // Formations
 // ─────────────────────────────────────────────────
 
+export interface FormationAddon {
+  slug: string;
+  priceEur: number;
+  priceXof?: number;
+  features: string[];
+  footnote?: string;
+}
+
 export interface Formation {
   slug: string;
   title: string;
@@ -32,7 +40,8 @@ export interface Formation {
   hours: string;
   level: string;
   desc: string;
-  price: string;
+  priceEur: number;
+  priceXof?: number;
   color: string;
   popular: boolean;
   disabled: boolean;
@@ -40,6 +49,8 @@ export interface Formation {
   imgPosition: string;
   imgHeight: number;
   moodleCourseId?: number;
+  /** "Avec accompagnement personnalisé" upsell — undefined when no such offer exists for this formation. */
+  accompagnement?: FormationAddon;
 }
 
 export const FORMATIONS: Formation[] = [
@@ -50,7 +61,8 @@ export const FORMATIONS: Formation[] = [
     hours: '12h',
     level: 'Débutant',
     desc: "La formation phare pour faire émerger les premiers mots. Construisez les bases de son langage en 15 minutes par jour.",
-    price: '119 €',
+    priceEur: 119,
+    priceXof: 77000,
     color: '#0792dc',
     popular: true,
     disabled: false,
@@ -58,6 +70,19 @@ export const FORMATIONS: Formation[] = [
     imgPosition: 'center top',
     imgHeight: 280,
     moodleCourseId: 4,
+    accompagnement: {
+      slug: 'accompagner-mon-enfant-autiste-accompagne',
+      priceEur: 269,
+      priceXof: 174500,
+      features: [
+        'Tout ce qui est inclus dans la formule de base',
+        '3 séances individuelles avec Laurence BUGNET, psychologue spécialiste TSA (valeur 210 €)*',
+        '1 masterclass de groupe en direct',
+        'Accès prioritaire par e-mail ou WhatsApp',
+        'Attestation de formation',
+      ],
+      footnote: '* 1 séance tous les 15 jours - Socle de 8 places par mois',
+    },
   },
   {
     slug: 'developper-la-communication-verbale',
@@ -66,7 +91,8 @@ export const FORMATIONS: Formation[] = [
     hours: '14h',
     level: 'Débutant',
     desc: "Découvrez comment l'aider à trouver ses mots pour que chacun comprenne",
-    price: '67 €',
+    priceEur: 67,
+    priceXof: 43500,
     color: '#27ae60',
     popular: false,
     disabled: true,
@@ -81,7 +107,8 @@ export const FORMATIONS: Formation[] = [
     hours: '5h',
     level: 'Débutant',
     desc: 'Comprendre les clés essentielles du développement du langage.',
-    price: '49 €',
+    priceEur: 49,
+    priceXof: 32000,
     color: '#F90021',
     popular: false,
     disabled: true,
@@ -104,7 +131,8 @@ export interface OutilProduct {
   imgPosition: string;
 
   // Shared between listing and detail
-  price: string;
+  priceEur: number;
+  priceXof?: number;
   color: string;
   colorLight: string;
   img: string | null;
@@ -217,7 +245,8 @@ export const OUTILS: OutilProduct[] = [
     listingTitle: 'Je découvre les fruits et légumes en photos',
     listingSubtitle: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
     imgPosition: 'center 30%',
-    price: '7,90 €',
+    priceEur: 7.90,
+    priceXof: 5000,
     color: '#0792dc',
     colorLight: '#e8f4fd',
     img: `${R2_IMAGES_BASE}/miniature_outils_legumes_photo.png`,
@@ -261,7 +290,8 @@ export const OUTILS: OutilProduct[] = [
     listingTitle: 'Je découvre les fruits et légumes en illustrations',
     listingSubtitle: "Parce que chaque mot appris rapproche votre enfant du monde qui l'entoure.",
     imgPosition: 'center 30%',
-    price: '7,90 €',
+    priceEur: 7.90,
+    priceXof: 5000,
     color: '#27ae60',
     colorLight: '#e8f5e9',
     img: `${R2_IMAGES_BASE}/miniature_outils_legume_illustration.png`,
@@ -305,7 +335,8 @@ export const OUTILS: OutilProduct[] = [
     listingTitle: 'Je découvre les animaux en photos et en illustrations',
     listingSubtitle: 'Et si votre enfant comprenait enfin que les images représentent le monde réel ?',
     imgPosition: 'center 30%',
-    price: '14,90 €',
+    priceEur: 14.90,
+    priceXof: 10000,
     color: '#ff7043',
     colorLight: '#fff3e0',
     img: `${R2_IMAGES_BASE}/miniature_outils_animaux-images-photo.png`,
@@ -351,7 +382,8 @@ export const OUTILS: OutilProduct[] = [
     listingTitle: 'Apprendre à dessiner mon premier bonhomme',
     listingSubtitle: 'Un livret progressif pour développer le schéma corporel et la confiance en soi.',
     imgPosition: 'center 30%',
-    price: '12,90 €',
+    priceEur: 12.90,
+    priceXof: 8500,
     color: '#9333ea',
     colorLight: '#f5f3ff',
     img: `${R2_IMAGES_BASE}/miniature_outils_bonhomme-dessin.png`,
@@ -457,7 +489,8 @@ export const OUTILS: OutilProduct[] = [
     listingTitle: 'Cahier de coloriage éducatif et inclusif',
     listingSubtitle: 'Des illustrations simples avec modèles en couleur, adaptées au rythme de chaque enfant.',
     imgPosition: 'center 30%',
-    price: '9,90 €',
+    priceEur: 5.90,
+    priceXof: 3500,
     color: '#f59e0b',
     colorLight: '#fffbeb',
     img: `${R2_IMAGES_BASE}/miniature_outils_animaux-coloriage.png`,
@@ -586,9 +619,12 @@ export interface Pack {
   colorLight: string;
   img: string;
   imgPosition: string;
-  price: string;
-  priceBarre: string;
-  economie: string;
+  priceEur: number;
+  priceXof?: number;
+  priceBarreEur: number;
+  priceBarreXof?: number;
+  economieEur: number;
+  economieXof?: number;
   badge: string;
   itemSlugs: [string, string];
 }
@@ -605,9 +641,12 @@ export const PACKS: Pack[] = [
     colorLight: '#e8f4fd',
     img: `${R2_IMAGES_BASE}/miniature_outils_legumes_photo.png`,
     imgPosition: 'center 30%',
-    price: '11,90 €',
-    priceBarre: '15,80 €',
-    economie: '3,90 €',
+    priceEur: 11.90,
+    priceXof: 8000,
+    priceBarreEur: 15.80,
+    priceBarreXof: 10000,
+    economieEur: 3.90,
+    economieXof: 2000,
     badge: '📦 Pack — 2 outils',
     itemSlugs: ['legumes-photos', 'legumes-illustrations'],
   },
@@ -622,9 +661,12 @@ export const PACKS: Pack[] = [
     colorLight: '#fff3e0',
     img: `${R2_IMAGES_BASE}/miniature_outils_animaux-images-photo.png`,
     imgPosition: 'center 30%',
-    price: '19,90 €',
-    priceBarre: '24,80 €',
-    economie: '4,90 €',
+    priceEur: 17.90,
+    priceXof: 12000,
+    priceBarreEur: 20.80,
+    priceBarreXof: 13500,
+    economieEur: 2.90,
+    economieXof: 1500,
     badge: '📦 Pack — 2 outils',
     itemSlugs: ['animaux', 'cahier-coloriage'],
   },

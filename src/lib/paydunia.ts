@@ -2,6 +2,7 @@
 // PayDunya client configuration and payment helpers
 
 import crypto from "crypto";
+import type { Prisma } from "@prisma/client";
 
 const PAYDUNYA_API_URL = "https://app.paydunya.com/api/v1";
 
@@ -79,23 +80,33 @@ function buildHeaders(creds: ReturnType<typeof getCredentials>): Record<string, 
   };
 }
 
-// ─── Currency conversion ────────────────────────────────────────────────────
+// ─── Currency ───────────────────────────────────────────────────────────────
+
+// CFA franc treaty peg, used only as a fallback for products without a
+// merchant-set priceXof (e.g. formations that haven't been priced in FCFA yet).
+const EUR_TO_XOF_RATE = 655.957;
 
 /**
- * Converts an order's amount/currency into the amount/currency to charge via PayDunya.
- * XOF/XAF are pegged to EUR at a fixed treaty rate (1 EUR = 655.957 XOF/XAF).
- * Deterministic — safe to recompute later (e.g. to verify a webhook's reported amount).
+ * Returns the PayDunya currency code for a customer's country.
+ * Cameroon uses the Central African CFA franc (XAF); every other
+ * PayDunia-supported country uses the West African CFA franc (XOF).
  */
-export function convertForPaydunia(
-  amount: number,
-  fromCurrency: string,
-  countryCode: string
-): { amount: number; currency: string } {
-  if (fromCurrency.toUpperCase() === "EUR") {
-    const currency = countryCode.toUpperCase() === "CM" ? "XAF" : "XOF";
-    return { amount: Math.round(amount * 655.957), currency };
-  }
-  return { amount: Math.round(amount), currency: fromCurrency.toUpperCase() };
+export function getPaydunaCurrency(countryCode: string): "XOF" | "XAF" {
+  return countryCode.toUpperCase().trim() === "CM" ? "XAF" : "XOF";
+}
+
+/**
+ * Returns the amount (in XOF/XAF) to charge for a product via PayDunya.
+ * Uses the merchant-set priceXof when available; otherwise falls back to
+ * the fixed EUR treaty peg.
+ */
+export function getPaydunaUnitAmount(product: {
+  priceEur: Prisma.Decimal;
+  priceXof: Prisma.Decimal | null;
+}): number {
+  return product.priceXof !== null
+    ? Math.round(product.priceXof.toNumber())
+    : Math.round(product.priceEur.toNumber() * EUR_TO_XOF_RATE);
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────

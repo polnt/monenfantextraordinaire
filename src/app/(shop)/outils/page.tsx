@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAddToCart } from '@/hooks/useAddToCart';
+import { useCurrency } from '@/contexts/CurrencyContext';
+import { formatPrice } from '@/lib/currency';
 import { OUTILS, PACKS, type OutilProduct, type Pack } from '@/lib/catalog';
 
 interface ProductCard {
@@ -12,8 +14,10 @@ interface ProductCard {
   img: string | null;
   imgPosition: string;
   bg: string;
-  price: string;
-  priceBarre: string | null;
+  priceEur: number;
+  priceXof?: number;
+  priceBarreEur: number | null;
+  priceBarreXof?: number;
   badge: string | null;
   href: string;
   slug: string;
@@ -27,8 +31,9 @@ function outilToCard(p: OutilProduct): ProductCard {
     img: p.img,
     imgPosition: p.imgPosition,
     bg: p.colorLight,
-    price: p.price,
-    priceBarre: null,
+    priceEur: p.priceEur,
+    priceXof: p.priceXof,
+    priceBarreEur: null,
     badge: null,
     href: `/outils/${p.slug}`,
     slug: p.slug,
@@ -43,8 +48,10 @@ function packToCard(p: Pack): ProductCard {
     img: p.img,
     imgPosition: p.imgPosition,
     bg: p.colorLight,
-    price: p.price,
-    priceBarre: p.priceBarre,
+    priceEur: p.priceEur,
+    priceXof: p.priceXof,
+    priceBarreEur: p.priceBarreEur,
+    priceBarreXof: p.priceBarreXof,
     badge: p.badge,
     href: `/packs/${p.slug}`,
     slug: p.productSlug,
@@ -70,6 +77,7 @@ const products: ProductCard[] = [
 export default function OutilsPage(): React.JSX.Element {
   const isMobile = useIsMobile();
   const { addToCart, loading } = useAddToCart();
+  const { currency } = useCurrency();
 
   return (
     <div style={{ paddingTop: 72 }}>
@@ -112,9 +120,9 @@ export default function OutilsPage(): React.JSX.Element {
                   <div style={{ marginTop: 16, borderTop: '1px solid #f3f4f6', paddingTop: 14 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                       <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                        <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: p.color }}>{p.price}</span>
-                        {p.priceBarre && (
-                          <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 13, color: '#9ca3af', textDecoration: 'line-through' }}>{p.priceBarre}</span>
+                        <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: p.color }}>{formatPrice(p.priceEur, p.priceXof ?? null, currency)}</span>
+                        {p.priceBarreEur !== null && (
+                          <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 13, color: '#9ca3af', textDecoration: 'line-through' }}>{formatPrice(p.priceBarreEur, p.priceBarreXof ?? null, currency)}</span>
                         )}
                       </div>
                       <Link href={p.href} style={{ fontFamily: 'var(--font-nunito)', fontSize: 13, color: 'var(--gray)', textDecoration: 'underline' }}>

@@ -11,8 +11,8 @@ import React, {
 export interface CartItem {
   productId: string;
   name: string;
-  price: number;
-  currency: string;
+  priceEur: number;
+  priceXof?: number | null;
   quantity: number;
 }
 
@@ -30,8 +30,8 @@ type CartAction =
 interface CartContextValue {
   items: CartItem[];
   totalItems: number;
-  totalPrice: number;
-  currency: string;
+  totalPriceEur: number;
+  totalPriceXof: number | null;
   addToCart: (item: Omit<CartItem, "quantity">) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -121,16 +121,18 @@ export function CartProvider({ children }: { children: React.ReactNode }): React
   }, []);
 
   const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0);
-  const totalPrice = state.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const currency = state.items[0]?.currency ?? "EUR";
+  const totalPriceEur = state.items.reduce((sum, i) => sum + i.priceEur * i.quantity, 0);
+  const totalPriceXof = state.items.every((i) => i.priceXof !== null && i.priceXof !== undefined)
+    ? state.items.reduce((sum, i) => sum + (i.priceXof ?? 0) * i.quantity, 0)
+    : null;
 
   return (
     <CartContext.Provider
       value={{
         items: state.items,
         totalItems,
-        totalPrice,
-        currency,
+        totalPriceEur,
+        totalPriceXof,
         addToCart,
         removeFromCart,
         updateQuantity,

@@ -15,6 +15,7 @@ type FormationSeed = {
   name: string;
   description: string;
   price: number;
+  priceXof?: number;
   active: boolean;
   moodleCourseId?: number;
 };
@@ -25,6 +26,7 @@ const FORMATIONS: FormationSeed[] = [
     name: "Formation 1: Accompagner l'émergence des premiers mots",
     description: "La formation phare pour faire émerger les premiers mots. Construisez les bases de son langage en 15 minutes par jour.",
     price: 119,
+    priceXof: 77000,
     active: true,
     moodleCourseId: 4,
   },
@@ -33,6 +35,7 @@ const FORMATIONS: FormationSeed[] = [
     name: 'Formation 2: Développer la communication verbale',
     description: "Découvrez comment l'aider à trouver ses mots pour que chacun comprenne",
     price: 67,
+    priceXof: 43500,
     active: false, // disabled in catalog
   },
   {
@@ -40,15 +43,39 @@ const FORMATIONS: FormationSeed[] = [
     name: 'Formation 3: Comprendre le développement du langage',
     description: 'Comprendre les clés essentielles du développement du langage.',
     price: 49,
+    priceXof: 32000,
     active: false, // disabled in catalog
   },
 ] as const;
+
+// The "avec accompagnement personnalisé" upsell for a formation — a real,
+// purchasable Product in its own right (not a discount on the base formation).
+type FormationAddonSeed = {
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  priceXof?: number;
+  moodleCourseId?: number;
+};
+
+const FORMATION_ADDONS: FormationAddonSeed[] = [
+  {
+    slug: 'accompagner-mon-enfant-autiste-accompagne',
+    name: "Formation 1 avec accompagnement personnalisé",
+    description: "La formation complète, accompagnée de séances individuelles et d'une masterclass en direct avec Laurence Bugnet, psychologue spécialiste TSA.",
+    price: 269,
+    priceXof: 174500,
+    moodleCourseId: 4,
+  },
+];
 
 type OutilSeed = {
   slug: string;
   name: string;
   description: string;
   price: number;
+  priceXof?: number;
   // R2 object keys for this outil's own file(s) — empty until the PDF is uploaded.
   // Packs derive their fileKeys from their constituent outils, so filling this
   // in here also equips any pack that bundles this outil.
@@ -61,6 +88,7 @@ const OUTILS: OutilSeed[] = [
     name: 'Je découvre les fruits et légumes en photos',
     description: "Un outil pédagogique conçu pour aider votre enfant à nommer, reconnaître et généraliser les fruits et légumes grâce à des photographies du monde réel.",
     price: 7.90,
+    priceXof: 5000,
     fileKeys: ['outils/outils_legume-photos.pdf'],
   },
   {
@@ -68,6 +96,7 @@ const OUTILS: OutilSeed[] = [
     name: 'Je découvre les fruits et légumes en illustrations',
     description: "Un outil pédagogique qui permet à votre enfant de comprendre qu'une illustration et une photo représentent le même objet — une compétence clé pour le développement du langage.",
     price: 7.90,
+    priceXof: 5000,
     fileKeys: ['outils/outils_legumes-illustrations.pdf'],
   },
   {
@@ -75,6 +104,7 @@ const OUTILS: OutilSeed[] = [
     name: 'Je découvre les animaux en photos et en illustrations',
     description: "Un outil complet qui combine photos réelles et illustrations pour aider votre enfant à reconnaître et nommer les animaux, quelle que soit la représentation visuelle.",
     price: 14.90,
+    priceXof: 10000,
     fileKeys: ['outils/outils_animaux.pdf'],
   },
   {
@@ -82,13 +112,15 @@ const OUTILS: OutilSeed[] = [
     name: 'Apprendre à dessiner mon premier bonhomme',
     description: "Un livret progressif pour apprendre à dessiner un bonhomme étape par étape — tout en développant le schéma corporel, la motricité fine et la confiance en soi.",
     price: 12.90,
+    priceXof: 8500,
     fileKeys: ['outils/outils_bonhomme-dessin.pdf'],
   },
   {
     slug: 'cahier-coloriage',
     name: 'Cahier de coloriage éducatif et inclusif',
     description: "Un cahier de coloriage spécialement conçu pour les enfants à besoins spécifiques. Des illustrations simples d'animaux, des modèles en couleur à reproduire, et des activités adaptées au rythme de chaque enfant.",
-    price: 9.90,
+    price: 5.90,
+    priceXof: 3500,
     fileKeys: ['outils/outils_animaux-coloriage.pdf'],
   },
 ];
@@ -101,6 +133,7 @@ type PackSeed = {
   name: string;
   description: string;
   price: number;
+  priceXof?: number;
   itemSlugs: [string, string];
 };
 
@@ -110,13 +143,15 @@ const PACKS: PackSeed[] = [
     name: 'Je découvre les fruits et légumes — Pack Photos + Illustrations',
     description: "Les deux formats réunis pour ancrer chaque mot dans la vraie vie — et dans l'imaginaire.",
     price: 11.90,
+    priceXof: 8000,
     itemSlugs: ['legumes-photos', 'legumes-illustrations'],
   },
   {
     slug: 'pack-animaux',
     name: 'Je découvre les animaux — Pack Complet + Coloriage',
     description: "Reconnaître, nommer et colorier les animaux — pour ancrer le vocabulaire par le jeu et la manipulation.",
-    price: 19.90,
+    price: 17.90,
+    priceXof: 12000,
     itemSlugs: ['animaux', 'cahier-coloriage'],
   },
 ];
@@ -159,7 +194,8 @@ async function main(): Promise<void> {
       update: {
         name: p.name,
         description: p.description,
-        price: p.price,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
         active: p.active,
         training: { update: { moodleCourseId: p.moodleCourseId ?? null } },
       },
@@ -167,34 +203,59 @@ async function main(): Promise<void> {
         slug: p.slug,
         name: p.name,
         description: p.description,
-        price: p.price,
-        currency: 'EUR',
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
         type: ProductType.TRAINING,
         accessType: AccessType.PAID,
         active: p.active,
         training: { create: { moodleCourseId: p.moodleCourseId ?? null } },
       },
     });
-    console.log(`  [FORMATION] slug=${product.slug}  price=${product.price} EUR  active=${product.active}`);
+    console.log(`  [FORMATION] slug=${product.slug}  price=${product.priceEur} EUR / ${product.priceXof ?? '—'} FCFA  active=${product.active}`);
+  }
+
+  for (const p of FORMATION_ADDONS) {
+    const product = await db.product.upsert({
+      where: { slug: p.slug },
+      update: {
+        name: p.name,
+        description: p.description,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
+        training: { update: { moodleCourseId: p.moodleCourseId ?? null } },
+      },
+      create: {
+        slug: p.slug,
+        name: p.name,
+        description: p.description,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
+        type: ProductType.TRAINING,
+        accessType: AccessType.PAID,
+        active: true,
+        training: { create: { moodleCourseId: p.moodleCourseId ?? null } },
+      },
+    });
+    console.log(`  [ADDON]     slug=${product.slug}  price=${product.priceEur} EUR / ${product.priceXof ?? '—'} FCFA`);
   }
 
   for (const p of OUTILS) {
     const product = await db.product.upsert({
       where: { slug: p.slug },
-      update: { name: p.name, description: p.description, price: p.price },
+      update: { name: p.name, description: p.description, priceEur: p.price, priceXof: p.priceXof ?? null },
       create: {
         slug: p.slug,
         name: p.name,
         description: p.description,
-        price: p.price,
-        currency: 'EUR',
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
         type: ProductType.EBOOK,
         accessType: AccessType.PAID,
         active: true,
         ebook: { create: { fileKeys: p.fileKeys } },
       },
     });
-    console.log(`  [OUTIL]     slug=${product.slug}  price=${product.price} EUR`);
+    console.log(`  [OUTIL]     slug=${product.slug}  price=${product.priceEur} EUR / ${product.priceXof ?? '—'} FCFA`);
   }
 
   for (const p of PACKS) {
@@ -206,22 +267,23 @@ async function main(): Promise<void> {
       update: {
         name: p.name,
         description: p.description,
-        price: p.price,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
         ebook: { update: { fileKeys } },
       },
       create: {
         slug: p.slug,
         name: p.name,
         description: p.description,
-        price: p.price,
-        currency: 'EUR',
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
         type: ProductType.EBOOK,
         accessType: AccessType.PAID,
         active: true,
         ebook: { create: { fileKeys } },
       },
     });
-    console.log(`  [PACK]      slug=${product.slug}  price=${product.price} EUR  files=${fileKeys.length}`);
+    console.log(`  [PACK]      slug=${product.slug}  price=${product.priceEur} EUR / ${product.priceXof ?? '—'} FCFA  files=${fileKeys.length}`);
   }
 
   for (const p of [...RESSOURCES, ...BONUS]) {
@@ -236,8 +298,7 @@ async function main(): Promise<void> {
         slug: p.slug,
         name: p.name,
         description: p.description,
-        price: 0,
-        currency: 'EUR',
+        priceEur: 0,
         type: ProductType.EBOOK,
         accessType: AccessType.FREE_DIRECT,
         active: true,

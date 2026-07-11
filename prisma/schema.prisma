@@ -25,8 +25,8 @@ model Product {
   slug        String      @unique
   name        String
   description String
-  price       Decimal
-  currency    String      @default("EUR")
+  priceEur    Decimal
+  priceXof    Decimal?
   type        ProductType
   accessType  AccessType  @default(PAID)
   images      String[]    @default([])
