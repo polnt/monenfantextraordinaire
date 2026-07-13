@@ -99,7 +99,7 @@ my-shop/
 │   │   ├── stripe/webhook/route.ts
 │   │   ├── paydunya/webhook/route.ts
 │   │   ├── checkout/route.ts
-│   │   └── orders/route.ts
+│   │   └── orders/status/route.ts
 │   └── admin/                      # Back-office protégé
 │       ├── page.tsx
 │       ├── produits/page.tsx
@@ -112,8 +112,7 @@ my-shop/
 │   ├── stripe.ts
 │   ├── paydunya.ts                 # Client PayDunya
 │   ├── db.ts                       # Prisma client
-│   ├── email.ts                    # Resend + logique Moodle
-│   └── geo.ts                      # Détection pays → passerelle
+│   └── email.ts                    # Resend + logique Moodle
 ├── prisma/
 │   └── schema.prisma
 ├── types/
