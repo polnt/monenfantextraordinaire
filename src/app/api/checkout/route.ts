@@ -5,7 +5,6 @@ import type { Currency } from "@/lib/currency";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
 import {
   initializePaydunyaPayment,
-  getPaydunyaCurrency,
   getPaydunyaUnitAmount,
   signOrderReference,
   type PaydunyaInitParams,
@@ -165,7 +164,7 @@ export async function POST(req: Request): Promise<Response> {
     const productsById = new Map(products.map((product) => [product.id, product]));
 
     gateway = body.currency === "XOF" ? PaymentGateway.PAYDUNYA : PaymentGateway.STRIPE;
-    productCurrency = gateway === PaymentGateway.PAYDUNYA ? getPaydunyaCurrency(body.customerCountry) : "EUR";
+    productCurrency = gateway === PaymentGateway.PAYDUNYA ? "XOF" : "EUR";
 
     orderItems = Array.from(requestedQuantityByProductId.entries()).map(
       ([productId, quantity]) => {

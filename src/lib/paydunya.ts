@@ -31,7 +31,6 @@ export interface PaydunyaPaymentResult {
 export interface PaydunyaTransactionStatus {
   status: string;
   totalAmount: number;
-  currency: string;
   token: string;
 }
 
@@ -51,9 +50,10 @@ interface PaydunyaCreateApiResponse {
 interface PaydunyaConfirmApiResponse {
   response_code: string;
   status: string;
-  total_amount?: number;
-  currency?: string;
-  token?: string;
+  invoice?: {
+    token?: string;
+    total_amount?: number;
+  };
 }
 
 // ─── Credentials ──────────────────────────────────────────────────────────────
@@ -82,15 +82,6 @@ function buildHeaders(creds: ReturnType<typeof getCredentials>): Record<string, 
 }
 
 // ─── Currency ───────────────────────────────────────────────────────────────
-
-/**
- * Returns the PayDunya currency code for a customer's country.
- * Cameroon uses the Central African CFA franc (XAF); every other
- * PayDunya-supported country uses the West African CFA franc (XOF).
- */
-export function getPaydunyaCurrency(countryCode: string): "XOF" | "XAF" {
-  return countryCode.toUpperCase().trim() === "CM" ? "XAF" : "XOF";
-}
 
 /**
  * Returns the amount (in XOF/XAF) to charge for a product via PayDunya.
@@ -195,9 +186,8 @@ export async function verifyPaydunyaTransaction(
 
   return {
     status: result.status,
-    totalAmount: result.total_amount ?? 0,
-    currency: result.currency ?? "",
-    token: result.token ?? invoiceToken,
+    totalAmount: result.invoice?.total_amount ?? 0,
+    token: result.invoice?.token ?? invoiceToken,
   };
 }
 

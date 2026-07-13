@@ -242,7 +242,13 @@ async function main(): Promise<void> {
   for (const p of OUTILS) {
     const product = await db.product.upsert({
       where: { slug: p.slug },
-      update: { name: p.name, description: p.description, priceEur: p.price, priceXof: p.priceXof ?? null },
+      update: {
+        name: p.name,
+        description: p.description,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
+        ebook: { update: { fileKeys: p.fileKeys } },
+      },
       create: {
         slug: p.slug,
         name: p.name,
