@@ -77,12 +77,9 @@ export async function POST(req: Request): Promise<Response> {
   // what we expected for this order before marking it PAID and delivering goods.
   const expectedAmount = order.totalAmount.toNumber();
 
-  if (
-    txStatus.totalAmount !== expectedAmount ||
-    txStatus.currency !== order.currency
-  ) {
+  if (txStatus.totalAmount !== expectedAmount) {
     console.error(
-      `PayDunya amount mismatch for order ${order.id}: expected ${expectedAmount} ${order.currency}, got ${txStatus.totalAmount} ${txStatus.currency}`
+      `PayDunya amount mismatch for order ${order.id}: expected ${expectedAmount} ${order.currency}, got ${txStatus.totalAmount}`
     );
     return NextResponse.json({ error: "Amount mismatch" }, { status: 400 });
   }
