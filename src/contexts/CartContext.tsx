@@ -86,9 +86,18 @@ export function CartProvider({ children }: { children: React.ReactNode }): React
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as CartItem[];
+        const parsed = JSON.parse(raw) as unknown[];
         if (Array.isArray(parsed)) {
-          dispatch({ type: "HYDRATE", items: parsed });
+          // Drop items from an older cart shape (pre-dual-currency, which
+          // stored `price`/`currency` instead of `priceEur`/`priceXof`) so
+          // stale localStorage data can't turn totals into NaN.
+          const valid = parsed.filter(
+            (item): item is CartItem =>
+              typeof item === "object" &&
+              item !== null &&
+              typeof (item as CartItem).priceEur === "number"
+          );
+          dispatch({ type: "HYDRATE", items: valid });
         }
       }
     } catch {

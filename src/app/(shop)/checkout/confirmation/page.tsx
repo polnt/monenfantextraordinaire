@@ -29,9 +29,14 @@ function useOrderDownloads(
   const [downloads, setDownloads] = useState<DownloadEntry[]>([]);
   const [pending, setPending] = useState(Boolean(sessionId || orderId));
   const attemptsRef = useRef(0);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!sessionId && !orderId) {
+      setPending(false);
+      return;
+    }
+    if (!sessionId && orderId && !signature) {
       setPending(false);
       return;
     }
@@ -40,7 +45,7 @@ function useOrderDownloads(
     attemptsRef.current = 0;
     const query = sessionId
       ? `session_id=${encodeURIComponent(sessionId)}`
-      : `orderId=${encodeURIComponent(orderId!)}&sig=${encodeURIComponent(signature ?? "")}`;
+      : `orderId=${encodeURIComponent(orderId!)}&sig=${encodeURIComponent(signature!)}`;
 
     const poll = async (): Promise<void> => {
       if (cancelled) return;
@@ -65,7 +70,7 @@ function useOrderDownloads(
         if (attemptsRef.current >= MAX_POLL_ATTEMPTS) {
           setPending(false);
         } else {
-          setTimeout(() => void poll(), POLL_INTERVAL_MS);
+          timeoutRef.current = setTimeout(() => void poll(), POLL_INTERVAL_MS);
         }
       }
     };
@@ -74,6 +79,7 @@ function useOrderDownloads(
 
     return (): void => {
       cancelled = true;
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [sessionId, orderId, signature]);
 

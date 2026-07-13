@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { ProductType, PaymentGateway } from "@prisma/client";
 import { db } from "@/lib/db";
-import { stripe } from "@/lib/stripe";
 import { getOrCreateDownloadUrl } from "@/lib/downloadToken";
 import { verifyOrderReference } from "@/lib/paydunya";
 
@@ -33,6 +32,7 @@ async function resolveOrderId(
 
   if (sessionId) {
     try {
+      const { stripe } = await import("@/lib/stripe");
       const session = await stripe.checkout.sessions.retrieve(sessionId);
       const orderId = session.metadata?.orderId;
       return orderId ? { orderId, requireGateway: null } : null;
