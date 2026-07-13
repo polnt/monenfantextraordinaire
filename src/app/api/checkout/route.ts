@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Prisma, type Order, type PaymentGateway } from "@prisma/client";
+import { Prisma, PaymentGateway, type Order } from "@prisma/client";
 import { db } from "@/lib/db";
 import type { Currency } from "@/lib/currency";
 import { createStripeCheckoutSession, type CheckoutLineItem } from "@/lib/stripe";
@@ -164,13 +164,13 @@ export async function POST(req: Request): Promise<Response> {
 
     const productsById = new Map(products.map((product) => [product.id, product]));
 
-    gateway = body.currency === "XOF" ? "PAYDUNYA" : "STRIPE";
-    productCurrency = gateway === "PAYDUNYA" ? getPaydunyaCurrency(body.customerCountry) : "EUR";
+    gateway = body.currency === "XOF" ? PaymentGateway.PAYDUNYA : PaymentGateway.STRIPE;
+    productCurrency = gateway === PaymentGateway.PAYDUNYA ? getPaydunyaCurrency(body.customerCountry) : "EUR";
 
     orderItems = Array.from(requestedQuantityByProductId.entries()).map(
       ([productId, quantity]) => {
         const product = productsById.get(productId)!;
-        const unitPrice = gateway === "PAYDUNYA"
+        const unitPrice = gateway === PaymentGateway.PAYDUNYA
           ? new Prisma.Decimal(getPaydunyaUnitAmount(product))
           : product.priceEur;
         return {
@@ -216,14 +216,14 @@ export async function POST(req: Request): Promise<Response> {
   // PayDunya has no idempotency key on invoice creation, so re-calling it here
   // would mint a second invoice and overwrite paymentId, orphaning the first
   // one if the customer already opened/paid it. Re-serve the stored link instead.
-  if (existingOrder && gateway === "PAYDUNYA" && existingOrder.paymentId && existingOrder.paymentUrl) {
+  if (existingOrder && gateway === PaymentGateway.PAYDUNYA && existingOrder.paymentId && existingOrder.paymentUrl) {
     return NextResponse.json({ paymentUrl: existingOrder.paymentUrl });
   }
 
   const baseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
   try {
-    if (gateway === "STRIPE") {
+    if (gateway === PaymentGateway.STRIPE) {
       const lineItems: CheckoutLineItem[] = orderItems.map((item) => ({
         name: item.productName,
         unitAmountCents: item.unitPrice.mul(100).round().toNumber(),
