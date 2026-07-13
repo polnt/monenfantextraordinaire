@@ -184,10 +184,16 @@ export async function verifyPaydunyaTransaction(
     );
   }
 
+  if (result.invoice?.total_amount === undefined) {
+    throw new Error(
+      "PayDunya confirm API response is missing invoice.total_amount"
+    );
+  }
+
   return {
     status: result.status,
-    totalAmount: result.invoice?.total_amount ?? 0,
-    token: result.invoice?.token ?? invoiceToken,
+    totalAmount: result.invoice.total_amount,
+    token: result.invoice.token ?? invoiceToken,
   };
 }
 

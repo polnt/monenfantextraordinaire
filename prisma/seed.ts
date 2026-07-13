@@ -247,7 +247,7 @@ async function main(): Promise<void> {
         description: p.description,
         priceEur: p.price,
         priceXof: p.priceXof ?? null,
-        ebook: { update: { fileKeys: p.fileKeys } },
+        ebook: { upsert: { update: { fileKeys: p.fileKeys }, create: { fileKeys: p.fileKeys } } },
       },
       create: {
         slug: p.slug,
