@@ -26,16 +26,18 @@ export async function getOrCreateDownloadUrl(
         where: {
           orderId,
           productId,
-          expiresAt: { gt: new Date() },
         },
         orderBy: { createdAt: "desc" },
       })
     : null;
-  const reusable = existing && existing.downloadCount < existing.maxDownloads ? existing : null;
 
   let token: string;
-  if (reusable) {
-    token = reusable.token;
+  if (existing) {
+    // Reuse the existing token even if expired or quota-exhausted — minting a
+    // fresh one here would silently reset the download limit and expiry,
+    // letting a customer bypass DOWNLOAD_MAX_COUNT by just reloading the page.
+    // /api/download/[token] is the source of truth for expiry/quota errors.
+    token = existing.token;
   } else {
     token = randomBytes(32).toString("hex");
     const expiresAt = new Date(
