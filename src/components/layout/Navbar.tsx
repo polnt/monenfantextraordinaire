@@ -5,6 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { formatPrice } from "@/lib/currency";
 import { R2_IMAGES_BASE } from "@/lib/images";
 
 const mainLinks = [
@@ -23,10 +25,6 @@ const dotsLinks = [
   { label: "FAQ", href: "/faq" },
 ];
 
-function formatPrice(price: number, currency: string): string {
-  return new Intl.NumberFormat("fr-FR", { style: "currency", currency }).format(price);
-}
-
 export default function Navbar(): React.JSX.Element {
   const pathname = usePathname();
   const router = useRouter();
@@ -40,7 +38,8 @@ export default function Navbar(): React.JSX.Element {
   const drawerRef = useRef<HTMLDivElement>(null);
   const cartRef = useRef<HTMLDivElement>(null);
 
-  const { items, totalItems, totalPrice, currency, removeFromCart, updateQuantity } = useCart();
+  const { items, totalItems, totalPriceEur, totalPriceXof, removeFromCart, updateQuantity } = useCart();
+  const { currency, setCurrency } = useCurrency();
 
   useEffect((): (() => void) => {
     const onScroll = (): void => setScrolled(window.scrollY > 24);
@@ -137,6 +136,29 @@ export default function Navbar(): React.JSX.Element {
               </Link>
             );
           })}
+
+          {/* EUR / FCFA currency switcher */}
+          <button
+            onClick={() => setCurrency(currency === "EUR" ? "XOF" : "EUR")}
+            title="Changer de devise"
+            aria-label="Changer de devise"
+            aria-pressed={currency === "XOF"}
+            style={{
+              background: "none",
+              border: "1.5px solid #e5e7eb",
+              borderRadius: 8,
+              padding: "6px 10px",
+              marginLeft: 4,
+              cursor: "pointer",
+              fontFamily: "var(--font-nunito)",
+              fontWeight: 700,
+              fontSize: 12,
+              color: "var(--gray)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {currency === "EUR" ? "€ EUR" : "FCFA"}
+          </button>
 
           {/* ⋮ dots dropdown */}
           <div ref={dotsRef} style={{ position: "relative", marginLeft: 4 }}>
@@ -289,7 +311,7 @@ export default function Navbar(): React.JSX.Element {
                               {item.name}
                             </p>
                             <p style={{ fontFamily: "var(--font-nunito)", fontSize: 12, color: "var(--gray)", margin: "2px 0 0" }}>
-                              {formatPrice(item.price, item.currency)}
+                              {formatPrice(item.priceEur, item.priceXof, currency)}
                             </p>
                           </div>
                           <div style={{ display: "flex", alignItems: "center", gap: 6, flexShrink: 0 }}>
@@ -313,7 +335,7 @@ export default function Navbar(): React.JSX.Element {
                     </div>
                     <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: 12, marginBottom: 12, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, color: "var(--gray)" }}>Total</span>
-                      <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 16, color: "#090943" }}>{formatPrice(totalPrice, currency)}</span>
+                      <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 16, color: "#090943" }}>{formatPrice(totalPriceEur, totalPriceXof, currency)}</span>
                     </div>
                     <button
                       onClick={handleCheckout}
@@ -478,7 +500,7 @@ export default function Navbar(): React.JSX.Element {
                 <div key={item.productId} style={{ display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", background: "#fafbff", borderRadius: 10, border: "1px solid #f0f0f8" }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, color: "#090943", margin: 0 }}>{item.name}</p>
-                    <p style={{ fontFamily: "var(--font-nunito)", fontSize: 12, color: "var(--gray)", margin: "2px 0 0" }}>{formatPrice(item.price, item.currency)}</p>
+                    <p style={{ fontFamily: "var(--font-nunito)", fontSize: 12, color: "var(--gray)", margin: "2px 0 0" }}>{formatPrice(item.priceEur, item.priceXof, currency)}</p>
                   </div>
                   <button
                     onClick={() => removeFromCart(item.productId)}
@@ -488,7 +510,7 @@ export default function Navbar(): React.JSX.Element {
               ))}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: "1px solid #f3f4f6", paddingTop: 8 }}>
                 <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 14, color: "var(--gray)" }}>Total</span>
-                <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 16, color: "#090943" }}>{formatPrice(totalPrice, currency)}</span>
+                <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 16, color: "#090943" }}>{formatPrice(totalPriceEur, totalPriceXof, currency)}</span>
               </div>
               <button onClick={handleCheckout} className="mef-btn mef-btn-blue" style={{ width: "100%", justifyContent: "center" }}>
                 Commander →

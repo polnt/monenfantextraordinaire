@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/contexts/CartContext";
-import { isPayduniaCountry } from "@/lib/geo";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import { formatPrice } from "@/lib/currency";
 
 const COUNTRIES = [
   { code: "FR", label: "France" },
@@ -25,10 +26,6 @@ const COUNTRIES = [
   { code: "OTHER", label: "Autre pays" },
 ];
 
-function formatPrice(price: number, currency: string): string {
-  return new Intl.NumberFormat("fr-FR", { style: "currency", currency }).format(price);
-}
-
 interface FormState {
   firstName: string;
   lastName: string;
@@ -39,7 +36,8 @@ interface FormState {
 
 export default function CheckoutPage(): React.JSX.Element {
   const router = useRouter();
-  const { items, totalPrice, currency, clearCart } = useCart();
+  const { items, totalPriceEur, totalPriceXof, clearCart } = useCart();
+  const { currency } = useCurrency();
 
   const [form, setForm] = useState<FormState>({
     firstName: "",
@@ -54,7 +52,9 @@ export default function CheckoutPage(): React.JSX.Element {
   // submission so the server can dedupe double-clicks / network retries.
   const [checkoutToken] = useState(() => crypto.randomUUID());
 
-  const isPaydunia = isPayduniaCountry(form.country);
+  // Gateway is tied directly to the currency the customer was browsing in,
+  // not their country: EUR -> Stripe, FCFA -> PayDunya.
+  const isPaydunya = currency === "XOF";
 
   useEffect(() => {
     if (items.length === 0) {
@@ -72,7 +72,7 @@ export default function CheckoutPage(): React.JSX.Element {
     const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRx.test(form.email)) return "Adresse e-mail invalide.";
     if (!form.country) return "Le pays est requis.";
-    if (isPaydunia && !form.phone.trim()) return "Le numéro de téléphone est requis pour ce pays.";
+    if (isPaydunya && !form.phone.trim()) return "Le numéro de téléphone est requis pour le paiement Mobile Money.";
     return null;
   };
 
@@ -94,6 +94,7 @@ export default function CheckoutPage(): React.JSX.Element {
           customerLastName: form.lastName.trim(),
           customerEmail: form.email.trim(),
           customerCountry: form.country,
+          currency,
           customerPhone: form.phone.trim() || undefined,
           items: items.map((item) => ({ productId: item.productId, quantity: item.quantity })),
           checkoutToken,
@@ -149,7 +150,11 @@ export default function CheckoutPage(): React.JSX.Element {
                     )}
                   </div>
                   <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 800, fontSize: 15, color: "#090943" }}>
-                    {formatPrice(item.price * item.quantity, item.currency)}
+                    {formatPrice(
+                      item.priceEur * item.quantity,
+                      item.priceXof !== null && item.priceXof !== undefined ? item.priceXof * item.quantity : null,
+                      currency
+                    )}
                   </span>
                 </div>
               ))}
@@ -157,7 +162,7 @@ export default function CheckoutPage(): React.JSX.Element {
             <div style={{ borderTop: "2px solid #f3f4f6", marginTop: 16, paddingTop: 16, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 15, color: "#5a6070" }}>Total</span>
               <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 22, color: "#090943" }}>
-                {formatPrice(totalPrice, currency)}
+                {formatPrice(totalPriceEur, totalPriceXof, currency)}
               </span>
             </div>
           </div>
@@ -230,7 +235,7 @@ export default function CheckoutPage(): React.JSX.Element {
               </select>
             </div>
 
-            {isPaydunia && (
+            {isPaydunya && (
               <div style={{ marginBottom: 16 }}>
                 <label style={labelStyle}>Téléphone * <span style={{ fontWeight: 400, color: "#9ca3af" }}>(requis pour Mobile Money)</span></label>
                 <input
@@ -252,18 +257,18 @@ export default function CheckoutPage(): React.JSX.Element {
               alignItems: "center",
               gap: 10,
               padding: "12px 16px",
-              background: isPaydunia ? "#fff8e1" : "#f0f7ff",
+              background: isPaydunya ? "#fff8e1" : "#f0f7ff",
               borderRadius: 12,
-              border: `1px solid ${isPaydunia ? "#ffe082" : "#bfdbfe"}`,
+              border: `1px solid ${isPaydunya ? "#ffe082" : "#bfdbfe"}`,
               marginBottom: 24,
             }}>
-              <span style={{ fontSize: 18 }}>{isPaydunia ? "📱" : "💳"}</span>
+              <span style={{ fontSize: 18 }}>{isPaydunya ? "📱" : "💳"}</span>
               <div>
                 <p style={{ fontFamily: "var(--font-nunito)", fontWeight: 700, fontSize: 13, color: "#090943", margin: 0 }}>
-                  {isPaydunia ? "Paiement via PayDunia" : "Paiement sécurisé par Stripe"}
+                  {isPaydunya ? "Paiement via PayDunya" : "Paiement sécurisé par Stripe"}
                 </p>
                 <p style={{ fontFamily: "var(--font-aleo)", fontSize: 12, color: "#9ca3af", margin: "2px 0 0" }}>
-                  {isPaydunia
+                  {isPaydunya
                     ? "Mobile Money, carte bancaire et autres moyens locaux"
                     : "Carte bancaire, Apple Pay, Google Pay"}
                 </p>
@@ -284,7 +289,7 @@ export default function CheckoutPage(): React.JSX.Element {
               className="mef-btn mef-btn-blue"
               style={{ width: "100%", justifyContent: "center", fontSize: 16, padding: "16px 24px", fontWeight: 800, opacity: submitting ? 0.7 : 1, cursor: submitting ? "wait" : "pointer" }}
             >
-              {submitting ? "Redirection en cours…" : `🔒 Payer ${formatPrice(totalPrice, currency)}`}
+              {submitting ? "Redirection en cours…" : `🔒 Payer ${formatPrice(totalPriceEur, totalPriceXof, currency)}`}
             </button>
 
             <p style={{ fontFamily: "var(--font-aleo)", fontSize: 12, color: "#9ca3af", textAlign: "center", marginTop: 12 }}>

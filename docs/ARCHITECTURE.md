@@ -42,7 +42,7 @@ monenfantextraordinaire/
 │   │       └── faq/page.tsx
 │   └── api/
 │       ├── stripe/webhook/route.ts
-│       ├── paydunia/webhook/route.ts
+│       ├── paydunya/webhook/route.ts
 │       ├── checkout/route.ts
 │       └── orders/route.ts
 ├── components/
@@ -53,10 +53,12 @@ monenfantextraordinaire/
 │   └── checkout/
 ├── lib/
 │   ├── stripe.ts
-│   ├── paydunia.ts
+│   ├── paydunya.ts
+│   ├── currency.ts                     # EUR/XOF formatting + gateway selection
 │   ├── db.ts                           # Prisma client (singleton)
-│   ├── email.ts                        # Resend + Moodle link logic
-│   └── geo.ts                          # Country detection → correct gateway
+│   └── email.ts                        # Resend + Moodle link logic
+├── contexts/
+│   └── CurrencyContext.tsx             # Site-wide EUR/XOF browsing currency toggle
 ├── prisma/
 │   └── schema.prisma
 ├── docs/

@@ -9,7 +9,7 @@ export async function GET(
 
   const product = await db.product.findFirst({
     where: { slug, active: true },
-    select: { id: true, name: true, price: true, currency: true, type: true },
+    select: { id: true, name: true, priceEur: true, priceXof: true, type: true },
   });
 
   if (!product) {
@@ -19,8 +19,8 @@ export async function GET(
   return NextResponse.json({
     id: product.id,
     name: product.name,
-    price: Number(product.price),
-    currency: product.currency,
+    priceEur: Number(product.priceEur),
+    priceXof: product.priceXof !== null ? Number(product.priceXof) : null,
     type: product.type,
   });
 }

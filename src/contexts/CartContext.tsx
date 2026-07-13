@@ -7,12 +7,13 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
+import { EUR_TO_XOF_RATE } from "@/lib/currency";
 
 export interface CartItem {
   productId: string;
   name: string;
-  price: number;
-  currency: string;
+  priceEur: number;
+  priceXof?: number | null;
   quantity: number;
 }
 
@@ -30,8 +31,8 @@ type CartAction =
 interface CartContextValue {
   items: CartItem[];
   totalItems: number;
-  totalPrice: number;
-  currency: string;
+  totalPriceEur: number;
+  totalPriceXof: number;
   addToCart: (item: Omit<CartItem, "quantity">) => void;
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
@@ -85,9 +86,18 @@ export function CartProvider({ children }: { children: React.ReactNode }): React
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as CartItem[];
+        const parsed = JSON.parse(raw) as unknown[];
         if (Array.isArray(parsed)) {
-          dispatch({ type: "HYDRATE", items: parsed });
+          // Drop items from an older cart shape (pre-dual-currency, which
+          // stored `price`/`currency` instead of `priceEur`/`priceXof`) so
+          // stale localStorage data can't turn totals into NaN.
+          const valid = parsed.filter(
+            (item): item is CartItem =>
+              typeof item === "object" &&
+              item !== null &&
+              typeof (item as CartItem).priceEur === "number"
+          );
+          dispatch({ type: "HYDRATE", items: valid });
         }
       }
     } catch {
@@ -121,16 +131,19 @@ export function CartProvider({ children }: { children: React.ReactNode }): React
   }, []);
 
   const totalItems = state.items.reduce((sum, i) => sum + i.quantity, 0);
-  const totalPrice = state.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const currency = state.items[0]?.currency ?? "EUR";
+  const totalPriceEur = state.items.reduce((sum, i) => sum + i.priceEur * i.quantity, 0);
+  const totalPriceXof = state.items.reduce(
+    (sum, i) => sum + (i.priceXof ?? Math.round(i.priceEur * EUR_TO_XOF_RATE)) * i.quantity,
+    0
+  );
 
   return (
     <CartContext.Provider
       value={{
         items: state.items,
         totalItems,
-        totalPrice,
-        currency,
+        totalPriceEur,
+        totalPriceXof,
         addToCart,
         removeFromCart,
         updateQuantity,

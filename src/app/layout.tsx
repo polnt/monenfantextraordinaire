@@ -3,6 +3,7 @@ import { Nunito, Aleo } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { CartProvider } from "@/contexts/CartContext";
+import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -35,14 +36,16 @@ export default function RootLayout({
       className={`${nunito.variable} ${aleo.variable}`}
     >
       <body className="min-h-full flex flex-col">
-        <CartProvider>
-          <div className="fixed top-0 left-0 right-0 z-[1001] bg-amber-400 text-amber-900 text-center text-sm font-semibold h-9 flex items-center justify-center px-4">
-            Site en cours de construction — version test
-          </div>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </CartProvider>
+        <CurrencyProvider>
+          <CartProvider>
+            <div className="fixed top-0 left-0 right-0 z-[1001] bg-amber-400 text-amber-900 text-center text-sm font-semibold h-9 flex items-center justify-center px-4">
+              Site en cours de construction — version test
+            </div>
+            <Navbar />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </CartProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

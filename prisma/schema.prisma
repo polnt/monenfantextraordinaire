@@ -25,8 +25,8 @@ model Product {
   slug        String      @unique
   name        String
   description String
-  price       Decimal
-  currency    String      @default("EUR")
+  priceEur    Decimal
+  priceXof    Decimal?
   type        ProductType
   accessType  AccessType  @default(PAID)
   images      String[]    @default([])
@@ -88,7 +88,7 @@ enum OrderStatus {
 
 enum PaymentGateway {
   STRIPE
-  PAYDUNIA
+  PAYDUNYA
 }
 
 model Order {
@@ -104,8 +104,8 @@ model Order {
 
   // Payment
   gateway              PaymentGateway
-  paymentId            String?        @unique // Stripe session ID or PayDunia invoice token
-  paymentUrl           String?        // PayDunia hosted checkout link, stored so retries can be re-served without creating a new invoice
+  paymentId            String?        @unique // Stripe session ID or PayDunya invoice token
+  paymentUrl           String?        // PayDunya hosted checkout link, stored so retries can be re-served without creating a new invoice
   idempotencyKey       String         @unique // Prevents duplicate webhook processing
   totalAmount          Decimal
   currency             String         @default("EUR")

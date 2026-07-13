@@ -41,6 +41,8 @@ npx prisma generate    # Regenerate Prisma client
 ```env
 DATABASE_URL=
 
+NEXT_PUBLIC_BASE_URL= # canonical site URL, used by sitemap.xml and robots.txt (e.g. https://monenfantextraordinaire.com)
+
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
@@ -48,6 +50,7 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 PAYDUNYA_MASTER_KEY=
 PAYDUNYA_PRIVATE_KEY=
 PAYDUNYA_TOKEN=
+PAYDUNYA_API_URL= # optional, defaults to https://app.paydunya.com/sandbox-api/v1
 
 RESEND_API_KEY=
 RESEND_FROM_EMAIL=

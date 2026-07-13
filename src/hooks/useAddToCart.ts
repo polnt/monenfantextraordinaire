@@ -7,8 +7,8 @@ import { useCart } from "@/contexts/CartContext";
 interface ProductData {
   id: string;
   name: string;
-  price: number;
-  currency: string;
+  priceEur: number;
+  priceXof: number | null;
 }
 
 interface UseAddToCartReturn {
@@ -39,7 +39,7 @@ export function useAddToCart(): UseAddToCartReturn {
         setError("Ce produit n'est pas disponible.");
         return;
       }
-      ctxAdd({ productId: product.id, name: product.name, price: product.price, currency: product.currency });
+      ctxAdd({ productId: product.id, name: product.name, priceEur: product.priceEur, priceXof: product.priceXof });
       router.push("/checkout");
     } catch {
       setError("Une erreur est survenue. Veuillez réessayer.");
@@ -57,7 +57,7 @@ export function useAddToCart(): UseAddToCartReturn {
         setError("Ce produit n'est pas disponible.");
         return;
       }
-      ctxAdd({ productId: product.id, name: product.name, price: product.price, currency: product.currency });
+      ctxAdd({ productId: product.id, name: product.name, priceEur: product.priceEur, priceXof: product.priceXof });
     } catch {
       setError("Une erreur est survenue. Veuillez réessayer.");
     } finally {

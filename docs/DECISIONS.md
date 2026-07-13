@@ -24,7 +24,7 @@
 | Langage | **TypeScript** | |
 | Base de données | **PostgreSQL + Prisma** | ORM typé, migrations incluses |
 | Paiement Europe | **Stripe** | CB, Apple Pay, Google Pay, SEPA |
-| Paiement Afrique francophone | **PayDunia** | Mobile Money, cartes bancaires |
+| Paiement Afrique francophone | **PayDunya** | Mobile Money, cartes bancaires |
 | Emails transactionnels | **Resend + React Email** | Confirmation commande + lien Moodle |
 | Auth back-office | **NextAuth.js** | Accès admin uniquement, pas d'espace client |
 | Gestion produits | **Admin custom** intégré | Données en PostgreSQL, pas de CMS externe |
@@ -48,15 +48,15 @@
 
 ## 💳 Architecture paiement
 
-- Détection du pays client au moment du checkout (via champ adresse ou IP)
-- **Pays européens** → passerelle **Stripe**
-- **Pays d'Afrique francophone** → passerelle **PayDunia**
+- Choix de la devise de navigation (toggle EUR/XOF site-wide) au moment du checkout
+- **Devise EUR** → passerelle **Stripe**
+- **Devise XOF** → passerelle **PayDunya**
 
-### Pays PayDunia couverts (Afrique francophone)
+### Pays PayDunya couverts (Afrique francophone)
 Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée
 
 ### Sécurité paiements
-- PCI-DSS géré par Stripe et PayDunia (l'app ne touche jamais les données carte)
+- PCI-DSS géré par Stripe et PayDunya (l'app ne touche jamais les données carte)
 - Validation des signatures webhook obligatoire avant confirmation de commande
 - Idempotence des webhooks (éviter double validation)
 - Clés API exclusivement en variables d'environnement
@@ -67,7 +67,7 @@ Côte d'Ivoire, Sénégal, Cameroun, Mali, Togo, Burkina Faso, Bénin, Guinée
 ## 📧 Flux post-achat (Moodle)
 
 ```
-Webhook paiement confirmé (Stripe ou PayDunia)
+Webhook paiement confirmé (Stripe ou PayDunya)
 
         ↓
 Validation signature webhook
@@ -97,9 +97,9 @@ my-shop/
 │   │       └── confirmation/page.tsx
 │   ├── api/
 │   │   ├── stripe/webhook/route.ts
-│   │   ├── paydunia/webhook/route.ts
+│   │   ├── paydunya/webhook/route.ts
 │   │   ├── checkout/route.ts
-│   │   └── orders/route.ts
+│   │   └── orders/status/route.ts
 │   └── admin/                      # Back-office protégé
 │       ├── page.tsx
 │       ├── produits/page.tsx
@@ -110,10 +110,9 @@ my-shop/
 │   └── admin/
 ├── lib/
 │   ├── stripe.ts
-│   ├── paydunia.ts                 # Client PayDunia
+│   ├── paydunya.ts                 # Client PayDunya
 │   ├── db.ts                       # Prisma client
-│   ├── email.ts                    # Resend + logique Moodle
-│   └── geo.ts                      # Détection pays → passerelle
+│   └── email.ts                    # Resend + logique Moodle
 ├── prisma/
 │   └── schema.prisma
 ├── types/
@@ -134,7 +133,7 @@ STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 
-# PayDunia
+# PayDunya
 PAYDUNYA_MASTER_KEY=
 PAYDUNYA_PRIVATE_KEY=
 PAYDUNYA_TOKEN=
@@ -156,7 +155,7 @@ MOODLE_TOKEN=
 ## ⚠️ Points d'attention Infomaniak
 
 - Utiliser l'offre **Node.js** ou **Docker** (pas d'hébergement statique)
-- Les webhooks Stripe et PayDunia nécessitent une URL publique HTTPS → natif sur Infomaniak
+- Les webhooks Stripe et PayDunya nécessitent une URL publique HTTPS → natif sur Infomaniak
 - Version Node.js : **24** (requis par l'offre Infomaniak, confirmé en avril 2026)
 
 ---

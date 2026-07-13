@@ -3,10 +3,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useCurrency } from '@/contexts/CurrencyContext';
+import { formatPrice } from '@/lib/currency';
 import { FORMATIONS } from '@/lib/catalog';
 
 export default function FormationsPage(): React.JSX.Element {
   const isMobile = useIsMobile();
+  const { currency } = useCurrency();
 
   return (
     <div style={{ paddingTop: 72 }}>
@@ -49,7 +52,7 @@ export default function FormationsPage(): React.JSX.Element {
                   <p style={{ color: '#5a6070', fontSize: 14, lineHeight: 1.65, marginBottom: 20 }}>{f.desc}</p>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid #f3f4f6', paddingTop: 16, gap: 8 }}>
                     {!f.disabled && (
-                      <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 24, color: f.color }}>{f.price}</span>
+                      <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 24, color: f.color }}>{formatPrice(f.priceEur, f.priceXof ?? null, currency)}</span>
                     )}
                     <div style={{ display: 'flex', gap: 8 }}>
                       {f.disabled ? (

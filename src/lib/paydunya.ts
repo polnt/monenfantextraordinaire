@@ -1,13 +1,15 @@
-// lib/paydunia.ts
+// lib/paydunya.ts
 // PayDunya client configuration and payment helpers
 
 import crypto from "crypto";
+import type { Prisma } from "@prisma/client";
+import { EUR_TO_XOF_RATE } from "@/lib/currency";
 
-const PAYDUNYA_API_URL = "https://app.paydunya.com/api/v1";
+const PAYDUNYA_API_URL = process.env.PAYDUNYA_API_URL ?? "https://app.paydunya.com/sandbox-api/v1";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export interface PayduniaInitParams {
+export interface PaydunyaInitParams {
   orderId: string;
   orderNumber: string;
   amount: number;
@@ -21,32 +23,32 @@ export interface PayduniaInitParams {
   description: string;
 }
 
-export interface PayduniaPaymentResult {
+export interface PaydunyaPaymentResult {
   token: string;
   paymentLink: string;
 }
 
-export interface PayduniaTransactionStatus {
+export interface PaydunyaTransactionStatus {
   status: string;
   totalAmount: number;
   currency: string;
   token: string;
 }
 
-export interface PayduniaWebhookPayload {
+export interface PaydunyaWebhookPayload {
   hash: string;
   invoiceToken: string;
   status: string;
 }
 
-interface PayduniaCreateApiResponse {
+interface PaydunyaCreateApiResponse {
   response_code: string;
   response_text: string;
   description?: string;
   token?: string;
 }
 
-interface PayduniaConfirmApiResponse {
+interface PaydunyaConfirmApiResponse {
   response_code: string;
   status: string;
   total_amount?: number;
@@ -79,23 +81,29 @@ function buildHeaders(creds: ReturnType<typeof getCredentials>): Record<string, 
   };
 }
 
-// ─── Currency conversion ────────────────────────────────────────────────────
+// ─── Currency ───────────────────────────────────────────────────────────────
 
 /**
- * Converts an order's amount/currency into the amount/currency to charge via PayDunya.
- * XOF/XAF are pegged to EUR at a fixed treaty rate (1 EUR = 655.957 XOF/XAF).
- * Deterministic — safe to recompute later (e.g. to verify a webhook's reported amount).
+ * Returns the PayDunya currency code for a customer's country.
+ * Cameroon uses the Central African CFA franc (XAF); every other
+ * PayDunya-supported country uses the West African CFA franc (XOF).
  */
-export function convertForPaydunia(
-  amount: number,
-  fromCurrency: string,
-  countryCode: string
-): { amount: number; currency: string } {
-  if (fromCurrency.toUpperCase() === "EUR") {
-    const currency = countryCode.toUpperCase() === "CM" ? "XAF" : "XOF";
-    return { amount: Math.round(amount * 655.957), currency };
-  }
-  return { amount: Math.round(amount), currency: fromCurrency.toUpperCase() };
+export function getPaydunyaCurrency(countryCode: string): "XOF" | "XAF" {
+  return countryCode.toUpperCase().trim() === "CM" ? "XAF" : "XOF";
+}
+
+/**
+ * Returns the amount (in XOF/XAF) to charge for a product via PayDunya.
+ * Uses the merchant-set priceXof when available; otherwise falls back to
+ * the fixed EUR treaty peg.
+ */
+export function getPaydunyaUnitAmount(product: {
+  priceEur: Prisma.Decimal;
+  priceXof: Prisma.Decimal | null;
+}): number {
+  return product.priceXof !== null
+    ? Math.round(product.priceXof.toNumber())
+    : Math.round(product.priceEur.toNumber() * EUR_TO_XOF_RATE);
 }
 
 // ─── Public API ───────────────────────────────────────────────────────────────
@@ -104,9 +112,9 @@ export function convertForPaydunia(
  * Creates a PayDunya hosted checkout invoice.
  * Returns the checkout URL to redirect the customer to, plus the invoice token.
  */
-export async function initializePayduniaPayment(
-  params: PayduniaInitParams
-): Promise<PayduniaPaymentResult> {
+export async function initializePaydunyaPayment(
+  params: PaydunyaInitParams
+): Promise<PaydunyaPaymentResult> {
   const creds = getCredentials();
 
   const response = await fetch(`${PAYDUNYA_API_URL}/checkout-invoice/create`, {
@@ -143,7 +151,7 @@ export async function initializePayduniaPayment(
     );
   }
 
-  const result = (await response.json()) as PayduniaCreateApiResponse;
+  const result = (await response.json()) as PaydunyaCreateApiResponse;
 
   if (result.response_code !== "00" || !result.token || !result.response_text) {
     throw new Error(
@@ -161,9 +169,9 @@ export async function initializePayduniaPayment(
  * Verifies the status of a PayDunya invoice by its token.
  * Should be called upon receiving an IPN webhook notification.
  */
-export async function verifyPayduniaTransaction(
+export async function verifyPaydunyaTransaction(
   invoiceToken: string
-): Promise<PayduniaTransactionStatus> {
+): Promise<PaydunyaTransactionStatus> {
   const creds = getCredentials();
 
   const response = await fetch(
@@ -177,7 +185,7 @@ export async function verifyPayduniaTransaction(
     );
   }
 
-  const result = (await response.json()) as PayduniaConfirmApiResponse;
+  const result = (await response.json()) as PaydunyaConfirmApiResponse;
 
   if (result.response_code !== "00") {
     throw new Error(
@@ -198,7 +206,7 @@ export async function verifyPayduniaTransaction(
  * PayDunya sends data[hash] = SHA-512 of your master key.
  * Throws if the hash is missing or does not match.
  */
-export function verifyPayduniaWebhookSignature(hash: string | null): void {
+export function verifyPaydunyaWebhookSignature(hash: string | null): void {
   const masterKey = process.env.PAYDUNYA_MASTER_KEY;
   if (!masterKey) {
     throw new Error("Missing required environment variable: PAYDUNYA_MASTER_KEY");
@@ -226,11 +234,49 @@ export function verifyPayduniaWebhookSignature(hash: string | null): void {
 }
 
 /**
+ * Signs a PayDunya order id so it can be safely carried in the redirect URL
+ * back to the confirmation page. PayDunya has no session token like Stripe's
+ * checkout session, so without this signature anyone who obtains the plain
+ * orderId (browser history, referrer headers, logs) could fetch that order's
+ * paid download links from /api/orders/status.
+ */
+export function signOrderReference(orderId: string): string {
+  const secret = process.env.NEXTAUTH_SECRET;
+  if (!secret) {
+    throw new Error("Missing required environment variable: NEXTAUTH_SECRET");
+  }
+  return crypto.createHmac("sha256", secret).update(orderId).digest("hex");
+}
+
+/**
+ * Verifies a signature produced by signOrderReference for the given orderId.
+ */
+export function verifyOrderReference(orderId: string, signature: string): boolean {
+  if (!/^[0-9a-fA-F]{64}$/.test(signature)) {
+    return false;
+  }
+
+  let expected: string;
+  try {
+    expected = signOrderReference(orderId);
+  } catch {
+    return false;
+  }
+  const signatureBuffer = Buffer.from(signature.toLowerCase(), "hex");
+  const expectedBuffer = Buffer.from(expected, "hex");
+
+  return (
+    signatureBuffer.length === expectedBuffer.length &&
+    crypto.timingSafeEqual(signatureBuffer, expectedBuffer)
+  );
+}
+
+/**
  * Parses a PayDunya IPN webhook payload (application/x-www-form-urlencoded).
  * PayDunya sends: data[hash], data[invoice_token], data[status].
  * Throws if required fields are missing.
  */
-export function parsePayduniaWebhook(params: URLSearchParams): PayduniaWebhookPayload {
+export function parsePaydunyaWebhook(params: URLSearchParams): PaydunyaWebhookPayload {
   const hash = params.get("data[hash]");
   const invoiceToken = params.get("data[invoice_token]");
   const status = params.get("data[status]");
