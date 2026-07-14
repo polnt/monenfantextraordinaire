@@ -8,7 +8,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAddToCart } from '@/hooks/useAddToCart';
 import { useCurrency } from '@/contexts/CurrencyContext';
 import { formatPrice } from '@/lib/currency';
-import { FORMATIONS, type FormationAddon } from '@/lib/catalog';
+import { FORMATIONS } from '@/lib/catalog';
 import { R2_IMAGES_BASE } from '@/lib/images';
 
 const audience = [
@@ -96,24 +96,16 @@ interface PriceCardProps {
   priceEur: number;
   priceXof?: number;
   features: string[];
+  highlighted: boolean;
   color: string;
   slug: string;
   onBuy: (slug: string) => Promise<void>;
   loading: boolean;
-  /** "Avec accompagnement personnalisé" upsell — omitted entirely when the formation has none. */
-  accompagnement?: FormationAddon;
+  footnote?: string;
 }
 
-function PriceCard({ plan, priceEur, priceXof, features, color, slug, onBuy, loading, accompagnement }: PriceCardProps): React.JSX.Element {
+function PriceCard({ plan, priceEur, priceXof, features, highlighted, color, slug, onBuy, loading, footnote }: PriceCardProps): React.JSX.Element {
   const { currency } = useCurrency();
-  const [withAccompagnement, setWithAccompagnement] = useState(false);
-
-  const highlighted = withAccompagnement;
-  const displayPriceEur = withAccompagnement && accompagnement ? accompagnement.priceEur : priceEur;
-  const displayPriceXof = withAccompagnement && accompagnement ? accompagnement.priceXof : priceXof;
-  const displayFeatures = withAccompagnement && accompagnement ? accompagnement.features : features;
-  const footnote = withAccompagnement ? accompagnement?.footnote : undefined;
-  const targetSlug = withAccompagnement && accompagnement ? accompagnement.slug : slug;
 
   return (
     <div style={{
@@ -126,38 +118,23 @@ function PriceCard({ plan, priceEur, priceXof, features, color, slug, onBuy, loa
       position: 'relative',
       transform: highlighted ? 'scale(1.03)' : 'none',
     }}>
+      {highlighted && (
+        <div style={{
+          position: 'absolute', top: -14, left: '50%', transform: 'translateX(-50%)',
+          background: '#FDF482', color: '#090943',
+          borderRadius: 50, padding: '5px 18px',
+          fontSize: 12, fontFamily: 'var(--font-nunito)', fontWeight: 800,
+          whiteSpace: 'nowrap', boxShadow: '0 2px 12px rgba(239,208,16,0.4)',
+        }}>⭐ RECOMMANDÉ</div>
+      )}
       <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 700, fontSize: 13, textTransform: 'uppercase', letterSpacing: 1.5, color: highlighted ? 'rgba(255,255,255,0.7)' : '#9ca3af', marginBottom: 10 }}>{plan}</div>
       <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10, marginBottom: 4 }}>
-        <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 48, color: highlighted ? 'white' : '#090943', lineHeight: 1 }}>{formatPrice(displayPriceEur, displayPriceXof ?? null, currency)}</div>
+        <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 48, color: highlighted ? 'white' : '#090943', lineHeight: 1 }}>{formatPrice(priceEur, priceXof ?? null, currency)}</div>
       </div>
       <div style={{ fontFamily: 'var(--font-aleo)', fontSize: 14, color: highlighted ? 'rgba(255,255,255,0.65)' : '#9ca3af', marginBottom: 28 }}>accès à vie</div>
 
-      {accompagnement && (
-        <label style={{
-          display: 'flex', alignItems: 'center', gap: 10,
-          background: highlighted ? 'rgba(255,255,255,0.1)' : '#fafbff',
-          border: `1px solid ${highlighted ? 'rgba(255,255,255,0.2)' : '#e5e7eb'}`,
-          borderRadius: 12, padding: '12px 16px', marginBottom: 28, cursor: 'pointer',
-        }}>
-          <input
-            type="checkbox"
-            checked={withAccompagnement}
-            onChange={(e) => setWithAccompagnement(e.target.checked)}
-            style={{ width: 16, height: 16, flexShrink: 0, accentColor: highlighted ? 'white' : color }}
-          />
-          <span style={{ fontFamily: 'var(--font-nunito)', fontSize: 13, fontWeight: 600, color: highlighted ? 'white' : '#090943' }}>
-            Ajouter l&apos;accompagnement personnalisé
-            {' '}(+{formatPrice(
-              accompagnement.priceEur - priceEur,
-              accompagnement.priceXof !== undefined && priceXof !== undefined ? accompagnement.priceXof - priceXof : null,
-              currency
-            )})
-          </span>
-        </label>
-      )}
-
       <div style={{ borderTop: `1px solid ${highlighted ? 'rgba(255,255,255,0.2)' : '#f3f4f6'}`, paddingTop: 24, marginBottom: 28 }}>
-        {displayFeatures.map((f, i) => (
+        {features.map((f, i) => (
           <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', marginBottom: 12 }}>
             <span style={{ color: highlighted ? 'rgba(255,255,255,0.9)' : color, fontSize: 15, flexShrink: 0, marginTop: 1 }}>✓</span>
             <span style={{ fontSize: 14, fontFamily: 'var(--font-aleo)', lineHeight: 1.55, color: highlighted ? 'rgba(255,255,255,0.88)' : '#5a6070' }}>{f}</span>
@@ -167,7 +144,7 @@ function PriceCard({ plan, priceEur, priceXof, features, color, slug, onBuy, loa
       <button
         className="mef-btn"
         disabled={loading}
-        onClick={() => void onBuy(targetSlug)}
+        onClick={() => void onBuy(slug)}
         style={{
           width: '100%', justifyContent: 'center', fontSize: 15, padding: '14px 24px',
           background: highlighted ? 'white' : color,
@@ -533,16 +510,16 @@ export default function FormationDetailPage(): React.JSX.Element {
             <h2 style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 42, color: 'white', marginBottom: 14 }}>Choisissez votre formule</h2>
             <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, fontFamily: 'var(--font-aleo)' }}>Accès immédiat · 100% en ligne · Garanti satisfait ou remboursé 7 jours</p>
           </div>
-          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 20, alignItems: 'stretch', maxWidth: 480, margin: '0 auto' }}>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 20, alignItems: 'stretch', maxWidth: formation?.accompagnement ? 820 : 480, margin: '0 auto' }}>
             <PriceCard
-              plan="Formation"
+              plan="En autonomie"
               priceEur={formation?.priceEur ?? 119}
               priceXof={formation?.priceXof}
+              highlighted={!formation?.accompagnement}
               color={color}
               slug={slug}
               onBuy={addAndCheckout}
               loading={loading}
-              accompagnement={formation?.accompagnement}
               features={[
                 'Accès aux 4 modules complets',
                 'Vidéos courtes et ludiques',
@@ -553,6 +530,20 @@ export default function FormationDetailPage(): React.JSX.Element {
                 'Le powerpoint de la formation à télécharger',
               ]}
             />
+            {formation?.accompagnement && (
+              <PriceCard
+                plan="Avec accompagnement personnalisé"
+                priceEur={formation.accompagnement.priceEur}
+                priceXof={formation.accompagnement.priceXof}
+                highlighted={true}
+                color={color}
+                slug={formation.accompagnement.slug}
+                onBuy={addAndCheckout}
+                loading={loading}
+                features={formation.accompagnement.features}
+                footnote={formation.accompagnement.footnote}
+              />
+            )}
           </div>
         </div>
       </section>
