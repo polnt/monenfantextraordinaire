@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { constructStripeEvent } from "@/lib/stripe";
 import { db } from "@/lib/db";
-import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
+import { sendOrderConfirmationEmail } from "@/lib/email";
 import { sendProductEmail } from "@/lib/sendProductEmail";
 import { getOrCreateUser, enrolUserToCourse } from "@/lib/moodle/client";
 import { ProductType } from "@prisma/client";
@@ -112,14 +112,6 @@ export async function POST(req: Request): Promise<Response> {
           throw err;
         }
 
-        const moodleLink = `${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/course/view.php?id=${moodleCourseId}`;
-        await sendMoodleAccessEmail({
-          to: order.customerEmail,
-          customerName,
-          orderNumber: order.orderNumber,
-          courseName: item.productName,
-          moodleLink,
-        });
         await db.orderItem.update({
           where: { id: item.id },
           data: { moodleLinkSent: true, moodleLinkSentAt: new Date() },
@@ -142,11 +134,11 @@ export async function POST(req: Request): Promise<Response> {
     }
   }
 
-  // Exclude items already handled individually (TRAINING with Moodle, EBOOK with download link)
+  // Exclude EBOOK items, which are handled individually via sendProductEmail with a download link.
+  // TRAINING items are included so the customer keeps a branded order record; Moodle sends its
+  // own separate email with course credentials and access.
   const itemsForConfirmation = order.items.filter(
-    (item) =>
-      item.product.type !== ProductType.EBOOK &&
-      (item.product.type !== ProductType.TRAINING || !item.product.training?.moodleCourseId)
+    (item) => item.product.type !== ProductType.EBOOK
   );
 
   if (itemsForConfirmation.length > 0) {

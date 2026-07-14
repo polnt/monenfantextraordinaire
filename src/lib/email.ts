@@ -30,14 +30,6 @@ export interface OrderConfirmationParams {
   }>;
 }
 
-export interface MoodleAccessParams {
-  to: string;
-  customerName: string;
-  orderNumber: string;
-  courseName: string;
-  moodleLink: string;
-}
-
 export async function sendOrderConfirmationEmail(
   params: OrderConfirmationParams
 ): Promise<void> {
@@ -67,26 +59,3 @@ export async function sendOrderConfirmationEmail(
   }
 }
 
-export async function sendMoodleAccessEmail(
-  params: MoodleAccessParams
-): Promise<void> {
-  const { to, customerName, orderNumber, courseName, moodleLink } = params;
-
-  const { error } = await getResendClient().emails.send({
-    from: FROM_EMAIL,
-    to,
-    subject: `Your course access — ${courseName}`,
-    html: `
-      <p>Hello ${escapeHtml(customerName)},</p>
-      <p>Thank you for purchasing <strong>${escapeHtml(courseName)}</strong> (order ${escapeHtml(orderNumber)}).</p>
-      <p>Access your course here:<br/>
-        <a href="${escapeHtml(moodleLink)}">${escapeHtml(moodleLink)}</a>
-      </p>
-      <p>This link is personal — please do not share it.</p>
-    `,
-  });
-
-  if (error) {
-    throw new Error(`Failed to send Moodle access email: ${error.message}`);
-  }
-}
