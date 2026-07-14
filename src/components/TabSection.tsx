@@ -234,6 +234,7 @@ export default function TabSection({
   const [activeIdx, setActiveIdx] = useState(0);
   const [isDesktop, setIsDesktop] = useState(true);
   const [openMobile, setOpenMobile] = useState<number | null>(null);
+  const [bannerRatio, setBannerRatio] = useState<number | null>(null);
   const tabsBarRef = useRef<HTMLDivElement>(null);
   const tabButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -323,23 +324,36 @@ export default function TabSection({
         {bannerImage && (
           <div
             style={{
-              position: 'relative',
               width: '100%',
-              height: imageHeight,
+              display: 'flex',
+              justifyContent: 'center',
               marginTop: 16,
               marginBottom: 32,
             }}
           >
-            <Image
-              src={bannerImage}
-              alt=""
-              fill
-              sizes="(max-width: 1200px) 100vw, 1200px"
+            <div
               style={{
-                objectFit: 'contain',
+                position: 'relative',
+                height: imageHeight,
+                width: bannerRatio ? imageHeight * bannerRatio : '100%',
+                maxWidth: '100%',
+                overflow: 'hidden',
                 borderRadius: 20,
+                background: '#f5f6fa',
               }}
-            />
+            >
+              <Image
+                src={bannerImage}
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                onLoad={(e) => setBannerRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
+                style={{
+                  objectFit: 'contain',
+                }}
+              />
+            </div>
           </div>
         )}
         <div
@@ -478,6 +492,7 @@ export default function TabSection({
             src={bannerImage}
             alt=""
             fill
+            priority
             sizes="100vw"
             style={{
               objectFit: 'cover',
