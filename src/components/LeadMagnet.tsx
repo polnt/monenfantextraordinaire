@@ -212,7 +212,7 @@ export default function LeadMagnet(): React.JSX.Element {
                 src={`${R2_IMAGES_BASE}/bonus-mini-astuces.png`}
                 alt="Guide Mini astuces pour développer le langage — bonus gratuit"
                 width={380}
-                height={480}
+                height={475}
                 style={{
                   width: '100%',
                   maxWidth: isMobile ? 320 : 380,

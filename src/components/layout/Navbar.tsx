@@ -90,7 +90,7 @@ export default function Navbar(): React.JSX.Element {
             src={`${R2_IMAGES_BASE}/logo-full.png`}
             alt="Mon Enfant Extra-Ordinaire"
             height={44}
-            width={200}
+            width={194}
             style={{ height: 44, width: "auto" }}
             className="hidden md:block"
             priority

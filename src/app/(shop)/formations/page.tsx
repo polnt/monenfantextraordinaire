@@ -38,8 +38,8 @@ export default function FormationsPage(): React.JSX.Element {
                     ⭐ FORMATION LA PLUS POPULAIRE
                   </div>
                 )}
-                <div style={{ position: 'relative', overflow: 'hidden' }}>
-                  <Image src={f.img} alt={f.title} width={600} height={f.imgHeight} style={{ height: f.imgHeight, width: '100%', objectFit: 'contain', objectPosition: f.imgPosition, display: 'block', filter: f.disabled ? 'grayscale(40%)' : 'none' }} />
+                <div style={{ position: 'relative', overflow: 'hidden', height: f.imgHeight }}>
+                  <Image src={f.img} alt={f.title} fill sizes="(max-width: 768px) 100vw, 33vw" style={{ objectFit: 'contain', objectPosition: f.imgPosition, filter: f.disabled ? 'grayscale(40%)' : 'none' }} />
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 6, background: f.disabled ? '#9ca3af' : f.color }} />
                 </div>
                 <div style={{ padding: isMobile ? '20px 18px' : 28 }}>
