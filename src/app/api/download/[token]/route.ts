@@ -8,7 +8,7 @@ function renderFileListPage(token: string, productName: string, fileKeys: string
     .map((key, i) => {
       const label = key.split("/").pop() ?? `Fichier ${i + 1}`;
       return `<li style="margin-bottom:12px">
-        <a href="/api/download/${token}?file=${i}"
+        <a href="/api/download/${token}?file=${i}" target="_blank" rel="noopener noreferrer"
            style="display:inline-block;padding:12px 24px;background:#4f46e5;color:#fff;
                   text-decoration:none;border-radius:8px;font-weight:bold">
           Télécharger ${escapeHtml(label)}

@@ -122,8 +122,10 @@ function ConfirmationContent(): React.JSX.Element {
           <div style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "center", marginBottom: 32 }}>
             {downloads.map((d) => (
               <a
-                key={d.productId}
+                key={d.url}
                 href={d.url}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="mef-btn"
                 style={{ background: "#090943", color: "white", fontSize: 15, padding: "14px 32px", fontWeight: 800, width: "100%", justifyContent: "center" }}
               >
