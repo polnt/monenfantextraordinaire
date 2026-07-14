@@ -278,6 +278,10 @@ export default function TabSection({
     ? (currentItem.imgPosition ?? 'center 30%')
     : tabImgPosition;
 
+  useEffect(() => {
+    setBannerRatio(null);
+  }, [bannerImage]);
+
   const TabsBar = (): React.JSX.Element => (
     <div
       ref={tabsBarRef}

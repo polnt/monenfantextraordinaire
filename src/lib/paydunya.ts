@@ -284,7 +284,7 @@ export function parsePaydunyaWebhook(params: URLSearchParams): PaydunyaWebhookPa
 
   if (!hash || !invoiceToken || !status) {
     throw new Error(
-      "Invalid PayDunya webhook payload: missing data[hash], data[invoice][token], or data[status]"
+      "Invalid PayDunya webhook payload: missing data[hash], invoice token (data[invoice][token] or data[invoice_token]), or data[status]"
     );
   }
 
