@@ -34,6 +34,7 @@ export default function RootLayout({
     <html
       lang="fr"
       className={`${nunito.variable} ${aleo.variable}`}
+      data-scroll-behavior="smooth"
     >
       <body className="min-h-full flex flex-col">
         <CurrencyProvider>

@@ -100,13 +100,13 @@ export default function QuiSuisJePage(): React.JSX.Element {
                 <Link href="/formations" className="mef-btn mef-btn-outline">Voir mes formations</Link>
               </div>
             </div>
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', height: isMobile ? 280 : 480 }}>
               <Image
                 src={`${R2_IMAGES_BASE}/laurence.png`}
                 alt="Laurence Bugnet"
-                width={600}
-                height={480}
-                style={{ width: '100%', height: isMobile ? 280 : 480, objectFit: 'cover', objectPosition: 'center top', borderRadius: isMobile ? 16 : 28, display: 'block' }}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: 'cover', objectPosition: 'center top', borderRadius: isMobile ? 16 : 28 }}
               />
               {!isMobile && (
                 <>

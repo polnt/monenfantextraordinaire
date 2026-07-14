@@ -269,17 +269,22 @@ export function verifyOrderReference(orderId: string, signature: string): boolea
 
 /**
  * Parses a PayDunya IPN webhook payload (application/x-www-form-urlencoded).
- * PayDunya sends: data[hash], data[invoice_token], data[status].
+ * PayDunya sends: data[hash], data[invoice][token], data[status] — the
+ * invoice token is nested under data[invoice], same as data[invoice][total_amount]
+ * on the confirm API (see verifyPaydunyaTransaction). A flat data[invoice_token]
+ * is checked too as a defensive fallback in case PayDunya's IPN format ever
+ * diverges from the confirm API's shape.
  * Throws if required fields are missing.
  */
 export function parsePaydunyaWebhook(params: URLSearchParams): PaydunyaWebhookPayload {
   const hash = params.get("data[hash]");
-  const invoiceToken = params.get("data[invoice_token]");
+  const invoiceToken =
+    params.get("data[invoice][token]") ?? params.get("data[invoice_token]");
   const status = params.get("data[status]");
 
   if (!hash || !invoiceToken || !status) {
     throw new Error(
-      "Invalid PayDunya webhook payload: missing data[hash], data[invoice_token], or data[status]"
+      "Invalid PayDunya webhook payload: missing data[hash], invoice token (data[invoice][token] or data[invoice_token]), or data[status]"
     );
   }
 

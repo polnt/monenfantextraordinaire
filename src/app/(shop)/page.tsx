@@ -102,13 +102,13 @@ export default function HomePage(): React.JSX.Element {
                 ))}
               </ul>
             </div>
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', height: isMobile ? 260 : 400 }}>
               <Image
                 src={`${R2_IMAGES_BASE}/mission.png`}
                 alt="Maman et enfant accompagnement"
-                width={800}
-                height={400}
-                style={{ width: '100%', height: isMobile ? 260 : 400, objectFit: 'cover', objectPosition: 'center', borderRadius: 20, display: 'block' }}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: 'cover', objectPosition: 'center', borderRadius: 20 }}
               />
               {!isMobile && (
                 <div
@@ -211,13 +211,13 @@ export default function HomePage(): React.JSX.Element {
               </div>
 
               {!isMobile && (
-                <div style={{ position: 'relative' }}>
+                <div style={{ position: 'relative', height: 340 }}>
                   <Image
                     src={`${R2_IMAGES_BASE}/cta-formation.png`}
                     alt="Un parent suit une formation en ligne pour mieux accompagner son enfant"
-                    width={800}
-                    height={340}
-                    style={{ width: '100%', height: 340, objectFit: 'cover', objectPosition: '0% 70%', borderRadius: 20, display: 'block', border: '4px solid rgba(255,255,255,0.22)', boxShadow: '0 16px 40px rgba(9,9,67,0.28)' }}
+                    fill
+                    sizes="50vw"
+                    style={{ objectFit: 'cover', objectPosition: '0% 70%', borderRadius: 20, border: '4px solid rgba(255,255,255,0.22)', boxShadow: '0 16px 40px rgba(9,9,67,0.28)' }}
                   />
                 </div>
               )}
@@ -229,13 +229,15 @@ export default function HomePage(): React.JSX.Element {
 
             {/* Outils pédagogiques */}
             <div className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', borderTop: '4px solid #F90021' }}>
-              <Image
-                src={`${R2_IMAGES_BASE}/cta-outils.png`}
-                alt="Un parent et son enfant utilisent un tableau de communication par images"
-                width={800}
-                height={168}
-                style={{ width: '100%', height: isMobile ? 150 : 168, objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
-              />
+              <div style={{ position: 'relative', height: isMobile ? 150 : 168 }}>
+                <Image
+                  src={`${R2_IMAGES_BASE}/cta-outils.png`}
+                  alt="Un parent et son enfant utilisent un tableau de communication par images"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
+                />
+              </div>
               <div style={{ padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
                   <div style={{ width: 48, height: 48, borderRadius: 14, background: '#ffe5e8', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -270,13 +272,15 @@ export default function HomePage(): React.JSX.Element {
 
             {/* Ressources */}
             <div className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', borderTop: '4px solid #27ae60' }}>
-              <Image
-                src={`${R2_IMAGES_BASE}/cta-ressources.png`}
-                alt="Une maman consulte des articles et des ressources sur l'autisme sur son ordinateur"
-                width={800}
-                height={168}
-                style={{ width: '100%', height: isMobile ? 150 : 168, objectFit: 'cover', objectPosition: 'center 30%', display: 'block' }}
-              />
+              <div style={{ position: 'relative', height: isMobile ? 150 : 168 }}>
+                <Image
+                  src={`${R2_IMAGES_BASE}/cta-ressources.png`}
+                  alt="Une maman consulte des articles et des ressources sur l'autisme sur son ordinateur"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  style={{ objectFit: 'cover', objectPosition: 'center 30%' }}
+                />
+              </div>
               <div style={{ padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
                   <div style={{ width: 48, height: 48, borderRadius: 14, background: '#e8f5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -348,13 +352,13 @@ export default function HomePage(): React.JSX.Element {
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 32 : 80, alignItems: 'center' }}>
             {/* Image — desktop: left | mobile: after text */}
             {!isMobile && (
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative', height: 440 }}>
                 <Image
                   src={`${R2_IMAGES_BASE}/laurence.png`}
                   alt="Portrait professionnel de la formatrice"
-                  width={600}
-                  height={440}
-                  style={{ width: '100%', height: 440, objectFit: 'cover', objectPosition: 'center top', borderRadius: 28, display: 'block' }}
+                  fill
+                  sizes="50vw"
+                  style={{ objectFit: 'cover', objectPosition: 'center top', borderRadius: 28 }}
                 />
                 <div
                   style={{
@@ -401,13 +405,13 @@ export default function HomePage(): React.JSX.Element {
             </div>
             {/* Image mobile — after text */}
             {isMobile && (
-              <div style={{ position: 'relative' }}>
+              <div style={{ position: 'relative', height: 300 }}>
                 <Image
                   src={`${R2_IMAGES_BASE}/pasted-1777296342775-0.png`}
                   alt="Portrait professionnel de la formatrice"
-                  width={600}
-                  height={300}
-                  style={{ width: '100%', height: 300, objectFit: 'cover', objectPosition: 'center top', borderRadius: 20, display: 'block' }}
+                  fill
+                  sizes="100vw"
+                  style={{ objectFit: 'cover', objectPosition: 'center top', borderRadius: 20 }}
                 />
               </div>
             )}

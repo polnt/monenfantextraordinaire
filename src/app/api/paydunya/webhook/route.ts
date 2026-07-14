@@ -22,7 +22,8 @@ export async function POST(req: Request): Promise<Response> {
   let payload: ReturnType<typeof parsePaydunyaWebhook>;
   try {
     payload = parsePaydunyaWebhook(params);
-  } catch {
+  } catch (err) {
+    console.error("PayDunya webhook: invalid payload:", err, "raw keys received:", Array.from(params.keys()));
     return NextResponse.json(
       { error: "Invalid webhook payload" },
       { status: 400 }

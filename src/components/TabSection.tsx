@@ -234,6 +234,7 @@ export default function TabSection({
   const [activeIdx, setActiveIdx] = useState(0);
   const [isDesktop, setIsDesktop] = useState(true);
   const [openMobile, setOpenMobile] = useState<number | null>(null);
+  const [bannerRatio, setBannerRatio] = useState<number | null>(null);
   const tabsBarRef = useRef<HTMLDivElement>(null);
   const tabButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -276,6 +277,10 @@ export default function TabSection({
   const bannerImgPosition = currentItem?.image
     ? (currentItem.imgPosition ?? 'center 30%')
     : tabImgPosition;
+
+  useEffect(() => {
+    setBannerRatio(null);
+  }, [bannerImage]);
 
   const TabsBar = (): React.JSX.Element => (
     <div
@@ -324,27 +329,35 @@ export default function TabSection({
           <div
             style={{
               width: '100%',
-              height: imageHeight,
               display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center',
               marginTop: 16,
               marginBottom: 32,
             }}
           >
-            <Image
-              src={bannerImage}
-              alt=""
-              width={1200}
-              height={imageHeight}
+            <div
               style={{
+                position: 'relative',
+                height: imageHeight,
+                width: bannerRatio ? imageHeight * bannerRatio : '100%',
                 maxWidth: '100%',
-                maxHeight: imageHeight,
-                height: 'auto',
-                display: 'block',
+                overflow: 'hidden',
                 borderRadius: 20,
+                background: '#f5f6fa',
               }}
-            />
+            >
+              <Image
+                src={bannerImage}
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                onLoad={(e) => setBannerRatio(e.currentTarget.naturalWidth / e.currentTarget.naturalHeight)}
+                style={{
+                  objectFit: 'contain',
+                }}
+              />
+            </div>
           </div>
         )}
         <div
@@ -470,6 +483,7 @@ export default function TabSection({
       {bannerImage && (
         <div
           style={{
+            position: 'relative',
             width: '100%',
             height: Math.round(imageHeight * 0.75),
             overflow: 'hidden',
@@ -481,14 +495,12 @@ export default function TabSection({
           <Image
             src={bannerImage}
             alt=""
-            width={1200}
-            height={Math.round(imageHeight * 0.75)}
+            fill
+            priority
+            sizes="100vw"
             style={{
-              width: '100%',
-              height: '100%',
               objectFit: 'cover',
               objectPosition: bannerImgPosition,
-              display: 'block',
               borderRadius: 20,
             }}
           />

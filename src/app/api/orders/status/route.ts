@@ -62,7 +62,7 @@ export async function GET(req: Request): Promise<Response> {
 
   const order = await db.order.findUnique({
     where: { id: resolved.orderId },
-    include: { items: { include: { product: true } } },
+    include: { items: { include: { product: { include: { ebook: true } } } } },
   });
 
   if (!order) {
@@ -86,11 +86,27 @@ export async function GET(req: Request): Promise<Response> {
         orderId: order.id,
         email: order.customerEmail,
       });
-      downloads.push({
-        productId: item.productId,
-        productName: item.productName,
-        url: downloadUrl,
-      });
+      const fileKeys = item.product.ebook?.fileKeys ?? [];
+
+      if (fileKeys.length > 1) {
+        // Pack — one file per bundled tool. Emit a direct per-file link for
+        // each so the confirmation page can show all of them at once,
+        // instead of a single link to the intermediate file-picker page.
+        fileKeys.forEach((key, i) => {
+          const label = key.split("/").pop() ?? `Fichier ${i + 1}`;
+          downloads.push({
+            productId: item.productId,
+            productName: `${item.productName} — ${label}`,
+            url: `${downloadUrl}?file=${i}`,
+          });
+        });
+      } else {
+        downloads.push({
+          productId: item.productId,
+          productName: item.productName,
+          url: downloadUrl,
+        });
+      }
     } catch (err) {
       console.error(
         `[orders/status] Failed to build download URL for order item ${item.id}:`,
