@@ -70,6 +70,14 @@ const SOCIALS: Social[] = [
   { kind: 'linkedin',  label: 'LinkedIn',  color: '#0a66c2', href: 'https://www.linkedin.com/in/laurence-bugnet-806b6642/' },
 ];
 
+const LEGAL_LINKS: { label: string; href: string }[] = [
+  { label: 'Mentions légales', href: '/mentions-legales' },
+  { label: 'CGU', href: '/cgu' },
+  { label: 'CGV', href: '/cgv' },
+  { label: 'Confidentialité', href: '/confidentialite' },
+  { label: 'Cookies', href: '/cookies' },
+];
+
 const ECOLE_LINKS: Social[] = [
   { kind: 'facebook', label: "L'Éveil sur Facebook", color: '#1877f2', href: 'https://www.facebook.com/profile.php?id=100067132929137' },
   { kind: 'web',      label: "Le site de l'école",   color: '#0792dc', href: 'https://ecoleleveil.wixsite.com/leveil/l-ecole' },
@@ -199,13 +207,12 @@ export default function Footer(): React.JSX.Element {
           fontSize: 12,
         }}>
           <span>© 2026 Mon Enfant Extra-Ordinaire. Tous droits réservés.</span>
-          <div style={{ display: 'flex', gap: 22 }}>
-            <Link href="/mentions-legales" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 12, textDecoration: 'none' }}>
-              Mentions légales
-            </Link>
-            <Link href="/confidentialite" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 12, textDecoration: 'none' }}>
-              Confidentialité
-            </Link>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px 22px' }}>
+            {LEGAL_LINKS.map((link) => (
+              <Link key={link.href} href={link.href} style={{ color: 'rgba(255,255,255,0.55)', fontSize: 12, textDecoration: 'none' }}>
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
 

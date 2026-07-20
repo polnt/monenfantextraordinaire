@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito, Aleo } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import CookieConsent from "@/components/layout/CookieConsent";
 import { CartProvider } from "@/contexts/CartContext";
 import { CurrencyProvider } from "@/contexts/CurrencyContext";
 import "./globals.css";
@@ -45,6 +46,7 @@ export default function RootLayout({
             <Navbar />
             <main className="flex-1">{children}</main>
             <Footer />
+            <CookieConsent />
           </CartProvider>
         </CurrencyProvider>
       </body>

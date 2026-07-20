@@ -5,7 +5,7 @@ import {
   verifyPaydunyaTransaction,
 } from "@/lib/paydunya";
 import { db } from "@/lib/db";
-import { sendOrderConfirmationEmail, sendMoodleAccessEmail } from "@/lib/email";
+import { sendTrainingConfirmationEmail } from "@/lib/sendTrainingConfirmationEmail";
 import { sendProductEmail } from "@/lib/sendProductEmail";
 import { getOrCreateUser, enrolUserToCourse } from "@/lib/moodle/client";
 import { ProductType } from "@prisma/client";
@@ -95,48 +95,52 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json({ received: true });
   }
 
-  const customerName = `${order.customerFirstName} ${order.customerLastName}`;
-
   for (const item of order.items) {
-    if (
-      item.product.type === ProductType.TRAINING &&
-      item.product.training?.moodleCourseId
-    ) {
-      try {
-        const moodleCourseId = item.product.training.moodleCourseId;
-        let moodleUserId: number;
+    if (item.product.type === ProductType.TRAINING) {
+      const moodleCourseId = item.product.training?.moodleCourseId;
+      if (moodleCourseId) {
         try {
-          moodleUserId = await getOrCreateUser(
-            order.customerEmail,
-            order.customerFirstName,
-            order.customerLastName
-          );
+          let moodleUserId: number;
+          try {
+            moodleUserId = await getOrCreateUser(
+              order.customerEmail,
+              order.customerFirstName,
+              order.customerLastName
+            );
+          } catch (err) {
+            console.error(`[Moodle] getOrCreateUser failed for order item ${item.id}:`, err);
+            throw err;
+          }
+
+          try {
+            await enrolUserToCourse(moodleUserId, moodleCourseId);
+          } catch (err) {
+            console.error(`[Moodle] enrolUserToCourse failed (userId=${moodleUserId}, courseId=${moodleCourseId}) for order item ${item.id}:`, err);
+            throw err;
+          }
         } catch (err) {
-          console.error(`[Moodle] getOrCreateUser failed for order item ${item.id}:`, err);
-          throw err;
+          console.error(`[Moodle] Full enrolment flow failed for order item ${item.id}:`, err);
+          continue;
         }
 
         try {
-          await enrolUserToCourse(moodleUserId, moodleCourseId);
+          await sendTrainingConfirmationEmail({
+            to: order.customerEmail,
+            customerFirstName: order.customerFirstName,
+            trainingName: item.productName,
+            orderNumber: order.orderNumber,
+          });
         } catch (err) {
-          console.error(`[Moodle] enrolUserToCourse failed (userId=${moodleUserId}, courseId=${moodleCourseId}) for order item ${item.id}:`, err);
-          throw err;
+          console.error(`Failed to send training confirmation email for order item ${item.id}:`, err);
+          continue;
         }
 
-        const moodleLink = `${process.env.NEXT_PUBLIC_MOODLE_BASE_URL}/course/view.php?id=${moodleCourseId}`;
-        await sendMoodleAccessEmail({
-          to: order.customerEmail,
-          customerName,
-          orderNumber: order.orderNumber,
-          courseName: item.productName,
-          moodleLink,
-        });
         await db.orderItem.update({
           where: { id: item.id },
           data: { moodleLinkSent: true, moodleLinkSentAt: new Date() },
         });
-      } catch (err) {
-        console.error(`[Moodle] Full enrolment flow failed for order item ${item.id}:`, err);
+      } else {
+        console.error(`[Moodle] No moodleCourseId configured for training order item ${item.id}, skipping confirmation email`);
       }
     } else if (item.product.type === ProductType.EBOOK) {
       try {
@@ -146,33 +150,14 @@ export async function POST(req: Request): Promise<Response> {
           email: order.customerEmail,
           orderId: order.id,
           orderNumber: order.orderNumber,
+          customerFirstName: order.customerFirstName,
+          amount: item.unitPrice.mul(item.quantity).toNumber(),
+          currency: order.currency,
         });
       } catch (err) {
         console.error(`Failed to send product email for order item ${item.id}:`, err);
       }
     }
-  }
-
-  // Exclude items already handled individually (TRAINING with Moodle, EBOOK with download link)
-  const itemsForConfirmation = order.items.filter(
-    (item) =>
-      item.product.type !== ProductType.EBOOK &&
-      (item.product.type !== ProductType.TRAINING || !item.product.training?.moodleCourseId)
-  );
-
-  if (itemsForConfirmation.length > 0) {
-    await sendOrderConfirmationEmail({
-      to: order.customerEmail,
-      customerName,
-      orderNumber: order.orderNumber,
-      totalAmount: order.totalAmount.toNumber(),
-      currency: order.currency,
-      items: itemsForConfirmation.map((item) => ({
-        name: item.productName,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice.toNumber(),
-      })),
-    });
   }
 
   return NextResponse.json({ received: true });

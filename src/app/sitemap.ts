@@ -20,6 +20,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/contact`, lastModified, changeFrequency: 'yearly', priority: 0.4 },
     { url: `${BASE_URL}/le-site`, lastModified, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${BASE_URL}/reseaux`, lastModified, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${BASE_URL}/mentions-legales`, lastModified, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${BASE_URL}/cgu`, lastModified, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${BASE_URL}/cgv`, lastModified, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${BASE_URL}/confidentialite`, lastModified, changeFrequency: 'yearly', priority: 0.2 },
+    { url: `${BASE_URL}/cookies`, lastModified, changeFrequency: 'yearly', priority: 0.2 },
   ];
 
   const formationRoutes: MetadataRoute.Sitemap = FORMATIONS.map((formation) => ({
