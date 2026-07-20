@@ -29,9 +29,11 @@ Toute reproduction, représentation, modification, publication ou adaptation de 
 
 L'utilisateur peut passer commande via le site. Toute commande implique l'acceptation des présentes CGU ainsi que des Conditions Générales de Vente (CGV) disponibles sur le site. Les prix sont indiqués en euros TTC et/ou en CFA. Le paiement s'effectue en ligne par les moyens de paiement proposés.
 
-## Article 6 – Compte utilisateur
+## Article 6 – Absence de compte utilisateur
 
-La création d'un compte peut être nécessaire pour accéder à certaines fonctionnalités (commandes, suivi, formation, historique). L'utilisateur est responsable de la confidentialité de ses identifiants. Toute activité réalisée depuis son compte est présumée effectuée par lui.
+Le site ne nécessite pas la création d'un compte pour passer commande : les achats s'effectuent en tant qu'invité (guest checkout). Aucune donnée de connexion n'est donc associée à un compte client sur le site.
+
+Pour les formations, un accès à la plateforme pédagogique (Moodle) est créé automatiquement après l'achat et les identifiants de connexion sont envoyés à l'utilisateur par email. L'utilisateur est responsable de la confidentialité de ces identifiants.
 
 ## Article 7 – Comportements interdits
 

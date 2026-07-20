@@ -125,6 +125,7 @@ export async function POST(req: Request): Promise<Response> {
           });
         } catch (err) {
           console.error(`[Moodle] Full enrolment flow failed for order item ${item.id}:`, err);
+          continue;
         }
       }
 
