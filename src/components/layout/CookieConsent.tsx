@@ -11,14 +11,22 @@ export default function CookieConsent(): React.JSX.Element | null {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(CONSENT_STORAGE_KEY);
-    if (stored !== 'accepted' && stored !== 'rejected') {
+    try {
+      const stored = window.localStorage.getItem(CONSENT_STORAGE_KEY);
+      if (stored !== 'accepted' && stored !== 'rejected') {
+        setVisible(true);
+      }
+    } catch {
       setVisible(true);
     }
   }, []);
 
   function handleChoice(value: ConsentValue): void {
-    window.localStorage.setItem(CONSENT_STORAGE_KEY, value);
+    try {
+      window.localStorage.setItem(CONSENT_STORAGE_KEY, value);
+    } catch {
+      // Storage unavailable (e.g. Safari private mode) — just hide the banner for this visit.
+    }
     setVisible(false);
   }
 

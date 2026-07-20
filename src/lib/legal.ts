@@ -15,7 +15,12 @@ type CgvMeta = { lastUpdated: string };
 
 function getCgvLastUpdated(): string {
   const meta = JSON.parse(fs.readFileSync(path.join(LEGAL_DIR, 'cgv-meta.json'), 'utf8')) as CgvMeta;
-  return new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(meta.lastUpdated));
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(meta.lastUpdated));
 }
 
 export function getLegalMarkdown(slug: LegalDocSlug): string {

@@ -1,7 +1,7 @@
 import { escapeHtml } from "@/lib/escapeHtml";
 import { R2_IMAGES_BASE } from "@/lib/images";
 
-const SITE_BASE_URL = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
+const SITE_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://monenfantextraordinaire.com";
 const LOGO_URL = `${R2_IMAGES_BASE}/logo-full.png`;
 
 export interface EmailLayoutParams {
