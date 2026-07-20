@@ -151,7 +151,7 @@ export async function POST(req: Request): Promise<Response> {
           orderId: order.id,
           orderNumber: order.orderNumber,
           customerFirstName: order.customerFirstName,
-          amount: item.unitPrice.toNumber() * item.quantity,
+          amount: item.unitPrice.mul(item.quantity).toNumber(),
           currency: order.currency,
         });
       } catch (err) {

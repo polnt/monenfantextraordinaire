@@ -51,8 +51,8 @@ export default function CookieConsent(): React.JSX.Element | null {
         }}
       >
         <p style={{ margin: 0, fontSize: 14, lineHeight: 1.5, color: 'var(--gray)' }}>
-          Nous utilisons des cookies pour assurer le bon fonctionnement du site et, avec votre
-          accord, mesurer son audience. Vous pouvez accepter, refuser, ou en savoir plus sur notre{' '}
+          Nous utilisons des cookies pour assurer le bon fonctionnement du site. Vous pouvez
+          accepter, refuser, ou en savoir plus sur notre{' '}
           <Link href="/cookies" style={{ color: 'var(--blue)', textDecoration: 'underline' }}>
             politique de cookies
           </Link>

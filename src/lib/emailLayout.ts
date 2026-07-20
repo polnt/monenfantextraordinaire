@@ -41,7 +41,7 @@ export function renderEmailLayout(params: EmailLayoutParams): string {
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(9,9,67,0.07);">
 
 <tr><td style="background:#ffffff;padding:28px 40px 20px;text-align:center;border-bottom:1px solid #f0f1f5;">
-<img src="${LOGO_URL}" alt="Mon Enfant Extra-Ordinaire" width="220" style="display:block;margin:0 auto;max-width:220px;height:auto;">
+<img src="${escapeHtml(LOGO_URL)}" alt="Mon Enfant Extra-Ordinaire" width="220" style="display:block;margin:0 auto;max-width:220px;height:auto;">
 </td></tr>
 
 <tr><td style="background:${heroBackground};padding:36px 40px;text-align:center;">
@@ -63,7 +63,7 @@ ${signatureHtml}
 
 <tr><td style="background:#f7f8fc;padding:24px 40px;text-align:center;">
 <p style="font-family:Arial,sans-serif;font-size:12px;color:#9ca3af;margin:0 0 6px;">Mon Enfant Extra-Ordinaire — Accompagner au mieux</p>
-<p style="font-family:Arial,sans-serif;font-size:12px;color:#9ca3af;margin:0;"><a href="${SITE_BASE_URL}" style="color:#0792dc;text-decoration:none;">monenfantextraordinaire.com</a> · <a href="${SITE_BASE_URL}/contact" style="color:#0792dc;text-decoration:none;">Contact</a></p>
+<p style="font-family:Arial,sans-serif;font-size:12px;color:#9ca3af;margin:0;"><a href="${escapeHtml(SITE_BASE_URL)}" style="color:#0792dc;text-decoration:none;">monenfantextraordinaire.com</a> · <a href="${escapeHtml(SITE_BASE_URL)}/contact" style="color:#0792dc;text-decoration:none;">Contact</a></p>
 </td></tr>
 
 </table>
