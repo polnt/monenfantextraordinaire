@@ -36,7 +36,7 @@ export default function CookieConsent(): React.JSX.Element | null {
 
   return (
     <div
-      role="dialog"
+      role="region"
       aria-live="polite"
       aria-label="Consentement aux cookies"
       className="fixed bottom-0 left-0 right-0 z-[1002] flex justify-center px-4 pb-4"

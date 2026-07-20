@@ -97,9 +97,9 @@ export async function POST(req: Request): Promise<Response> {
 
   for (const item of order.items) {
     if (item.product.type === ProductType.TRAINING) {
-      if (item.product.training?.moodleCourseId) {
+      const moodleCourseId = item.product.training?.moodleCourseId;
+      if (moodleCourseId) {
         try {
-          const moodleCourseId = item.product.training.moodleCourseId;
           let moodleUserId: number;
           try {
             moodleUserId = await getOrCreateUser(
@@ -118,26 +118,29 @@ export async function POST(req: Request): Promise<Response> {
             console.error(`[Moodle] enrolUserToCourse failed (userId=${moodleUserId}, courseId=${moodleCourseId}) for order item ${item.id}:`, err);
             throw err;
           }
-
-          await db.orderItem.update({
-            where: { id: item.id },
-            data: { moodleLinkSent: true, moodleLinkSentAt: new Date() },
-          });
         } catch (err) {
           console.error(`[Moodle] Full enrolment flow failed for order item ${item.id}:`, err);
           continue;
         }
-      }
 
-      try {
-        await sendTrainingConfirmationEmail({
-          to: order.customerEmail,
-          customerFirstName: order.customerFirstName,
-          trainingName: item.productName,
-          orderNumber: order.orderNumber,
+        try {
+          await sendTrainingConfirmationEmail({
+            to: order.customerEmail,
+            customerFirstName: order.customerFirstName,
+            trainingName: item.productName,
+            orderNumber: order.orderNumber,
+          });
+        } catch (err) {
+          console.error(`Failed to send training confirmation email for order item ${item.id}:`, err);
+          continue;
+        }
+
+        await db.orderItem.update({
+          where: { id: item.id },
+          data: { moodleLinkSent: true, moodleLinkSentAt: new Date() },
         });
-      } catch (err) {
-        console.error(`Failed to send training confirmation email for order item ${item.id}:`, err);
+      } else {
+        console.error(`[Moodle] No moodleCourseId configured for training order item ${item.id}, skipping confirmation email`);
       }
     } else if (item.product.type === ProductType.EBOOK) {
       try {

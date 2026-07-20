@@ -22,26 +22,11 @@ On classe généralement les cookies selon :
 
 ## Cookies et traceurs utilisés
 
-### Cookies strictement nécessaires
+À ce jour, le site n'utilise aucun cookie de mesure d'audience, de ciblage publicitaire ou de traceur tiers (pas de Google Analytics, pas de publicité, pas de vidéo intégrée). Les liens vers nos réseaux sociaux (YouTube, Instagram, etc.) sont de simples liens hypertextes qui ouvrent le site tiers dans un nouvel onglet et ne déposent aucun cookie tant que vous n'y avez pas cliqué.
 
-| Cookie | Domaine | Type | Expiration | Description |
-|---|---|---|---|---|
-| `PHPSESSID` | Première partie | Session | Session | Identifiant généré par les applications PHP, utilisé pour maintenir les variables de session (ex. : statut de connexion). |
+Vos préférences de consentement (accepté / refusé) sont enregistrées localement dans votre navigateur (stockage local), et non via un cookie.
 
-### Cookies de performance
-
-| Cookie | Domaine | Type | Expiration | Description |
-|---|---|---|---|---|
-| `_gid` | Première partie | — | 1 jour | Défini par Google Analytics ; suit les pages vues. |
-| `_gat` | Première partie | — | 1 minute | Associé à Google Universal Analytics ; limite la fréquence de collecte sur les sites à fort trafic. |
-| `_ga` | Première partie | — | 2 ans | Associé à Google Universal Analytics ; distingue les utilisateurs uniques via un identifiant client généré aléatoirement. |
-
-### Cookies de ciblage
-
-| Cookie | Domaine | Type | Expiration | Description |
-|---|---|---|---|---|
-| `YSC` | `.youtube.com` | Tiers | Session | Défini par YouTube pour suivre les vues des vidéos intégrées. |
-| `VISITOR_INFO1_LIVE` | `.youtube.com` | Tiers | 6 mois | Défini par YouTube pour mémoriser les préférences d'affichage des vidéos intégrées. |
+Si un cookie ou un traceur venait à être ajouté à l'avenir (mesure d'audience, espace client, etc.), cette page sera mise à jour en conséquence avant sa mise en service.
 
 ## Vos préférences en matière de cookies
 
