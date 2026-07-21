@@ -1,9 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { useIsMobile } from '@/hooks/useIsMobile';
 
-type SocialKind = 'instagram' | 'facebook' | 'tiktok' | 'youtube' | 'linkedin' | 'web';
+type SocialKind = 'instagram' | 'facebook' | 'tiktok' | 'youtube' | 'linkedin' | 'web' | 'email';
 
 interface Social {
   kind: SocialKind;
@@ -19,6 +20,7 @@ const brandSocials: Social[] = [
   { kind: 'tiktok', name: 'TikTok', handle: '@monenfantextra', color: '#010101', url: 'https://www.tiktok.com/@monenfantextra' },
   { kind: 'youtube', name: 'YouTube', handle: 'Mon Enfant Extra-Ordinaire', color: '#F90021', url: 'https://www.youtube.com/channel/UCZ0pPxfidRLNgSfSu_5DEyg' },
   { kind: 'linkedin', name: 'LinkedIn', handle: 'Laurence Bugnet', color: '#0a66c2', url: 'https://www.linkedin.com/in/laurence-bugnet' },
+  { kind: 'email', name: 'Nous contacter', handle: 'contact@monenfantextraordinaire.com', color: '#5a6070', url: 'mailto:contact@monenfantextraordinaire.com' },
 ];
 
 const ecoleLinks: Social[] = [
@@ -68,16 +70,72 @@ const SocialIcon = ({ kind }: { kind: SocialKind }): React.JSX.Element | null =>
           <path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18" stroke="white" strokeWidth="1.8" />
         </svg>
       );
+    case 'email':
+      return (
+        <svg {...common} fill="none">
+          <rect x="2.5" y="4.5" width="19" height="15" rx="2.5" stroke="white" strokeWidth="1.8" />
+          <path d="M3.5 6l8.5 7 8.5-7" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
     default:
       return null;
   }
 };
 
+const CopyButton = ({ email, color }: { email: string; color: string }): React.JSX.Element => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = (e: React.MouseEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard
+      .writeText(email)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(() => undefined);
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      title={copied ? 'Adresse copiée !' : "Copier l'adresse e-mail"}
+      aria-label={copied ? 'Adresse copiée' : "Copier l'adresse e-mail"}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 26,
+        minWidth: 26,
+        padding: copied ? '0 8px' : 0,
+        borderRadius: 8,
+        border: 'none',
+        background: copied ? 'hsl(142, 82%, 74%)' : color + '14',
+        color: copied ? 'white' : color,
+        fontSize: 12,
+        fontWeight: 700,
+        cursor: 'pointer',
+        flexShrink: 0,
+      }}
+    >
+      {copied ? (
+        'Copié !'
+      ) : (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <rect x="8" y="8" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.8" />
+          <path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2" stroke="currentColor" strokeWidth="1.8" />
+        </svg>
+      )}
+    </button>
+  );
+};
+
 const Tile = ({ s }: { s: Social }): React.JSX.Element => (
   <a
     href={s.url}
-    target="_blank"
-    rel="noopener noreferrer"
+    {...(s.url.startsWith('mailto:') ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
     className="mef-card"
     style={{
       display: 'flex',
@@ -104,7 +162,10 @@ const Tile = ({ s }: { s: Social }): React.JSX.Element => (
       <SocialIcon kind={s.kind} />
     </div>
     <div style={{ flex: 1, minWidth: 0 }}>
-      <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 17, color: '#090943', marginBottom: 2 }}>{s.name}</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+        <div style={{ fontFamily: 'var(--font-nunito)', fontWeight: 800, fontSize: 17, color: '#090943' }}>{s.name}</div>
+        {s.kind === 'email' && <CopyButton email={s.url.replace('mailto:', '')} color={s.color} />}
+      </div>
       <div style={{ fontSize: 14, color: '#5a6070', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.handle}</div>
     </div>
     <div

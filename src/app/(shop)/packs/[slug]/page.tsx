@@ -269,7 +269,7 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
               style={{ background: '#FDF482', color: '#090943', fontSize: 17, padding: '16px 48px', fontWeight: 800, width: '100%', justifyContent: 'center' }}
             />
             <p style={{ margin: '16px 0 0', fontFamily: 'var(--font-aleo)', fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
-              ✅ Satisfait ou remboursé 7 jours · Paiement sécurisé
+              ✅ Paiement sécurisé
             </p>
           </div>
         </div>

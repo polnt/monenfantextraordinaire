@@ -293,7 +293,7 @@ export default function CheckoutPage(): React.JSX.Element {
             </button>
 
             <p style={{ fontFamily: "var(--font-aleo)", fontSize: 12, color: "#9ca3af", textAlign: "center", marginTop: 12 }}>
-              En cliquant sur &ldquo;Payer&rdquo;, vous acceptez nos conditions générales de vente. Garanti satisfait ou remboursé 7 jours.
+              En cliquant sur &ldquo;Payer&rdquo;, vous acceptez nos conditions générales de vente.
             </p>
           </form>
 

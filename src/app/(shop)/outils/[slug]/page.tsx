@@ -404,7 +404,7 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
               🔒 Télécharger maintenant — <Price eur={d.priceEur} xof={d.priceXof} />
             </Link>
             <p style={{ margin: "16px 0 0", fontFamily: "var(--font-aleo)", fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
-              ✅ Satisfait ou remboursé 7 jours · Paiement sécurisé
+              ✅ Paiement sécurisé
             </p>
           </div>
 
