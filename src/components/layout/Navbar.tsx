@@ -75,7 +75,7 @@ export default function Navbar(): React.JSX.Element {
 
   return (
     <nav
-      className="fixed top-9 left-0 right-0 z-[1000] h-[72px] bg-white transition-shadow duration-300"
+      className="fixed top-0 left-0 right-0 z-[1000] h-[72px] bg-white transition-shadow duration-300"
       style={{
         boxShadow: scrolled
           ? "0 2px 28px rgba(9,9,67,0.1)"
@@ -479,7 +479,7 @@ export default function Navbar(): React.JSX.Element {
       {cartOpen && (
         <div className="flex flex-col md:hidden" style={{
           position: "fixed",
-          top: 72 + 36,
+          top: 72,
           left: 0,
           right: 0,
           background: "white",

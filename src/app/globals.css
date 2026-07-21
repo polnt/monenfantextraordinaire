@@ -122,7 +122,7 @@ h1, h2, h3, h4, h5 {
 .mef-hamburger   { display: none; align-items: center; gap: 8px; }
 .mef-mobile-menu {
   display: none;
-  position: fixed; top: calc(72px + 36px); left: 0; right: 0; z-index: 999;
+  position: fixed; top: 72px; left: 0; right: 0; z-index: 999;
   background: white; box-shadow: 0 12px 40px rgba(9,9,67,0.12);
   padding: 12px; flex-direction: column; gap: 4px;
   animation: mefFadeUp 0.2s ease both;
