@@ -104,7 +104,7 @@ function ConfirmationContent(): React.JSX.Element {
           Merci pour votre commande !
         </h1>
         <p style={{ fontFamily: "var(--font-aleo)", fontSize: 16, color: "#5a6070", lineHeight: 1.75, marginBottom: 8 }}>
-          Votre paiement a bien été reçu. Vous allez recevoir un e-mail de confirmation avec vos accès dans les prochaines minutes.
+          Votre paiement a bien été reçu. Vous allez recevoir un e-mail de confirmation dans les prochaines minutes.
         </p>
         {isPaydunya && (
           <p style={{ fontFamily: "var(--font-aleo)", fontSize: 14, color: "#9ca3af", marginBottom: 8 }}>

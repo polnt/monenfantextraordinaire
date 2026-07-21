@@ -55,6 +55,8 @@ PAYDUNYA_API_URL= # optional, defaults to https://app.paydunya.com/sandbox-api/v
 RESEND_API_KEY=
 RESEND_FROM_EMAIL=
 
+BREVO_API_KEY=
+
 NEXTAUTH_SECRET=
 NEXTAUTH_URL=
 

@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import { escapeHtml } from "@/lib/escapeHtml";
 import { renderEmailLayout } from "@/lib/emailLayout";
 
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+const FROM_EMAIL = `Mon Enfant Extra-Ordinaire <${process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev"}>`;
 
 function getResendClient(): Resend {
   const apiKey = process.env.RESEND_API_KEY;
