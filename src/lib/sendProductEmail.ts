@@ -8,7 +8,7 @@ import {
   DOWNLOAD_MAX_COUNT,
 } from "@/lib/downloadToken";
 
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
+const FROM_EMAIL = `Mon Enfant Extra-Ordinaire <${process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev"}>`;
 
 function getResendClient(): Resend {
   const apiKey = process.env.RESEND_API_KEY;
