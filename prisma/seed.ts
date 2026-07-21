@@ -28,7 +28,7 @@ const FORMATIONS: FormationSeed[] = [
     price: 119,
     priceXof: 77000,
     active: true,
-    moodleCourseId: 4,
+    moodleCourseId: 3,
   },
   {
     slug: 'developper-la-communication-verbale',
@@ -66,7 +66,7 @@ const FORMATION_ADDONS: FormationAddonSeed[] = [
     description: "La formation complète, accompagnée de séances individuelles et d'une masterclass en direct avec Laurence Bugnet, psychologue spécialiste TSA.",
     price: 269,
     priceXof: 174500,
-    moodleCourseId: 4,
+    moodleCourseId: 3,
   },
 ];
 
