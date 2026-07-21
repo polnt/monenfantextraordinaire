@@ -81,7 +81,7 @@ export const FORMATIONS: Formation[] = [
         'Accès prioritaire par e-mail ou WhatsApp',
         'Attestation de formation',
       ],
-      footnote: '* 1 séance tous les 15 jours - Socle de 8 places par mois',
+      footnote: '* Pour garantir un accompagnement personnalisé, les séances sont proposées tous les 15 jours. Les 8 premiers inscrits pourront commencer immédiatement. Si ce créneau est complet, votre accompagnement débutera le mois suivant. Les rendez-vous sont planifiés par e-mail après votre inscription. Votre accès à la formation reste, lui, immédiat.',
     },
   },
   {
