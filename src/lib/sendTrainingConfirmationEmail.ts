@@ -48,7 +48,7 @@ enfant extra-ordinaire.</p>
       </td></tr>
     </table>
 
-    <p style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#090943;margin:0 0 28px;">Vous pouvez dès à présent vous connecter à notre plateforme de formation “Académie des Formations Personnalisées” sur laquelle vous aurez directement accès au contenu de la formation. Un email de notre plateforme vous parvient séparément avec vos identifiants de connexion.</p>
+    <p style="font-family:Georgia,serif;font-size:16px;line-height:1.6;color:#090943;margin:0 0 28px;">Vous pouvez dès à présent vous connecter à notre plateforme de formation “<strong>Académie des Formations Personnalisées</strong>” sur laquelle vous aurez directement accès au contenu de la formation. Un <strong>email</strong> de notre plateforme vous parvient séparément avec <strong>vos identifiants de connexion</strong>.</p>
 
     <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 32px;">
       <tr><td align="center" style="background:#0792dc;border-radius:50px;">

@@ -69,7 +69,7 @@ export const FORMATIONS: Formation[] = [
     img: `${R2_IMAGES_BASE}/visuel-formation.png`,
     imgPosition: 'center top',
     imgHeight: 280,
-    moodleCourseId: 4,
+    moodleCourseId: 3,
     accompagnement: {
       slug: 'accompagner-mon-enfant-autiste-accompagne',
       priceEur: 269,
