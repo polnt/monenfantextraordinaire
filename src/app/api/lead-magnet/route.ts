@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { sendProductEmail } from "@/lib/sendProductEmail";
+import { addContactToBrevoList } from "@/lib/brevo";
+import { BREVO_LISTS } from "@/lib/brevoLists";
 import { getPublicUrl } from "@/lib/r2";
 import { BONUS } from "@/lib/catalog";
 
@@ -45,6 +47,15 @@ export async function POST(req: Request): Promise<Response> {
     return NextResponse.json(
       { error: "Impossible d'envoyer l'email. Veuillez réessayer." },
       { status: 500 }
+    );
+  }
+
+  try {
+    await addContactToBrevoList(email, BREVO_LISTS.leadMagnetBonus.id);
+  } catch (err) {
+    console.error(
+      "[lead-magnet] Failed to add contact to Brevo list:",
+      err instanceof Error ? err.message : err
     );
   }
 
