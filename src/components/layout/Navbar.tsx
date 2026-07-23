@@ -8,6 +8,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatPrice } from "@/lib/currency";
 import { R2_IMAGES_BASE } from "@/lib/images";
+import CurrencySwitch from "@/components/layout/CurrencySwitch";
 
 const mainLinks = [
   { label: "Accueil", href: "/" },
@@ -41,7 +42,7 @@ export default function Navbar(): React.JSX.Element {
   const mobileCartPanelRef = useRef<HTMLDivElement>(null);
 
   const { items, totalItems, totalPriceEur, totalPriceXof, removeFromCart, updateQuantity } = useCart();
-  const { currency, setCurrency } = useCurrency();
+  const { currency } = useCurrency();
 
   useEffect((): (() => void) => {
     const onScroll = (): void => setScrolled(window.scrollY > 24);
@@ -144,27 +145,9 @@ export default function Navbar(): React.JSX.Element {
           })}
 
           {/* EUR / FCFA currency switcher */}
-          <button
-            onClick={() => setCurrency(currency === "EUR" ? "XOF" : "EUR")}
-            title="Changer de devise"
-            aria-label="Changer de devise"
-            aria-pressed={currency === "XOF"}
-            style={{
-              background: "none",
-              border: "1.5px solid #e5e7eb",
-              borderRadius: 8,
-              padding: "6px 10px",
-              marginLeft: 4,
-              cursor: "pointer",
-              fontFamily: "var(--font-nunito)",
-              fontWeight: 700,
-              fontSize: 12,
-              color: "var(--gray)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {currency === "EUR" ? "€ EUR" : "FCFA"}
-          </button>
+          <div style={{ marginLeft: 4 }}>
+            <CurrencySwitch />
+          </div>
 
           {/* ⋮ dots dropdown */}
           <div ref={dotsRef} style={{ position: "relative", marginLeft: 4 }}>
@@ -481,15 +464,13 @@ export default function Navbar(): React.JSX.Element {
           );
         })}
         <div className="mef-mobile-divider" />
-        <button
-          onClick={() => setCurrency(currency === "EUR" ? "XOF" : "EUR")}
+        <div
           className="mef-mobile-link"
-          aria-pressed={currency === "XOF"}
           style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
         >
           <span>Devise</span>
-          <span style={{ fontWeight: 800 }}>{currency === "EUR" ? "€ EUR" : "FCFA"}</span>
-        </button>
+          <CurrencySwitch />
+        </div>
       </div>
 
       {/* Mobile mini-cart (below navbar, fixed) */}
