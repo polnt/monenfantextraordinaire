@@ -37,6 +37,8 @@ export default function Navbar(): React.JSX.Element {
   const menuRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const cartRef = useRef<HTMLDivElement>(null);
+  const mobileCartButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileCartPanelRef = useRef<HTMLDivElement>(null);
 
   const { items, totalItems, totalPriceEur, totalPriceXof, removeFromCart, updateQuantity } = useCart();
   const { currency, setCurrency } = useCurrency();
@@ -54,7 +56,11 @@ export default function Navbar(): React.JSX.Element {
       ) {
         setMenuOpen(false);
       }
-      if (cartRef.current && !cartRef.current.contains(e.target as Node)) {
+      const insideCart =
+        (cartRef.current && cartRef.current.contains(e.target as Node)) ||
+        (mobileCartButtonRef.current && mobileCartButtonRef.current.contains(e.target as Node)) ||
+        (mobileCartPanelRef.current && mobileCartPanelRef.current.contains(e.target as Node));
+      if (!insideCart) {
         setCartOpen(false);
       }
     };
@@ -366,6 +372,7 @@ export default function Navbar(): React.JSX.Element {
         <div ref={menuRef} className="mef-hamburger" style={{ gap: 8 }}>
           {/* Mobile cart icon */}
           <button
+            ref={mobileCartButtonRef}
             onClick={() => { setCartOpen((v) => !v); setMenuOpen(false); }}
             title="Mon panier"
             style={{
@@ -417,7 +424,7 @@ export default function Navbar(): React.JSX.Element {
             style={{ padding: "9px 14px", fontSize: 13 }}
             onClick={closeMenu}
           >
-            Moodle
+            Ma formation
           </a>
           <button
             onClick={() => setMenuOpen((v) => !v)}
@@ -473,11 +480,21 @@ export default function Navbar(): React.JSX.Element {
             </Link>
           );
         })}
+        <div className="mef-mobile-divider" />
+        <button
+          onClick={() => setCurrency(currency === "EUR" ? "XOF" : "EUR")}
+          className="mef-mobile-link"
+          aria-pressed={currency === "XOF"}
+          style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+        >
+          <span>Devise</span>
+          <span style={{ fontWeight: 800 }}>{currency === "EUR" ? "€ EUR" : "FCFA"}</span>
+        </button>
       </div>
 
       {/* Mobile mini-cart (below navbar, fixed) */}
       {cartOpen && (
-        <div className="flex flex-col md:hidden" style={{
+        <div ref={mobileCartPanelRef} className="flex flex-col md:hidden" style={{
           position: "fixed",
           top: 72,
           left: 0,
