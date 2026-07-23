@@ -8,6 +8,7 @@ import { useCart } from "@/contexts/CartContext";
 import { useCurrency } from "@/contexts/CurrencyContext";
 import { formatPrice } from "@/lib/currency";
 import { R2_IMAGES_BASE } from "@/lib/images";
+import CurrencySwitch from "@/components/layout/CurrencySwitch";
 
 const mainLinks = [
   { label: "Accueil", href: "/" },
@@ -37,9 +38,11 @@ export default function Navbar(): React.JSX.Element {
   const menuRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const cartRef = useRef<HTMLDivElement>(null);
+  const mobileCartButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileCartPanelRef = useRef<HTMLDivElement>(null);
 
   const { items, totalItems, totalPriceEur, totalPriceXof, removeFromCart, updateQuantity } = useCart();
-  const { currency, setCurrency } = useCurrency();
+  const { currency } = useCurrency();
 
   useEffect((): (() => void) => {
     const onScroll = (): void => setScrolled(window.scrollY > 24);
@@ -54,7 +57,11 @@ export default function Navbar(): React.JSX.Element {
       ) {
         setMenuOpen(false);
       }
-      if (cartRef.current && !cartRef.current.contains(e.target as Node)) {
+      const insideCart =
+        (cartRef.current && cartRef.current.contains(e.target as Node)) ||
+        (mobileCartButtonRef.current && mobileCartButtonRef.current.contains(e.target as Node)) ||
+        (mobileCartPanelRef.current && mobileCartPanelRef.current.contains(e.target as Node));
+      if (!insideCart) {
         setCartOpen(false);
       }
     };
@@ -138,27 +145,9 @@ export default function Navbar(): React.JSX.Element {
           })}
 
           {/* EUR / FCFA currency switcher */}
-          <button
-            onClick={() => setCurrency(currency === "EUR" ? "XOF" : "EUR")}
-            title="Changer de devise"
-            aria-label="Changer de devise"
-            aria-pressed={currency === "XOF"}
-            style={{
-              background: "none",
-              border: "1.5px solid #e5e7eb",
-              borderRadius: 8,
-              padding: "6px 10px",
-              marginLeft: 4,
-              cursor: "pointer",
-              fontFamily: "var(--font-nunito)",
-              fontWeight: 700,
-              fontSize: 12,
-              color: "var(--gray)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {currency === "EUR" ? "€ EUR" : "FCFA"}
-          </button>
+          <div style={{ marginLeft: 4 }}>
+            <CurrencySwitch />
+          </div>
 
           {/* ⋮ dots dropdown */}
           <div ref={dotsRef} style={{ position: "relative", marginLeft: 4 }}>
@@ -366,6 +355,7 @@ export default function Navbar(): React.JSX.Element {
         <div ref={menuRef} className="mef-hamburger" style={{ gap: 8 }}>
           {/* Mobile cart icon */}
           <button
+            ref={mobileCartButtonRef}
             onClick={() => { setCartOpen((v) => !v); setMenuOpen(false); }}
             title="Mon panier"
             style={{
@@ -417,7 +407,7 @@ export default function Navbar(): React.JSX.Element {
             style={{ padding: "9px 14px", fontSize: 13 }}
             onClick={closeMenu}
           >
-            Moodle
+            Ma formation
           </a>
           <button
             onClick={() => setMenuOpen((v) => !v)}
@@ -473,11 +463,19 @@ export default function Navbar(): React.JSX.Element {
             </Link>
           );
         })}
+        <div className="mef-mobile-divider" />
+        <div
+          className="mef-mobile-link"
+          style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}
+        >
+          <span>Devise</span>
+          <CurrencySwitch />
+        </div>
       </div>
 
       {/* Mobile mini-cart (below navbar, fixed) */}
       {cartOpen && (
-        <div className="flex flex-col md:hidden" style={{
+        <div ref={mobileCartPanelRef} className="flex flex-col md:hidden" style={{
           position: "fixed",
           top: 72,
           left: 0,
