@@ -1150,6 +1150,115 @@ export const OUTILS: OutilProduct[] = [
       "Découvrir des objets, des végétaux, des vêtements et différents environnements",
     ],
   },
+  {
+    slug: 'transports',
+    listingTitle: 'Je découvre les transports',
+    listingSubtitle: 'Un cahier de coloriage pour reconnaître, nommer et explorer les moyens de transport.',
+    imgPosition: 'center 30%',
+    priceEur: 7.90,
+    priceXof: 5200,
+    color: '#f97316',
+    colorLight: '#fff7ed',
+    img: `${R2_IMAGES_BASE}/miniature_outils_transports.png`,
+    title: "Je découvre",
+    subtitle: "les transports",
+    tagline: "Voiture, avion, bateau, train, moto… chaque véhicule devient une nouvelle occasion de reconnaître, nommer et progresser.",
+    badge: "🚗 Cahier Transports",
+    description: "Un cahier de coloriage et d'activités de 65 pages pour reconnaître, nommer et explorer les moyens de transport, et développer le vocabulaire, l'attention et la motricité fine.",
+    imgWidth: 800,
+    imgHeight: 1067,
+    isLegumes: false,
+    inclus: [
+      { icon: "📄", text: "Fichier PDF de 65 pages en haute définition" },
+      { icon: "🖼️", text: "35 modèles de coloriage, en couleur et à compléter" },
+      { icon: "📷", text: "24 photographies de moyens de transport avec leur nom" },
+      { icon: "🗺️", text: "16 décors pour classer et mettre les véhicules en contexte" },
+      { icon: "♾️", text: "Accès illimité — imprimez autant de fois que nécessaire" },
+      { icon: "⚡", text: "Téléchargement immédiat après achat" },
+    ],
+    content: [
+      {
+        label: "🚗 Véhicules du quotidien",
+        items: ["Voiture", "Bus", "Moto", "Avion", "Bateau", "Train", "Ambulance", "Camion de pompier", "Tracteur", "Tramway"],
+      },
+      {
+        label: "🦸 Véhicules de héros et imaginaires",
+        items: ["Voitures de super-héros", "Voiture dragon", "Voiture cosmique", "Navette stellaire", "Île volante", "Dirigeable fantastique"],
+      },
+      {
+        label: "🌍 Transports d'Afrique",
+        items: ["Car rapide", "Taxi-moto", "Pirogue traditionnelle", "Camion de marchandises", "Train transsaharien"],
+      },
+    ],
+    contentTitle: "65 pages — coloriages, photographies et décors",
+    pourQuiItems: [
+      { icon: "🚙", text: "Votre enfant aime particulièrement les voitures, trains, avions ou autres moyens de transport" },
+      { icon: "🔤", text: "Il commence à reconnaître certains véhicules, mais ne connaît pas encore leur nom" },
+      { icon: "🧩", text: "Votre enfant a un retard de langage, un TSA, un TDL ou un TDA/H" },
+      { icon: "✋", text: "Il a besoin d'améliorer sa motricité fine et la précision de ses gestes" },
+      { icon: "🎯", text: "Il rencontre des difficultés pour rester concentré sur une activité" },
+      { icon: "💬", text: "Vous cherchez un support simple pour encourager la communication et les échanges" },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Cet outil est particulièrement adapté aux enfants <strong>passionnés de véhicules</strong>, avec{" "}
+        <strong>retard de langage, TSA, TDL ou TDA/H</strong>, et à tous ceux qui ont besoin de supports
+        ludiques pour enrichir leur vocabulaire.
+      </>
+    ),
+    pedagogie: {
+      title: "S'appuyer sur les centres d'intérêt pour donner envie d'apprendre",
+      desc: "De nombreux enfants manifestent un intérêt particulier pour les véhicules. Le coloriage attire leur attention sur les caractéristiques du transport — forme, roues, couleurs, environnement — et le mot écrit les aide progressivement à relier l'image, le mot et sa signification.",
+      items: [
+        {
+          icon: "🖍️",
+          title: "Observer, colorier, nommer",
+          desc: "Chaque véhicule est d'abord observé puis colorié en suivant son modèle, avant d'être nommé pour enrichir le vocabulaire.",
+        },
+        {
+          icon: "🗺️",
+          title: "Classer et associer à un environnement",
+          desc: "L'enfant associe chaque véhicule au décor dans lequel il se déplace — route, port, aéroport, voie ferrée.",
+        },
+        {
+          icon: "💬",
+          title: "Imaginer et raconter",
+          desc: "Les véhicules et décors servent de point de départ pour inventer de petites histoires et favoriser les échanges.",
+        },
+      ],
+    },
+    activites: [
+      {
+        icon: "🖍️",
+        title: "Le coloriage avec modèle",
+        desc: "Reproduire les couleurs d'un véhicule déjà colorié pour développer la coordination œil-main et l'attention aux détails.",
+      },
+      {
+        icon: "🔀",
+        title: "Le classement des moyens de transport",
+        desc: "Regrouper les véhicules selon qu'ils roulent, volent, naviguent, ou interviennent en cas d'urgence.",
+      },
+      {
+        icon: "🗺️",
+        title: "L'association véhicule-environnement",
+        desc: "Associer chaque véhicule au décor qui lui correspond — route, voie ferrée, port, aéroport, ciel ou mer.",
+      },
+      {
+        icon: "❓",
+        title: "Les devinettes",
+        desc: "« Il vole dans le ciel et transporte des passagers. Qui est-ce ? » — pour travailler la compréhension et l'expression orale.",
+      },
+    ],
+    productResultats: [
+      "Reconnaître et nommer différents moyens de transport",
+      "Enrichir son vocabulaire",
+      "Développer sa motricité fine et sa coordination œil-main",
+      "Améliorer sa concentration sur une activité",
+      "Trier et catégoriser les véhicules",
+      "Associer chaque transport à son environnement",
+      "Participer plus facilement à un échange avec l'adulte",
+    ],
+  },
 ];
 
 // ─────────────────────────────────────────────────

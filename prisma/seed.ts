@@ -132,6 +132,14 @@ const OUTILS: OutilSeed[] = [
     fileKeys: ['outils/outils_pate-a-modeler.pdf'],
   },
   {
+    slug: 'transports',
+    name: 'Je découvre les transports',
+    description: "Un cahier de coloriage et d'activités de 65 pages pour reconnaître, nommer et explorer les moyens de transport — voiture, avion, bateau, train, moto — à travers coloriages, photographies et jeux d'association.",
+    price: 7.90,
+    priceXof: 5200,
+    fileKeys: ['outils/outils_transports.pdf'],
+  },
+  {
     slug: 'filles-garcons',
     name: 'Je découvre les filles et les garçons',
     description: "Un cahier d'activités de 75 pages pour mieux se connaître, reconnaître les autres et respecter les différences — à travers coloriages, découpages et jeux d'association.",
