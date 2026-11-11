@@ -1273,6 +1273,15 @@ export const RESSOURCES: Ressource[] = [
     imgPosition: 'center 30%',
     fileKey: 'ressources/article_profil-sensoriel-autiste.pdf',
   },
+  {
+    slug: 'article_trisomie-21',
+    title: 'La trisomie 21',
+    subtitle: "Comprendre et accompagner la trisomie 21, de l'enfance à l'âge adulte, afin de favoriser l'autonomie à chaque étape de la vie.",
+    tag: 'Article · PDF gratuit',
+    img: `${R2_IMAGES_BASE}/miniature_trisomie-21.png`,
+    imgPosition: 'center 0%',
+    fileKey: 'ressources/article_trisomie-21.pdf',
+  },
 ];
 
 // ─────────────────────────────────────────────────

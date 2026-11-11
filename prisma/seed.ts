@@ -215,6 +215,12 @@ const RESSOURCES = [
     description: 'Comprendre le monde avec ses 5 sens',
     fileKey: 'ressources/article_profil-sensoriel-autiste.pdf',
   },
+  {
+    slug: 'article_trisomie-21',
+    name: 'La trisomie 21',
+    description: "Comprendre et accompagner la trisomie 21, de l'enfance à l'âge adulte, afin de favoriser l'autonomie à chaque étape de la vie.",
+    fileKey: 'ressources/article_trisomie-21.pdf',
+  },
 ] as const;
 
 // Lead magnet — delivered by email via LeadMagnet component
