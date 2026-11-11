@@ -1328,6 +1328,26 @@ export const PACKS: Pack[] = [
     badge: '📦 Pack — 2 outils',
     itemSlugs: ['animaux', 'cahier-coloriage'],
   },
+  {
+    slug: 'couleurs',
+    productSlug: 'pack-couleurs',
+    title: 'Je découvre les couleurs',
+    subtitle: 'Pack Complet + Coloriage',
+    tagline: 'Reconnaître, nommer et retrouver les couleurs, puis les ancrer en coloriant — pour apprendre par le jeu et la manipulation.',
+    color: '#db2777',
+    color2: '#06b6d4',
+    colorLight: '#fdf2f8',
+    img: `${R2_IMAGES_BASE}/miniature_outils_couleurs.png`,
+    imgPosition: 'center 30%',
+    priceEur: 13.90,
+    priceXof: 9000,
+    priceBarreEur: 15.20,
+    priceBarreXof: 10000,
+    economieEur: 1.30,
+    economieXof: 1000,
+    badge: '📦 Pack — 2 outils',
+    itemSlugs: ['couleurs', 'couleurs-coloriage'],
+  },
 ];
 
 export function getPackItems(pack: Pack): OutilProduct[] {
@@ -1390,6 +1410,128 @@ export const RESSOURCES: Ressource[] = [
     img: `${R2_IMAGES_BASE}/miniature_trisomie-21.png`,
     imgPosition: 'center 0%',
     fileKey: 'ressources/article_trisomie-21.pdf',
+  },
+];
+
+// ─────────────────────────────────────────────────
+// Ebooks (paid digital guides)
+// ─────────────────────────────────────────────────
+// Same purchase/delivery flow as an outil (Product type EBOOK, accessType
+// PAID — cart, checkout, payment, download-link email), but listed on the
+// "Ressources" page since they're informational guides rather than
+// hands-on pedagogical tools.
+
+export interface EbookChapter {
+  num: string;
+  title: string;
+  desc: string;
+}
+
+export interface EbookProduct {
+  slug: string;
+
+  // Listing card (Ressources page)
+  listingTitle: string;
+  listingSubtitle: string;
+  tag: string;
+  img: string;
+  imgPosition: string;
+
+  // Shared between listing and detail
+  priceEur: number;
+  priceXof?: number;
+  color: string;
+  colorLight: string;
+
+  // Detail page
+  title: string;
+  subtitle: string;
+  tagline: string;
+  badge: string;
+  description: string;
+  intro: string;
+  pourQui: Inclus[];
+  pourQuiNote: React.ReactNode;
+  sommaire: EbookChapter[];
+  atouts: PedagogieItem[];
+  approche: PedagogieItem[];
+  apports: string[];
+  inclus: Inclus[];
+  disclaimer: string;
+}
+
+export const EBOOKS: EbookProduct[] = [
+  {
+    slug: 'troubles-neurodeveloppement',
+    listingTitle: 'Comprendre les troubles du neurodéveloppement',
+    listingSubtitle: "Un guide illustré pour identifier, différencier et mieux comprendre TSA, TDAH, troubles DYS, TDL, TDI…",
+    tag: 'Ebook · PDF à télécharger',
+    img: `${R2_IMAGES_BASE}/miniature_ressources_trouble-neurodeveloppement.png`,
+    imgPosition: 'center 0%',
+    priceEur: 16.90,
+    priceXof: 11000,
+    color: '#4f46e5',
+    colorLight: '#eef2ff',
+    title: 'Comprendre les troubles',
+    subtitle: 'du neurodéveloppement',
+    tagline: "Un guide illustré pour identifier, différencier et mieux comprendre les troubles du neurodéveloppement.",
+    badge: '📘 Ebook illustré',
+    description: "TSA, TDAH, troubles DYS, TDL, TDI… derrière ces acronymes se cachent des réalités complexes, des manifestations parfois proches et des besoins très différents d'un enfant à l'autre. Cet ebook vous propose une vision globale, claire et structurée des principaux troubles du neurodéveloppement.",
+    intro: "Un enfant qui peine à communiquer, à se concentrer, à apprendre ou à coordonner ses gestes ne rencontre pas nécessairement les mêmes difficultés qu'un autre enfant présentant des manifestations semblables. Les troubles du neurodéveloppement peuvent également coexister et s'influencer mutuellement, rendant parfois leur compréhension plus complexe. Comprendre leurs particularités, leurs points communs et leurs différences est essentiel pour porter un regard plus juste sur les besoins de chaque enfant.",
+    pourQui: [
+      { icon: '👨‍👩‍👧', text: "Aux parents et aux familles — pour mieux comprendre les particularités de leur enfant et découvrir des pistes d'accompagnement adaptées." },
+      { icon: '🧠', text: "Aux professionnels de santé et du développement — orthophonistes, psychologues, psychomotriciens, ergothérapeutes…" },
+      { icon: '🏫', text: "Aux professionnels de l'éducation — enseignants, éducateurs spécialisés, AESH et professionnels de la petite enfance." },
+      { icon: '🎓', text: "Aux étudiants et futurs professionnels — pour acquérir une vision synthétique et structurée de référence." },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Que vous soyez <strong>parent, professionnel ou étudiant</strong>, ce guide vous aide à mieux
+        comprendre la diversité des profils et des besoins.
+      </>
+    ),
+    sommaire: [
+      { num: '01', title: 'Comprendre les troubles du neurodéveloppement', desc: "Les notions essentielles pour mieux comprendre leur origine, leurs manifestations et leurs conséquences possibles." },
+      { num: '02', title: "Le trouble du spectre de l'autisme (TSA)", desc: "Communication, interactions sociales, comportements et intérêts spécifiques, différences sensorielles." },
+      { num: '03', title: "Le trouble du déficit de l'attention avec ou sans hyperactivité (TDAH)", desc: "Difficultés attentionnelles, impulsivité, hyperactivité et stratégies d'adaptation." },
+      { num: '04', title: 'Les troubles spécifiques des apprentissages', desc: 'Dyslexie, dysorthographie, dyscalculie et difficultés liées à l\'écriture.' },
+      { num: '05', title: 'La dyspraxie et les difficultés de coordination', desc: 'Planification et coordination des gestes, répercussions sur l\'autonomie.' },
+      { num: '06', title: 'Le trouble du développement intellectuel (TDI)', desc: 'Fonctionnement intellectuel et adaptatif, besoins de soutien.' },
+      { num: '07', title: 'Les troubles moteurs et les mouvements atypiques', desc: 'Différentes manifestations motrices et leurs répercussions possibles.' },
+      { num: '08', title: 'Le trouble développemental du langage (TDL)', desc: 'Développement du langage, communication, relations et apprentissages.' },
+      { num: '09', title: 'Les troubles de la communication', desc: 'Difficultés touchant la parole, la fluidité verbale ou la communication sociale.' },
+      { num: '10', title: 'Les troubles associés et les comorbidités', desc: 'Pourquoi plusieurs troubles peuvent coexister — l\'importance d\'une approche globale.' },
+      { num: '11', title: "Les professionnels qui accompagnent l'enfant", desc: 'Rôles et complémentarité des intervenants dans l\'évaluation et le suivi.' },
+    ],
+    atouts: [
+      { icon: '🔍', title: 'Identifier les particularités', desc: "Retrouvez les principales caractéristiques des différents troubles et leurs manifestations possibles dans la vie quotidienne." },
+      { icon: '🧩', title: 'Mieux différencier les problématiques', desc: "Comprenez les points communs et les différences entre les troubles pour éviter les confusions." },
+      { icon: '🔄', title: 'Comprendre les troubles associés', desc: "Développez une vision plus globale des profils neurodéveloppementaux et des difficultés qui peuvent coexister." },
+      { icon: '💡', title: "Découvrir des pistes d'accompagnement", desc: "Accédez à des conseils et à des stratégies pour mieux répondre aux besoins de l'enfant." },
+      { icon: '🤝', title: 'Favoriser les échanges', desc: "Disposez d'un support clair pour faciliter le dialogue entre professionnels et familles." },
+      { icon: '📚', title: 'Retrouver facilement les informations', desc: "Grâce à une organisation par thématiques, consultez les chapitres selon vos besoins." },
+    ],
+    approche: [
+      { icon: '✍️', title: 'Des explications claires', desc: 'Pour comprendre les notions essentielles et distinguer les différentes problématiques.' },
+      { icon: '🎨', title: 'Des illustrations pédagogiques', desc: 'Pour faciliter la compréhension, la mémorisation et la lecture.' },
+      { icon: '🧒', title: 'Des exemples concrets', desc: 'Pour relier les connaissances aux situations rencontrées par les enfants, les familles et les professionnels.' },
+      { icon: '🧭', title: 'Des pistes pratiques', desc: 'Pour réfléchir à des adaptations et à des accompagnements respectueux des besoins de chacun.' },
+    ],
+    apports: [
+      'Un panorama des principaux troubles du neurodéveloppement',
+      'Des explications accessibles et structurées',
+      'Des illustrations et des exemples concrets',
+      'Un éclairage sur les troubles associés',
+      'Des pistes pour mieux accompagner',
+      'Un support numérique à consulter à tout moment',
+    ],
+    inclus: [
+      { icon: '📘', text: 'Un guide numérique illustré, structuré par thématiques' },
+      { icon: '📱', text: 'Un format PDF accessible depuis ordinateur, tablette ou téléphone' },
+      { icon: '⚡', text: 'Un téléchargement immédiat après validation de la commande' },
+      { icon: '📌', text: 'Un support à conserver et à consulter à votre rythme' },
+    ],
+    disclaimer: "Cet ebook est un support d'information, de sensibilisation et de compréhension. Il ne constitue pas un outil de diagnostic et ne remplace pas une évaluation ou un accompagnement individualisé par des professionnels qualifiés.",
   },
 ];
 

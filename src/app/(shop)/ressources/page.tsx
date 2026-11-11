@@ -1,11 +1,17 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { RESSOURCES } from '@/lib/catalog';
+import { useAddToCart } from '@/hooks/useAddToCart';
+import { useCurrency } from '@/contexts/CurrencyContext';
+import { formatPrice } from '@/lib/currency';
+import { RESSOURCES, EBOOKS } from '@/lib/catalog';
 
 export default function RessourcesPage(): React.JSX.Element {
   const isMobile = useIsMobile();
+  const { addToCart, loading } = useAddToCart();
+  const { currency } = useCurrency();
 
   return (
     <div style={{ paddingTop: 72 }}>
@@ -30,6 +36,56 @@ export default function RessourcesPage(): React.JSX.Element {
             gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
             gap: 24,
           }}>
+            {EBOOKS.map((ebook) => (
+              <div key={ebook.slug} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ position: 'relative', height: isMobile ? 200 : 260, overflow: 'hidden', backgroundColor: ebook.colorLight }}>
+                  <span style={{ position: 'absolute', top: 12, left: 12, zIndex: 1, display: 'inline-flex', alignItems: 'center', gap: 6, borderRadius: 50, padding: '5px 12px', fontSize: 12, fontFamily: 'var(--font-nunito)', fontWeight: 700, background: 'white', color: ebook.color, boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                    {ebook.badge}
+                  </span>
+                  <Image
+                    src={ebook.img}
+                    alt={ebook.listingTitle}
+                    fill
+                    style={{
+                      objectFit: 'contain',
+                      backgroundColor: 'transparent',
+                      objectPosition: ebook.imgPosition ?? 'center center',
+                      filter: 'drop-shadow(-10px 16px 16px rgba(0,0,0,0.75))'
+                    }}
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
+                </div>
+
+                <div style={{ padding: '20px 22px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <span style={{ display: 'inline-block', fontSize: 11, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#5a6070', marginBottom: 10 }}>
+                    {ebook.tag}
+                  </span>
+                  <h4 style={{ fontFamily: 'var(--font-nunito)', fontSize: 18, fontWeight: 700, marginBottom: 6, lineHeight: 1.4, color: '#090943' }}>
+                    {ebook.listingTitle}
+                  </h4>
+                  <p style={{ color: '#5a6070', fontSize: 14, lineHeight: 1.55, marginBottom: 0, flex: 1 }}>{ebook.listingSubtitle}</p>
+
+                  <div style={{ marginTop: 16, borderTop: '1px solid #f3f4f6', paddingTop: 14 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+                      <span style={{ fontFamily: 'var(--font-nunito)', fontWeight: 900, fontSize: 20, color: ebook.color }}>
+                        {formatPrice(ebook.priceEur, ebook.priceXof ?? null, currency)}
+                      </span>
+                      <Link href={`/ressources/${ebook.slug}`} style={{ fontFamily: 'var(--font-nunito)', fontSize: 13, color: 'var(--gray)', textDecoration: 'underline' }}>
+                        Détails →
+                      </Link>
+                    </div>
+                    <button
+                      onClick={() => void addToCart(ebook.slug)}
+                      disabled={loading}
+                      className="mef-btn"
+                      style={{ width: '100%', justifyContent: 'center', padding: '10px 18px', fontSize: 13, background: ebook.color, color: 'white', opacity: loading ? 0.7 : 1, cursor: loading ? 'wait' : 'pointer' }}
+                    >
+                      {loading ? 'Chargement…' : '🛒 Ajouter au panier'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
             {RESSOURCES.map((resource) => (
               <div key={resource.slug} className="mef-card" style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ position: 'relative', height: isMobile ? 200 : 260, overflow: 'hidden', backgroundColor: '#F5E6C8' }}>

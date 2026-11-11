@@ -202,6 +202,37 @@ const PACKS: PackSeed[] = [
     priceXof: 12000,
     itemSlugs: ['animaux', 'cahier-coloriage'],
   },
+  {
+    slug: 'pack-couleurs',
+    name: 'Je découvre les couleurs — Pack Complet + Coloriage',
+    description: 'Reconnaître, nommer et retrouver les couleurs, puis les ancrer en coloriant — pour apprendre par le jeu et la manipulation.',
+    price: 13.90,
+    priceXof: 9000,
+    itemSlugs: ['couleurs', 'couleurs-coloriage'],
+  },
+];
+
+// Paid ebook, listed on the "Ressources" page — same Product shape as an
+// outil (type EBOOK, accessType PAID), mirrored from EBOOKS in
+// src/lib/catalog.tsx.
+type EbookSeed = {
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  priceXof?: number;
+  fileKeys: string[];
+};
+
+const EBOOKS: EbookSeed[] = [
+  {
+    slug: 'troubles-neurodeveloppement',
+    name: 'Comprendre les troubles du neurodéveloppement',
+    description: "Un guide illustré pour identifier, différencier et mieux comprendre les troubles du neurodéveloppement (TSA, TDAH, troubles DYS, TDL, TDI…).",
+    price: 16.90,
+    priceXof: 11000,
+    fileKeys: ['ressources/ebook_troubles-neurodeveloppement.pdf'],
+  },
 ];
 
 const RESSOURCES = [
@@ -344,6 +375,31 @@ async function main(): Promise<void> {
       },
     });
     console.log(`  [PACK]      slug=${product.slug}  price=${product.priceEur} EUR / ${product.priceXof ?? '—'} FCFA  files=${fileKeys.length}`);
+  }
+
+  for (const p of EBOOKS) {
+    const product = await db.product.upsert({
+      where: { slug: p.slug },
+      update: {
+        name: p.name,
+        description: p.description,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
+        ebook: { update: { fileKeys: p.fileKeys } },
+      },
+      create: {
+        slug: p.slug,
+        name: p.name,
+        description: p.description,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
+        type: ProductType.EBOOK,
+        accessType: AccessType.PAID,
+        active: true,
+        ebook: { create: { fileKeys: p.fileKeys } },
+      },
+    });
+    console.log(`  [EBOOK]     slug=${product.slug}  price=${product.priceEur} EUR / ${product.priceXof ?? '—'} FCFA`);
   }
 
   for (const p of [...RESSOURCES, ...BONUS]) {
