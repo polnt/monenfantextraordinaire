@@ -705,6 +705,451 @@ export const OUTILS: OutilProduct[] = [
       "Développer son attention, sa persévérance et son autonomie",
     ],
   },
+  {
+    slug: 'filles-garcons',
+    listingTitle: 'Je découvre les filles et les garçons',
+    listingSubtitle: "75 pages d'activités pour mieux se connaître, reconnaître les autres et respecter les différences.",
+    imgPosition: 'center 30%',
+    priceEur: 9.90,
+    priceXof: 6500,
+    color: '#0d9488',
+    colorLight: '#f0fdfa',
+    img: `${R2_IMAGES_BASE}/miniature_outils_filles-garcons.png`,
+    title: "Je découvre les filles",
+    subtitle: "et les garçons",
+    tagline: "Pour apprendre à se reconnaître, comprendre les autres et respecter chaque différence.",
+    badge: "👦👧 Cahier d'activités",
+    description: "Un cahier d'activités de 75 pages pour mieux se connaître, reconnaître les autres et respecter les différences — à travers coloriages, découpages et jeux d'association.",
+    imgWidth: 800,
+    imgHeight: 1067,
+    isLegumes: false,
+    inclus: [
+      { icon: "📄", text: "Fichier PDF de 75 pages en haute définition" },
+      { icon: "🖨️", text: "Format A4 facile à imprimer" },
+      { icon: "✂️", text: "Personnages et éléments du visage à découper et manipuler" },
+      { icon: "🎨", text: "Illustrations et photographies en couleur" },
+      { icon: "♾️", text: "Accès illimité — réimprimez autant de fois que nécessaire" },
+      { icon: "⚡", text: "Téléchargement immédiat après achat" },
+    ],
+    content: [
+      {
+        label: "🧑 Se présenter et se reconnaître",
+        items: ["Je me présente", "Reconnaître et désigner les filles et les garçons", "Trier et classer les personnages"],
+      },
+      {
+        label: "👀 Observer le visage et le corps",
+        items: ["Observer les vêtements et accessoires", "Reconstituer les visages", "Reconnaître les parties du visage", "Nommer les parties du corps", "Associer les mots et les images"],
+      },
+      {
+        label: "🌍 Grandir et découvrir le monde",
+        items: ["Dessiner en suivant un modèle", "Découvrir les étapes de la vie", "Découvrir la diversité du monde", "Colorier en suivant une consigne"],
+      },
+    ],
+    contentTitle: "Un cahier complet — 75 pages et 12 activités",
+    pourQuiItems: [
+      { icon: "🧒", text: "Votre enfant commence à s'interroger sur les filles, les garçons et les différences entre les personnes" },
+      { icon: "👁️", text: "Il a besoin de supports visuels pour comprendre les catégories et les caractéristiques humaines" },
+      { icon: "🧩", text: "Il rencontre des difficultés pour identifier ou comparer les personnes" },
+      { icon: "🗣️", text: "Vous souhaitez l'aider à mieux se connaître et à parler de lui" },
+      { icon: "🌍", text: "Vous cherchez un support valorisant la diversité culturelle et physique" },
+      { icon: "🎯", text: "Vous accompagnez un enfant avec un TSA, un TDL ou d'autres besoins particuliers" },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Cet outil est particulièrement adapté aux enfants ayant besoin de <strong>repères concrets</strong> pour
+        se connaître et comprendre les autres, avec <strong>TSA, TDL ou retard de langage</strong>, ou pour
+        aborder les différences de manière <strong>simple, concrète et respectueuse</strong>.
+      </>
+    ),
+    pedagogie: {
+      title: "Comprendre les différences pour mieux vivre ensemble",
+      desc: "Reconnaître les personnes, identifier certaines caractéristiques physiques et comprendre que chacun évolue avec l'âge font partie des apprentissages sociaux de l'enfant. Ces notions peuvent rester abstraites, notamment pour les enfants qui ont besoin d'un enseignement explicite et de supports visuels concrets.",
+      items: [
+        {
+          icon: "👁️",
+          title: "Observer avant de nommer",
+          desc: "Chaque notion part de l'observation de personnages illustrés ou de photographies, pour que l'enfant construise ses repères avant de les mettre en mots.",
+        },
+        {
+          icon: "🧩",
+          title: "Trier, catégoriser et associer",
+          desc: "Découper, classer et associer des images travaillent la compréhension des consignes et la catégorisation — des compétences clés du développement social.",
+        },
+        {
+          icon: "🌍",
+          title: "Découvrir la diversité avec bienveillance",
+          desc: "Présenter des personnes d'âges, de cultures et d'apparences variées aide l'enfant à comprendre que chacun est différent et mérite d'être respecté.",
+        },
+      ],
+    },
+    activites: [
+      {
+        icon: "✂️",
+        title: "Trier et classer les personnages",
+        desc: "Découper puis placer les personnages dans les colonnes correspondantes — pour travailler la compréhension des consignes et la catégorisation.",
+      },
+      {
+        icon: "🧑‍🎨",
+        title: "Reconstituer les visages",
+        desc: "Compléter un visage à partir d'éléments à découper — yeux, nez, bouche, sourcils — pour développer le schéma corporel et l'organisation spatiale.",
+      },
+      {
+        icon: "📅",
+        title: "Découvrir les étapes de la vie",
+        desc: "Observer des frises illustrant l'évolution d'une personne — bébé, enfant, adolescent, adulte — pour construire ses premiers repères temporels.",
+      },
+      {
+        icon: "🌍",
+        title: "Découvrir la diversité du monde",
+        desc: "Observer des femmes et des hommes d'origines variées pour s'ouvrir à la diversité des visages, des coiffures et des cultures.",
+      },
+    ],
+    productResultats: [
+      "Mieux parler de lui et exprimer ses préférences",
+      "Reconnaître et comparer différentes personnes",
+      "Enrichir son vocabulaire autour du corps, du visage et des vêtements",
+      "Développer son schéma corporel",
+      "Comprendre les principales étapes de la vie",
+      "Améliorer son observation et sa discrimination visuelle",
+      "Apprendre à respecter les goûts, les choix et les particularités de chacun",
+    ],
+  },
+  {
+    slug: 'contraires',
+    listingTitle: 'Je découvre les contraires',
+    listingSubtitle: "Un imagier photo de 52 pages pour comprendre, nommer et utiliser les notions opposées.",
+    imgPosition: 'center 30%',
+    priceEur: 6.90,
+    priceXof: 4500,
+    color: '#6366f1',
+    colorLight: '#eef2ff',
+    img: `${R2_IMAGES_BASE}/miniature_outils_contraires.png`,
+    title: "Je découvre",
+    subtitle: "les contraires",
+    tagline: "Grand et petit, chaud et froid, ouvert et fermé… des photographies concrètes pour comprendre et nommer les notions opposées.",
+    badge: "🔄 Imagier des contraires",
+    description: "Un livre de 52 pages qui présente les opposés à travers des photographies concrètes, variées et faciles à comparer — pour enrichir le vocabulaire et développer la compréhension.",
+    imgWidth: 800,
+    imgHeight: 1067,
+    isLegumes: false,
+    inclus: [
+      { icon: "📄", text: "Fichier PDF de 52 pages en haute définition" },
+      { icon: "🖨️", text: "Format A4 facile à imprimer" },
+      { icon: "📷", text: "49 planches visuelles en couleur, avec photographies réelles" },
+      { icon: "🔗", text: "Plus de 45 paires de notions opposées" },
+      { icon: "♾️", text: "Accès illimité — réimprimez autant de fois que nécessaire" },
+      { icon: "⚡", text: "Téléchargement immédiat après achat" },
+    ],
+    content: [
+      {
+        label: "📏 Propriétés des objets",
+        items: ["Grand / petit", "Lourd / léger", "Chaud / froid", "Plein / vide", "Propre / sale"],
+      },
+      {
+        label: "🧭 Notions spatiales",
+        items: ["Devant / derrière", "Dessus / dessous", "Ouvert / fermé", "Près / loin", "À gauche / à droite"],
+      },
+      {
+        label: "🏃 Actions et émotions",
+        items: ["Rapide / lent", "Monter / descendre", "Content / triste", "Jour / nuit"],
+      },
+    ],
+    contentTitle: "Un livre complet — 49 planches et plus de 45 paires de contraires",
+    pourQuiItems: [
+      { icon: "🌱", text: "Votre enfant commence à découvrir les notions opposées" },
+      { icon: "🔗", text: "Il connaît certains mots, mais ne comprend pas encore leur contraire" },
+      { icon: "📷", text: "Il a besoin d'images concrètes pour comprendre une notion abstraite" },
+      { icon: "🧩", text: "Il rencontre des difficultés à comparer deux objets ou deux situations" },
+      { icon: "🧭", text: "Il a besoin de renforcer son repérage dans l'espace" },
+      { icon: "🎯", text: "Vous accompagnez un enfant avec un retard de langage, un TSA, un TDL ou d'autres besoins particuliers" },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Cet outil est particulièrement adapté aux enfants ayant besoin de <strong>photographies concrètes</strong> pour
+        comprendre une notion abstraite, avec <strong>TSA, TDL ou retard de langage</strong>, ou pour{" "}
+        <strong>travailler les consignes simples et le repérage dans l&apos;espace</strong>.
+      </>
+    ),
+    pedagogie: {
+      title: "Rendre les notions abstraites visibles et concrètes",
+      desc: "Les contraires permettent à l'enfant d'organiser sa compréhension du monde : un objet peut être lourd ou léger, une personne peut entrer ou sortir. Apprendre un contraire ne consiste pas uniquement à mémoriser deux mots — l'enfant doit comprendre la relation qui les oppose et reconnaître cette relation dans plusieurs situations.",
+      items: [
+        {
+          icon: "👁️",
+          title: "Observer avant de nommer",
+          desc: "Chaque planche présente deux notions opposées placées côte à côte, avec plusieurs exemples photographiques, pour que l'enfant observe les différences avant de les mettre en mots.",
+        },
+        {
+          icon: "🔗",
+          title: "Associer les deux mots opposés",
+          desc: "Des représentations variées favorisent la généralisation : l'enfant apprend à reconnaître la même notion dans plusieurs situations du quotidien.",
+        },
+        {
+          icon: "🗣️",
+          title: "Réutiliser dans des phrases simples",
+          desc: "Une fois les contraires reconnus et nommés, l'enfant est encouragé à les retrouver dans son environnement et à les réutiliser dans de petites phrases.",
+        },
+      ],
+    },
+    activites: [
+      {
+        icon: "👁️",
+        title: "Observer et comparer",
+        desc: "Repérer les différences entre deux images pour construire la relation entre les deux notions opposées.",
+      },
+      {
+        icon: "👉",
+        title: "Montrer la notion demandée",
+        desc: "Pointer la bonne image parmi les deux pour travailler la compréhension et l'attention visuelle.",
+      },
+      {
+        icon: "🧑‍🤝‍🧑",
+        title: "Mimer les actions",
+        desc: "Reproduire une action opposée (monter / descendre, ouvrir / fermer) pour mieux comprendre et mémoriser les mots.",
+      },
+      {
+        icon: "🏠",
+        title: "Retrouver les notions au quotidien",
+        desc: "Repérer les contraires dans son environnement proche, avec des jouets ou des objets familiers, pour généraliser les apprentissages.",
+      },
+    ],
+    productResultats: [
+      "Comprendre les principales notions opposées",
+      "Enrichir son vocabulaire",
+      "Mieux comprendre les consignes",
+      "Comparer deux objets ou deux situations",
+      "Améliorer sa discrimination visuelle",
+      "Renforcer ses repères dans l'espace",
+      "Reconnaître certaines émotions et certains états",
+      "Réutiliser les mots dans les situations du quotidien",
+    ],
+  },
+  {
+    slug: 'couleurs',
+    listingTitle: 'Je découvre les couleurs',
+    listingSubtitle: "Un livret de 80 pages pour apprendre à reconnaître, nommer et retrouver 11 couleurs dans le quotidien.",
+    imgPosition: 'center 30%',
+    priceEur: 9.90,
+    priceXof: 6500,
+    color: '#db2777',
+    colorLight: '#fdf2f8',
+    img: `${R2_IMAGES_BASE}/miniature_outils_couleurs.png`,
+    title: "Je découvre",
+    subtitle: "les couleurs",
+    tagline: "Un support ludique et progressif pour apprendre à reconnaître, nommer et retrouver les couleurs dans le quotidien.",
+    badge: "🎨 Imagier des couleurs",
+    description: "Un livret de 80 pages pour apprendre à reconnaître, nommer et retrouver 11 couleurs dans le quotidien — à travers photographies, illustrations, jeux d'association et cartes à manipuler.",
+    imgWidth: 800,
+    imgHeight: 1067,
+    isLegumes: false,
+    inclus: [
+      { icon: "📄", text: "Fichier PDF de 80 pages en haute définition" },
+      { icon: "🖨️", text: "Format A4 facile à imprimer" },
+      { icon: "🎨", text: "11 couleurs à découvrir, avec photographies réelles et illustrations" },
+      { icon: "✂️", text: "Cartes individuelles à découper et à manipuler" },
+      { icon: "♾️", text: "Accès illimité — réimprimez autant de fois que nécessaire" },
+      { icon: "⚡", text: "Téléchargement immédiat après achat" },
+    ],
+    content: [
+      {
+        label: "🔍 Découvrir et associer",
+        items: ["Découverte sensorielle des couleurs", "Association image-image", "Cartes avec le vocabulaire écrit"],
+      },
+      {
+        label: "🎲 Jouer et reconnaître",
+        items: ["Jeu des couleurs", "Jeu des associations", "Tri et catégorisation"],
+      },
+      {
+        label: "🏠 Nommer et généraliser",
+        items: ["Rappel et expression", "Chasse aux couleurs dans le quotidien"],
+      },
+    ],
+    contentTitle: "Un livret complet — 80 pages et 11 couleurs à découvrir",
+    pourQuiItems: [
+      { icon: "🌱", text: "Votre enfant commence à découvrir les couleurs, mais a encore du mal à les reconnaître ou à les nommer" },
+      { icon: "🔗", text: "Il reconnaît une couleur sur une carte, mais pas toujours sur un autre objet ou dans son environnement" },
+      { icon: "📷", text: "Il apprend plus facilement grâce aux images, à la manipulation et à la répétition" },
+      { icon: "🗣️", text: "Vous souhaitez enrichir son vocabulaire à partir d'objets familiers" },
+      { icon: "💡", text: "Vous cherchez des activités courtes, simples et ludiques à réaliser à la maison ou en séance" },
+      { icon: "🎯", text: "Vous accompagnez un enfant avec un retard de langage, un TSA, un TDL ou d'autres besoins particuliers" },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Cet outil est particulièrement adapté aux enfants ayant besoin de <strong>supports structurés et
+        concrets</strong> pour apprendre à leur rythme, avec <strong>TSA, TDL ou retard de langage</strong>, ou pour{" "}
+        <strong>généraliser une couleur apprise sur une carte à des objets du quotidien</strong>.
+      </>
+    ),
+    pedagogie: {
+      title: "Apprendre une couleur, c'est bien plus que mémoriser son nom",
+      desc: "Un enfant peut reconnaître le rouge sur une carte sans forcément comprendre qu'une fraise, un ballon et un vêtement peuvent tous être rouges. Pour maîtriser réellement une couleur, il doit apprendre à la retrouver sur des objets différents, dans des contextes variés et sous plusieurs représentations visuelles — c'est la généralisation des apprentissages.",
+      items: [
+        {
+          icon: "👁️",
+          title: "Découvrir par l'observation",
+          desc: "Chaque couleur est d'abord explorée par l'observation et la manipulation sensorielle, pour construire une première représentation concrète.",
+        },
+        {
+          icon: "🔗",
+          title: "Associer la couleur à son nom",
+          desc: "Le langage et les supports visuels permettent ensuite d'associer chaque couleur à son nom, puis de la reconnaître parmi plusieurs propositions.",
+        },
+        {
+          icon: "🏠",
+          title: "Retrouver la couleur au quotidien",
+          desc: "Photographies et illustrations sont volontairement associées pour aider l'enfant à comprendre qu'un même objet peut être représenté de différentes façons, puis à retrouver la couleur sur ses vêtements, ses jouets ou ses aliments.",
+        },
+      ],
+    },
+    activites: [
+      {
+        icon: "👁️",
+        title: "La découverte sensorielle",
+        desc: "Observer, toucher, trier ou manipuler des objets colorés pour éveiller l'attention et la curiosité de l'enfant.",
+      },
+      {
+        icon: "🔗",
+        title: "L'association image-image",
+        desc: "Associer deux représentations d'un même objet ou rechercher les éléments appartenant à la même couleur, pour développer la discrimination visuelle.",
+      },
+      {
+        icon: "🧩",
+        title: "Le tri et la catégorisation",
+        desc: "Rassembler les éléments ayant une couleur commune, en faisant abstraction de leur forme, leur taille ou leur fonction.",
+      },
+      {
+        icon: "🏠",
+        title: "La chasse aux couleurs",
+        desc: "Rechercher les couleurs autour de soi — vêtements, jouets, aliments, maison ou promenade — pour transférer les apprentissages dans la vie quotidienne.",
+      },
+    ],
+    productResultats: [
+      "Reconnaître et différencier les principales couleurs",
+      "Associer une couleur à son nom",
+      "Retrouver une même couleur sur des objets très différents",
+      "Comprendre qu'une photographie et une illustration peuvent représenter le même objet",
+      "Enrichir son vocabulaire",
+      "Développer son attention et sa discrimination visuelle",
+      "Améliorer ses capacités de tri, d'association et de catégorisation",
+      "Réutiliser ses apprentissages dans son quotidien",
+    ],
+  },
+  {
+    slug: 'couleurs-coloriage',
+    listingTitle: 'Je découvre les couleurs en coloriage',
+    listingSubtitle: "Un cahier de coloriage ludique et progressif pour apprendre les couleurs à partir de ce que l'enfant connaît déjà.",
+    imgPosition: 'center 30%',
+    priceEur: 5.30,
+    priceXof: 3500,
+    color: '#06b6d4',
+    colorLight: '#ecfeff',
+    img: `${R2_IMAGES_BASE}/miniature_outils_couleurs-coloriage.png`,
+    title: "Je découvre les couleurs",
+    subtitle: "en coloriage",
+    tagline: "Chaque page associe un modèle en couleurs à un dessin à colorier, pour observer, reconnaître puis reproduire.",
+    badge: "🖍️ Cahier de coloriage",
+    description: "Un cahier de coloriage ludique et progressif pour apprendre les couleurs à partir de ce que l'enfant connaît déjà, à travers 5 univers familiers du quotidien.",
+    imgWidth: 800,
+    imgHeight: 1067,
+    isLegumes: false,
+    inclus: [
+      { icon: "📄", text: "Cahier de coloriage progressif en haute définition" },
+      { icon: "🖼️", text: "Un modèle en couleur associé à chaque dessin à colorier" },
+      { icon: "🖨️", text: "Format PDF imprimable — A4" },
+      { icon: "♾️", text: "Accès illimité — imprimez autant de fois que nécessaire" },
+      { icon: "⚡", text: "Téléchargement immédiat après achat" },
+      { icon: "📋", text: "Guide d'utilisation et idées d'activités inclus" },
+    ],
+    content: [
+      {
+        label: "🍎 Les aliments",
+        items: ["Fruits et plats aux couleurs variées", "Aliments du quotidien"],
+      },
+      {
+        label: "🧸 Les jouets",
+        items: ["Ballon", "Poupée", "Train", "Xylophone", "Voiture", "Cubes", "Figurines"],
+      },
+      {
+        label: "👕 Les vêtements",
+        items: ["Pull", "Pantalon", "Bottes", "Robe", "Uniforme", "Tenues traditionnelles"],
+      },
+      {
+        label: "🌳 Les arbres",
+        items: ["Différentes espèces", "Nouvelles associations de couleurs"],
+      },
+      {
+        label: "🌍 Les couleurs du monde",
+        items: ["Taj Mahal", "Maroc", "Forêt équatoriale", "Paris", "Sénégal"],
+      },
+    ],
+    contentTitle: "5 univers — un cahier de coloriage progressif",
+    pourQuiItems: [
+      { icon: "🌱", text: "Votre enfant commence à découvrir ou à consolider les couleurs" },
+      { icon: "🖼️", text: "Il aime apprendre avec des supports visuels" },
+      { icon: "🧩", text: "Il a besoin d'activités simples et structurées" },
+      { icon: "🖍️", text: "Il apprécie particulièrement le coloriage" },
+      { icon: "🔁", text: "Les pages peuvent être proposées progressivement et répétées autant que nécessaire" },
+      { icon: "🎯", text: "Vous accompagnez un enfant dans le cadre scolaire, en rééducation ou à domicile" },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Ce cahier est particulièrement adapté aux enfants qui <strong>découvrent ou consolident les
+        couleurs</strong>, qui ont besoin de <strong>supports visuels simples et structurés</strong>, et à tous
+        ceux qui apprécient particulièrement le coloriage.
+      </>
+    ),
+    pedagogie: {
+      title: "Observer, reconnaître, reproduire, nommer, retrouver",
+      desc: "L'enfant ne colorie pas simplement « comme il veut » : il observe le modèle, repère les différentes zones, associe chaque couleur à la bonne partie du dessin puis la reproduit. Cela permet de travailler simultanément les couleurs, le vocabulaire, l'attention visuelle, l'observation et la motricité fine.",
+      items: [
+        {
+          icon: "🎨",
+          title: "La reconnaissance et la mémorisation des couleurs",
+          desc: "Chaque page associe un modèle en couleurs à un dessin à colorier, pour ancrer progressivement chaque couleur.",
+        },
+        {
+          icon: "👁️",
+          title: "L'observation et l'attention visuelle",
+          desc: "Des indications visuelles simples aident l'enfant à repérer les zones à colorier avant de reproduire le modèle.",
+        },
+        {
+          icon: "🧩",
+          title: "L'association entre un modèle et sa reproduction",
+          desc: "L'enfant apprend à associer chaque couleur à la bonne partie du dessin, une compétence clé avant de nommer et de généraliser.",
+        },
+      ],
+    },
+    activites: [
+      {
+        icon: "👁️",
+        title: "Observer le modèle",
+        desc: "Regarder ensemble les couleurs du modèle et les nommer avant de commencer à colorier.",
+      },
+      {
+        icon: "🔍",
+        title: "Chercher les couleurs",
+        desc: "« Où vois-tu du rouge ? », « Quelle couleur a le tronc ? » — pour aiguiser l'observation.",
+      },
+      {
+        icon: "🖍️",
+        title: "Colorier en suivant le modèle",
+        desc: "L'enfant retrouve les zones indiquées par les flèches et reproduit les couleurs du modèle.",
+      },
+      {
+        icon: "🏠",
+        title: "Faire le lien avec la vraie vie",
+        desc: "« Est-ce que tu vois quelque chose de jaune autour de toi ? », « Ton pantalon est de quelle couleur ? »",
+      },
+    ],
+    productResultats: [
+      "Renforcer la reconnaissance et la mémorisation des couleurs",
+      "Développer l'observation et l'attention visuelle",
+      "Améliorer la motricité fine et la précision du geste",
+      "Enrichir le vocabulaire et le langage",
+      "Associer un modèle à sa reproduction",
+      "Découvrir des objets, des végétaux, des vêtements et différents environnements",
+    ],
+  },
 ];
 
 // ─────────────────────────────────────────────────

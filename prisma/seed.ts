@@ -131,6 +131,38 @@ const OUTILS: OutilSeed[] = [
     priceXof: 5800,
     fileKeys: ['outils/outils_pate-a-modeler.pdf'],
   },
+  {
+    slug: 'filles-garcons',
+    name: 'Je découvre les filles et les garçons',
+    description: "Un cahier d'activités de 75 pages pour mieux se connaître, reconnaître les autres et respecter les différences — à travers coloriages, découpages et jeux d'association.",
+    price: 9.90,
+    priceXof: 6500,
+    fileKeys: ['outils/outils_filles-garcons.pdf'],
+  },
+  {
+    slug: 'contraires',
+    name: 'Je découvre les contraires',
+    description: "Un livre de 52 pages qui présente les opposés à travers des photographies concrètes, variées et faciles à comparer — pour enrichir le vocabulaire et développer la compréhension.",
+    price: 6.90,
+    priceXof: 4500,
+    fileKeys: ['outils/outils_contraires.pdf'],
+  },
+  {
+    slug: 'couleurs',
+    name: 'Je découvre les couleurs',
+    description: "Un livret de 80 pages pour apprendre à reconnaître, nommer et retrouver 11 couleurs dans le quotidien — à travers photographies, illustrations, jeux d'association et cartes à manipuler.",
+    price: 9.90,
+    priceXof: 6500,
+    fileKeys: ['outils/outils_couleurs.pdf'],
+  },
+  {
+    slug: 'couleurs-coloriage',
+    name: 'Je découvre les couleurs en coloriage',
+    description: "Un cahier de coloriage ludique et progressif pour apprendre les couleurs à partir de ce que l'enfant connaît déjà, à travers 5 univers familiers du quotidien.",
+    price: 5.30,
+    priceXof: 3500,
+    fileKeys: ['outils/outils_couleurs-coloriage.pdf'],
+  },
 ];
 
 // Bundles of 2 outils sold together at a reduced price — mirrored from PACKS in
