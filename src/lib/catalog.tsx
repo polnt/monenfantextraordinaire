@@ -601,6 +601,110 @@ export const OUTILS: OutilProduct[] = [
       "Réduire le stress et l'agitation grâce à une activité apaisante",
     ],
   },
+  {
+    slug: 'pate-a-modeler',
+    listingTitle: 'Je découvre et crée en pâte à modeler',
+    listingSubtitle: '14 créations guidées, pas à pas, pour développer la motricité fine en s\'amusant.',
+    imgPosition: 'center 30%',
+    priceEur: 8.90,
+    priceXof: 5800,
+    color: '#ec4899',
+    colorLight: '#fdf2f8',
+    img: `${R2_IMAGES_BASE}/miniature_outils_pate-a-modeler.png`,
+    title: "Je découvre et crée",
+    subtitle: "en pâte à modeler",
+    tagline: "Une petite boule de pâte, quelques gestes simples… et la fierté de voir sa création prendre forme.",
+    badge: "🖐️ Livret Pâte à modeler",
+    description: "14 créations guidées, expliquées pas à pas en 58 étapes illustrées, pour apprendre à rouler, aplatir, assembler et modeler — tout en développant la motricité fine, l'attention et l'autonomie.",
+    imgWidth: 800,
+    imgHeight: 1067,
+    isLegumes: false,
+    inclus: [
+      { icon: "📄", text: "Fichier PDF de 61 pages en haute définition" },
+      { icon: "🖼️", text: "Format A4 paysage, adapté à l'affichage devant l'enfant" },
+      { icon: "🖨️", text: "14 créations guidées en 58 étapes illustrées" },
+      { icon: "♾️", text: "Accès illimité — réimprimez autant de fois que nécessaire" },
+      { icon: "⚡", text: "Téléchargement immédiat après achat" },
+      { icon: "📋", text: "Conseils pour accompagner l'enfant sans faire à sa place" },
+    ],
+    content: [
+      {
+        label: "🖐️ Construire et modeler",
+        items: ["Bonhomme", "Fleur", "Chien", "Maison", "Nourriture", "Formes géométriques", "Objets du quotidien"],
+      },
+      {
+        label: "🔤 Former des lettres",
+        items: ["Observer le sens et la disposition des traits", "Reproduire la forme de la lettre", "Préparer les premiers apprentissages de l'écriture"],
+      },
+    ],
+    contentTitle: "Un cahier complet — 14 créations et 58 étapes illustrées",
+    pourQuiItems: [
+      { icon: "🖐️", text: "Votre enfant aime manipuler, toucher et construire" },
+      { icon: "💪", text: "Il a besoin de renforcer ses doigts et de gagner en précision" },
+      { icon: "🧩", text: "Il rencontre des difficultés dans les activités de motricité fine" },
+      { icon: "👀", text: "Il a besoin de consignes visuelles, courtes et décomposées" },
+      { icon: "📐", text: "Vous souhaitez travailler les formes et les premières lettres autrement que sur une feuille" },
+      { icon: "🎯", text: "Vous accompagnez un enfant avec un TSA, un TDL, un TDA/H ou d'autres besoins particuliers" },
+    ],
+    pourQuiNote: (
+      <>
+        👉 Cet outil est particulièrement adapté aux enfants ayant besoin de <strong>renforcer leur motricité
+        fine</strong>, avec <strong>TSA, TDL ou TDA/H</strong>, ou présentant des{" "}
+        <strong>difficultés à suivre une consigne décomposée en plusieurs étapes</strong>.
+      </>
+    ),
+    pedagogie: {
+      title: "Pourquoi apprendre avec les mains ?",
+      desc: "La manipulation permet à l'enfant de découvrir concrètement les formes, les volumes et les relations entre les parties d'un objet. Pour créer un modèle, il doit observer, préparer les éléments, les organiser puis les assembler — il apprend ainsi à transformer une consigne en une succession de petites actions réalisables.",
+      items: [
+        {
+          icon: "👁️",
+          title: "Observer puis reproduire",
+          desc: "Chaque création part de l'observation du modèle terminé, pour que l'enfant comprenne ce qu'il doit construire avant d'agir.",
+        },
+        {
+          icon: "🧩",
+          title: "Décomposer une consigne complexe",
+          desc: "Transformer une consigne globale en une succession de petites actions réalisables réduit la charge cognitive et facilite la réussite.",
+        },
+        {
+          icon: "✋",
+          title: "Comprendre par la manipulation",
+          desc: "Rouler, aplatir, assembler : l'enfant découvre concrètement les formes, les volumes et les relations entre les parties d'un objet.",
+        },
+      ],
+    },
+    activites: [
+      {
+        icon: "🧍",
+        title: "Construire des personnages et des animaux",
+        desc: "Bonhomme, fleur, chien, maison — préparer et assembler plusieurs éléments pour reproduire un modèle complet.",
+      },
+      {
+        icon: "🔺",
+        title: "Travailler les formes",
+        desc: "Rouler, aplatir, étirer ou courber la pâte pour reproduire des formes géométriques simples.",
+      },
+      {
+        icon: "🔤",
+        title: "Former des lettres",
+        desc: "Observer le sens des traits avant de les reproduire en pâte à modeler — une étape clé avant l'écriture.",
+      },
+      {
+        icon: "🎨",
+        title: "Personnaliser sa création",
+        desc: "Une fois le modèle reproduit, l'enfant est invité à explorer librement et à personnaliser le résultat.",
+      },
+    ],
+    productResultats: [
+      "Renforcer les muscles des doigts et des mains",
+      "Améliorer la motricité fine et la coordination œil-main",
+      "Apprendre à doser et contrôler ses gestes",
+      "Suivre une activité composée de plusieurs étapes",
+      "Découvrir les formes et les premières lettres par la manipulation",
+      "Développer son attention, sa persévérance et son autonomie",
+    ],
+  },
 ];
 
 // ─────────────────────────────────────────────────

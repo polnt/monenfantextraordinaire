@@ -123,6 +123,14 @@ const OUTILS: OutilSeed[] = [
     priceXof: 3500,
     fileKeys: ['outils/outils_animaux-coloriage.pdf'],
   },
+  {
+    slug: 'pate-a-modeler',
+    name: 'Je découvre et crée en pâte à modeler',
+    description: "14 créations guidées, expliquées pas à pas en 58 étapes illustrées, pour apprendre à rouler, aplatir, assembler et modeler — tout en développant la motricité fine, l'attention et l'autonomie.",
+    price: 8.90,
+    priceXof: 5800,
+    fileKeys: ['outils/outils_pate-a-modeler.pdf'],
+  },
 ];
 
 // Bundles of 2 outils sold together at a reduced price — mirrored from PACKS in
