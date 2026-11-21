@@ -27,8 +27,8 @@ function getBucket(): string {
 
 // Returns the public CDN URL for a file in the public R2 bucket.
 export function getPublicUrl(key: string): string {
-  const endpoint = process.env.R2_ENDPOINT_PUBLIC;
-  if (!endpoint) throw new Error("Missing R2_ENDPOINT_PUBLIC environment variable");
+  const endpoint = process.env.NEXT_PUBLIC_R2_PUBLIC_URL;
+  if (!endpoint) throw new Error("Missing NEXT_PUBLIC_R2_PUBLIC_URL environment variable");
   const encodedKey = key.split("/").map(encodeURIComponent).join("/");
   return `${endpoint}/${encodedKey}`;
 }
