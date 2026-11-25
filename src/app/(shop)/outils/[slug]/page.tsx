@@ -6,24 +6,6 @@ import type { Metadata } from "next";
 import { OUTILS, findPackForOutil, type OutilProduct } from "@/lib/catalog";
 import { Price } from "@/components/shop/Price";
 
-const TEMOIGNAGES = [
-  {
-    quote: "Mon fils reconnaissait uniquement les illustrations de ses livres. Grâce à cet outil, il pointe maintenant les vrais fruits au marché.",
-    initial: "C",
-    role: "Maman d'un enfant de 4 ans avec TSA",
-  },
-  {
-    quote: "Je l'utilise en séance d'orthophonie depuis 3 mois. La progression sur la généralisation est visible et les enfants adorent le format loto.",
-    initial: "M",
-    role: "Orthophoniste",
-  },
-  {
-    quote: "Simple, bien construit, et directement utilisable. Enfin un outil adapté sans être condescendant.",
-    initial: "S",
-    role: "Éducatrice spécialisée",
-  },
-];
-
 const EN_PRATIQUE = [
   "À la maison, en jeu libre",
   "En séance d'orthophonie ou d'éducation spécialisée",
@@ -340,30 +322,6 @@ export default async function OutilDetailPage({ params }: Props): Promise<React.
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── TÉMOIGNAGES ── */}
-      <section style={{ background: "#fafbff", padding: "72px 0" }}>
-        <div className="mef-container" style={{ maxWidth: 1000 }}>
-          <div className="mef-eyebrow" style={{ textAlign: "center" }}>Ils l&apos;utilisent déjà</div>
-          <h2 className="mef-h2" style={{ textAlign: "center", marginBottom: 48 }}>Ce que disent les familles et les professionnels</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {TEMOIGNAGES.map((t, i) => (
-              <div key={i} className="mef-card" style={{ padding: "28px 24px" }}>
-                <div style={{ fontSize: 28, color, fontFamily: "Georgia", lineHeight: 1, marginBottom: 12, opacity: 0.4 }}>&ldquo;</div>
-                <p style={{ fontFamily: "var(--font-aleo)", fontSize: 15, lineHeight: 1.75, color: "#090943", margin: "0 0 20px", fontStyle: "italic" }}>{t.quote}</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <div style={{
-                    width: 36, height: 36, borderRadius: "50%", background: color, color: "white",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontFamily: "var(--font-nunito)", fontWeight: 800, fontSize: 14, flexShrink: 0,
-                  }}>{t.initial}</div>
-                  <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 600, fontSize: 12, color: "#9ca3af", lineHeight: 1.4 }}>{t.role}</div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
