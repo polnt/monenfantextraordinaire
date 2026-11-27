@@ -30,7 +30,7 @@ export default async function EbookDetailPage({ params }: Props): Promise<React.
   const d: EbookProduct | undefined = EBOOKS.find((p) => p.slug === slug);
   if (!d) notFound();
 
-  const { color, colorLight } = d;
+  const { color, colorLight, accentOnDark } = d;
 
   return (
     <div style={{ paddingTop: 72 }}>
@@ -51,7 +51,7 @@ export default async function EbookDetailPage({ params }: Props): Promise<React.
             {/* Left — text */}
             <div>
               <div style={{ display: "flex", gap: 10, marginBottom: 24, flexWrap: "wrap" }}>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 50, padding: "5px 14px", fontSize: 13, fontFamily: "var(--font-nunito)", fontWeight: 600, background: `${color}22`, color }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 50, padding: "5px 14px", fontSize: 13, fontFamily: "var(--font-nunito)", fontWeight: 600, background: `${accentOnDark}22`, color: accentOnDark }}>
                   {d.badge}
                 </span>
                 <span style={{ display: "inline-flex", alignItems: "center", gap: 6, borderRadius: 50, padding: "5px 14px", fontSize: 13, fontFamily: "var(--font-nunito)", fontWeight: 600, background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.7)" }}>
@@ -62,7 +62,7 @@ export default async function EbookDetailPage({ params }: Props): Promise<React.
               <h1 style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: "clamp(32px, 4vw, 48px)", color: "white", lineHeight: 1.1, marginBottom: 8 }}>
                 {d.title}
               </h1>
-              <p style={{ fontFamily: "var(--font-nunito)", fontWeight: 800, fontSize: "clamp(20px, 2.5vw, 26px)", color, marginBottom: 24, lineHeight: 1.3 }}>
+              <p style={{ fontFamily: "var(--font-nunito)", fontWeight: 800, fontSize: "clamp(20px, 2.5vw, 26px)", color: accentOnDark, marginBottom: 24, lineHeight: 1.3 }}>
                 {d.subtitle}
               </p>
               <p style={{ fontFamily: "var(--font-aleo)", fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 36, maxWidth: 520 }}>
@@ -158,7 +158,7 @@ export default async function EbookDetailPage({ params }: Props): Promise<React.
       <section id="tsp-sommaire" style={{ background: "#090943", padding: "80px 0" }}>
         <div className="mef-container" style={{ position: "relative", zIndex: 1, maxWidth: 900 }}>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <div className="mef-eyebrow" style={{ color }}>Que trouverez-vous dans cet ebook ?</div>
+            <div className="mef-eyebrow" style={{ color: accentOnDark }}>Que trouverez-vous dans cet ebook ?</div>
             <h2 style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: "clamp(26px, 3.5vw, 38px)", color: "white", lineHeight: 1.2 }}>
               Un panorama illustré des troubles du neurodéveloppement
             </h2>
@@ -169,7 +169,7 @@ export default async function EbookDetailPage({ params }: Props): Promise<React.
                 background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)",
                 borderRadius: 16, padding: "20px 24px", display: "flex", gap: 20, alignItems: "flex-start",
               }}>
-                <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 22, color, flexShrink: 0, minWidth: 36 }}>{ch.num}</span>
+                <span style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 22, color: accentOnDark, flexShrink: 0, minWidth: 36 }}>{ch.num}</span>
                 <div>
                   <div style={{ fontFamily: "var(--font-nunito)", fontWeight: 800, fontSize: 16, color: "white", marginBottom: 6 }}>{ch.title}</div>
                   <p style={{ margin: 0, fontFamily: "var(--font-aleo)", fontSize: 14, color: "rgba(255,255,255,0.65)", lineHeight: 1.6 }}>{ch.desc}</p>
@@ -225,7 +225,7 @@ export default async function EbookDetailPage({ params }: Props): Promise<React.
         <div className="mef-container" style={{ maxWidth: 1000 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             <div>
-              <div className="mef-eyebrow" style={{ color }}>Ce que ça va vous apporter</div>
+              <div className="mef-eyebrow" style={{ color: accentOnDark }}>Ce que ça va vous apporter</div>
               <h2 style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 28, color: "white", marginBottom: 24, lineHeight: 1.25 }}>
                 Mieux comprendre pour mieux accompagner
               </h2>
@@ -241,7 +241,7 @@ export default async function EbookDetailPage({ params }: Props): Promise<React.
               ))}
             </div>
             <div>
-              <div className="mef-eyebrow" style={{ color }}>Votre ebook en pratique</div>
+              <div className="mef-eyebrow" style={{ color: accentOnDark }}>Votre ebook en pratique</div>
               <h2 style={{ fontFamily: "var(--font-nunito)", fontWeight: 900, fontSize: 28, color: "white", marginBottom: 24, lineHeight: 1.25 }}>
                 Ce que vous recevez
               </h2>
@@ -296,7 +296,7 @@ export default async function EbookDetailPage({ params }: Props): Promise<React.
               productSlug={slug}
               priceEur={d.priceEur}
               priceXof={d.priceXof}
-              style={{ background: "white", color, fontSize: 17, padding: "16px 48px", fontWeight: 800, width: "100%", justifyContent: "center" }}
+              style={{ background: "white", color, fontSize: 17, padding: "16px 20px", fontWeight: 800, width: "100%", justifyContent: "center", whiteSpace: "normal", textAlign: "center" }}
             />
             <p style={{ margin: "16px 0 0", fontFamily: "var(--font-aleo)", fontSize: 13, color: "rgba(255,255,255,0.5)" }}>
               ✅ Paiement sécurisé

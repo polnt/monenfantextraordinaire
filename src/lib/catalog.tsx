@@ -1442,6 +1442,8 @@ export interface EbookProduct {
   priceXof?: number;
   color: string;
   colorLight: string;
+  /** Lighter accent for text on the dark (#090943) sections — `color` is too dark there. */
+  accentOnDark: string;
 
   // Detail page
   title: string;
@@ -1472,6 +1474,7 @@ export const EBOOKS: EbookProduct[] = [
     priceXof: 11000,
     color: '#4f46e5',
     colorLight: '#eef2ff',
+    accentOnDark: '#a5b4fc',
     title: 'Comprendre les troubles',
     subtitle: 'du neurodéveloppement',
     tagline: "Un guide illustré pour identifier, différencier et mieux comprendre les troubles du neurodéveloppement.",

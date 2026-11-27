@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useIsMobile } from '@/hooks/useIsMobile';
@@ -10,7 +11,9 @@ import { RESSOURCES, EBOOKS } from '@/lib/catalog';
 
 export default function RessourcesPage(): React.JSX.Element {
   const isMobile = useIsMobile();
-  const { addToCart, loading } = useAddToCart();
+  const { addToCart, loading, error } = useAddToCart();
+  // The hook state is shared by every card, so track which card triggered it.
+  const [activeSlug, setActiveSlug] = useState<string | null>(null);
   const { currency } = useCurrency();
 
   return (
@@ -75,13 +78,18 @@ export default function RessourcesPage(): React.JSX.Element {
                       </Link>
                     </div>
                     <button
-                      onClick={() => void addToCart(ebook.slug)}
+                      onClick={() => { setActiveSlug(ebook.slug); void addToCart(ebook.slug); }}
                       disabled={loading}
                       className="mef-btn"
                       style={{ width: '100%', justifyContent: 'center', padding: '10px 18px', fontSize: 13, background: ebook.color, color: 'white', opacity: loading ? 0.7 : 1, cursor: loading ? 'wait' : 'pointer' }}
                     >
-                      {loading ? 'Chargement…' : '🛒 Ajouter au panier'}
+                      {loading && activeSlug === ebook.slug ? 'Chargement…' : '🛒 Ajouter au panier'}
                     </button>
+                    {error && activeSlug === ebook.slug && (
+                      <p role="alert" style={{ margin: '10px 0 0', fontFamily: 'var(--font-aleo)', fontSize: 13, color: '#c0392b' }}>
+                        {error}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
