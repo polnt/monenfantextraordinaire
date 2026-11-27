@@ -117,34 +117,16 @@ export default async function PackDetailPage({ params }: Props): Promise<React.J
             </div>
 
             {/* Right — visual stack, desktop only */}
-            <div className="hidden md:block" style={{ position: 'relative', height: 380 }}>
-              {items.map((item, i) => (
-                item.img ? (
-                  <div
-                    key={item.slug}
-                    style={{
-                      position: 'absolute',
-                      width: '78%',
-                      left: i === 0 ? 0 : '22%',
-                      top: i === 0 ? 0 : 60,
-                      borderRadius: 18,
-                      overflow: 'hidden',
-                      boxShadow: `0 24px 70px ${item.color}44, 0 4px 24px rgba(0,0,0,0.35)`,
-                      transform: `rotate(${i === 0 ? -4 : 4}deg)`,
-                      zIndex: i,
-                      border: '4px solid white',
-                    }}
-                  >
-                    <Image
-                      src={item.img}
-                      alt={item.title}
-                      width={item.imgWidth ?? 800}
-                      height={item.imgHeight ?? 1067}
-                      style={{ width: '100%', height: 'auto', display: 'block' }}
-                    />
-                  </div>
-                ) : null
-              ))}
+            <div className="hidden md:flex" style={{ position: 'relative', justifyContent: 'center' }}>
+              <Image
+                src={pack.img}
+                alt={`${pack.title} — ${pack.subtitle}`}
+                width={1080}
+                height={1350}
+                priority
+                sizes="(max-width: 768px) 0px, 480px"
+                style={{ width: 'auto', height: 'auto', maxWidth: '100%', maxHeight: 480, display: 'block', filter: `drop-shadow(0 24px 40px ${color}55) drop-shadow(0 4px 16px rgba(0,0,0,0.35))` }}
+              />
               <div style={{
                 position: 'absolute', top: -12, right: 0,
                 background: '#FDF482', color: '#090943',

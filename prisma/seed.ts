@@ -123,6 +123,54 @@ const OUTILS: OutilSeed[] = [
     priceXof: 3500,
     fileKeys: ['outils/outils_animaux-coloriage.pdf'],
   },
+  {
+    slug: 'pate-a-modeler',
+    name: 'Je découvre et crée en pâte à modeler',
+    description: "14 créations guidées, expliquées pas à pas en 58 étapes illustrées, pour apprendre à rouler, aplatir, assembler et modeler — tout en développant la motricité fine, l'attention et l'autonomie.",
+    price: 8.90,
+    priceXof: 5800,
+    fileKeys: ['outils/outils_pate-a-modeler.pdf'],
+  },
+  {
+    slug: 'transports',
+    name: 'Je découvre les transports',
+    description: "Un cahier de coloriage et d'activités de 65 pages pour reconnaître, nommer et explorer les moyens de transport — voiture, avion, bateau, train, moto — à travers coloriages, photographies et jeux d'association.",
+    price: 7.90,
+    priceXof: 5200,
+    fileKeys: ['outils/outils_transports.pdf'],
+  },
+  {
+    slug: 'filles-garcons',
+    name: 'Je découvre les filles et les garçons',
+    description: "Un cahier d'activités de 75 pages pour mieux se connaître, reconnaître les autres et respecter les différences — à travers coloriages, découpages et jeux d'association.",
+    price: 9.90,
+    priceXof: 6500,
+    fileKeys: ['outils/outils_filles-garcons.pdf'],
+  },
+  {
+    slug: 'contraires',
+    name: 'Je découvre les contraires',
+    description: "Un livre de 52 pages qui présente les opposés à travers des photographies concrètes, variées et faciles à comparer — pour enrichir le vocabulaire et développer la compréhension.",
+    price: 6.90,
+    priceXof: 4500,
+    fileKeys: ['outils/outils_contraires.pdf'],
+  },
+  {
+    slug: 'couleurs',
+    name: 'Je découvre les couleurs',
+    description: "Un livret de 80 pages pour apprendre à reconnaître, nommer et retrouver 11 couleurs dans le quotidien — à travers photographies, illustrations, jeux d'association et cartes à manipuler.",
+    price: 9.90,
+    priceXof: 6500,
+    fileKeys: ['outils/outils_couleurs.pdf'],
+  },
+  {
+    slug: 'couleurs-coloriage',
+    name: 'Je découvre les couleurs en coloriage',
+    description: "Un cahier de coloriage ludique et progressif pour apprendre les couleurs à partir de ce que l'enfant connaît déjà, à travers 5 univers familiers du quotidien.",
+    price: 5.30,
+    priceXof: 3500,
+    fileKeys: ['outils/outils_couleurs-coloriage.pdf'],
+  },
 ];
 
 // Bundles of 2 outils sold together at a reduced price — mirrored from PACKS in
@@ -154,6 +202,37 @@ const PACKS: PackSeed[] = [
     priceXof: 12000,
     itemSlugs: ['animaux', 'cahier-coloriage'],
   },
+  {
+    slug: 'pack-couleurs',
+    name: 'Je découvre les couleurs — Pack Complet + Coloriage',
+    description: 'Reconnaître, nommer et retrouver les couleurs, puis les ancrer en coloriant — pour apprendre par le jeu et la manipulation.',
+    price: 13.90,
+    priceXof: 9000,
+    itemSlugs: ['couleurs', 'couleurs-coloriage'],
+  },
+];
+
+// Paid ebook, listed on the "Ressources" page — same Product shape as an
+// outil (type EBOOK, accessType PAID), mirrored from EBOOKS in
+// src/lib/catalog.tsx.
+type EbookSeed = {
+  slug: string;
+  name: string;
+  description: string;
+  price: number;
+  priceXof?: number;
+  fileKeys: string[];
+};
+
+const EBOOKS: EbookSeed[] = [
+  {
+    slug: 'troubles-neurodeveloppement',
+    name: 'Comprendre les troubles du neurodéveloppement',
+    description: "Un guide illustré pour identifier, différencier et mieux comprendre les troubles du neurodéveloppement (TSA, TDAH, troubles DYS, TDL, TDI…).",
+    price: 16.90,
+    priceXof: 11000,
+    fileKeys: ['ressources/ebook_troubles-neurodeveloppement.pdf'],
+  },
 ];
 
 const RESSOURCES = [
@@ -174,6 +253,12 @@ const RESSOURCES = [
     name: 'La sensorialité',
     description: 'Comprendre le monde avec ses 5 sens',
     fileKey: 'ressources/article_profil-sensoriel-autiste.pdf',
+  },
+  {
+    slug: 'article_trisomie-21',
+    name: 'La trisomie 21',
+    description: "Comprendre et accompagner la trisomie 21, de l'enfance à l'âge adulte, afin de favoriser l'autonomie à chaque étape de la vie.",
+    fileKey: 'ressources/article_trisomie-21.pdf',
   },
 ] as const;
 
@@ -290,6 +375,31 @@ async function main(): Promise<void> {
       },
     });
     console.log(`  [PACK]      slug=${product.slug}  price=${product.priceEur} EUR / ${product.priceXof ?? '—'} FCFA  files=${fileKeys.length}`);
+  }
+
+  for (const p of EBOOKS) {
+    const product = await db.product.upsert({
+      where: { slug: p.slug },
+      update: {
+        name: p.name,
+        description: p.description,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
+        ebook: { update: { fileKeys: p.fileKeys } },
+      },
+      create: {
+        slug: p.slug,
+        name: p.name,
+        description: p.description,
+        priceEur: p.price,
+        priceXof: p.priceXof ?? null,
+        type: ProductType.EBOOK,
+        accessType: AccessType.PAID,
+        active: true,
+        ebook: { create: { fileKeys: p.fileKeys } },
+      },
+    });
+    console.log(`  [EBOOK]     slug=${product.slug}  price=${product.priceEur} EUR / ${product.priceXof ?? '—'} FCFA`);
   }
 
   for (const p of [...RESSOURCES, ...BONUS]) {
